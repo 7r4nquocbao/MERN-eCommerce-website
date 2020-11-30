@@ -1,0 +1,27 @@
+{
+    "categories": [
+        {"id": 1,"name": "Monitor"},
+        {"id": 2,"name": "Keyboard"},
+        {"id": 3,"name": "PC Case"},
+        {"id": 4,"name": "VGA"}
+    ],
+    "brands": [
+        {"id": 1,"name": "ASUS"},
+        {"id": 2,"name": "Razer"},
+        {"id": 3,"name": "AMD"},
+        {"id": 4,"name": "NVIDIA"}
+    ],
+    "specs": [
+        {"id": 1,"name": "MODEL"},
+        {"id": 2,"name": "SERIRES"},
+        {"id": 3,"name": "SIZE"},
+        {"id": 4,"name": "COLOR"},
+        {"id": 5,"name": "MATERIAL"},
+        {"id": 6,"name": "VOLUME"},
+        {"id": 7,"name": "WEIGHT"},
+        {"id": 8,"name": "SWITCH"},
+        {"id": 9,"name": "LED"}
+    ]
+
+
+}
