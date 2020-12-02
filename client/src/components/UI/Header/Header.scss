@@ -1,0 +1,44 @@
+.header{
+  width: 100%;
+
+  margin-right: 0px;
+  
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  
+  background-color: #F0245E;
+  font-size: 1rem;
+  font-family: 'Roboto Slab' serif;
+  a {
+    color: #FFF;
+    transition: all 0.3s ease-in-out;
+    padding: 0rem 0.5rem;
+    
+
+  }
+  a:hover{
+    color: black;
+    text-decoration: none;
+  }
+
+  &__social{
+    padding-left: 1rem;
+    display: flex;
+  }
+  &__authentication{
+
+    margin: 0px;
+    padding: 0px;
+
+    display: flex;
+    
+  }
+  .col-sm-auto {
+    padding: 0rem;
+  }
+  span {
+    color: white;
+  }
+
+}

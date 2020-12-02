@@ -1,0 +1,74 @@
+
+.product {
+  width: 15.5rem;
+  height: 16rem;
+
+  position: relative;
+
+  &__image{
+    
+    img{
+      width: 16rem;
+      height: 16rem;
+    }
+    transition: all 0.5s ease-in-out;
+    &:hover {
+      transform: scale(0.5);
+    }
+  }
+  &__info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+    display: none;
+
+    width: 16rem;
+
+    position: absolute;
+    bottom: 0;
+
+    font-family: 'Quicksand';
+
+    text-align: center;
+
+    border: none;
+    border-radius: 0.6rem;
+    &__title {
+      font-size: 1.6rem;
+
+
+      color: #f0245e;
+      
+    }
+    &__price {
+
+    }
+    &__button {
+      cursor: pointer;
+
+      font-size: 1.2rem;
+
+      width: 50%;
+      margin: 0px auto;
+      
+      transition: all 0.3s ease-in-out;
+
+      &:hover{
+        width: 100%;
+        background-color: #f0245e;
+        color: white;
+      }
+    }
+  }
+  
+  &:hover &__info {
+    display: block;
+
+
+    background-color: rgba($color: #000000, $alpha: 0.1);
+  }
+
+  
+
+}

@@ -1,0 +1,61 @@
+$color: #f0245e;
+.menu{
+  display: flex;
+  flex-direction: row;
+  font-size: 1rem;
+  font-weight: bold;
+  font-family: 'Quicksand';
+  position: relative;
+
+  padding: 2rem 0rem;
+
+  width: 100%;
+  // background: rgba(0,0,0,0);
+  // top: 0;
+  // // position: absolute;
+  // position: -webkit-sticky;
+  // position: sticky;
+
+  &__logo {
+    
+    padding-right: 5rem;
+  }
+  &__center {
+    display: flex;
+    flex-direction: row;
+  }
+  &__link {
+    color:#AAA;
+    transition: all 0.3s ease-in-out;
+    letter-spacing: 0.1rem;
+
+    &--active,
+    &:hover{
+      color: $color;
+      text-decoration: none;
+    }
+  }
+  &__function {
+    display: flex;
+    position: absolute;
+    right: 0;
+
+    &__search {
+      padding: 0.5rem 0.6rem;
+
+      border: 2px solid $color;
+      border-radius: 0.3rem;
+    }
+    &__cart {
+      padding: 0.5rem 0.6rem;
+
+      border: 2px solid $color;
+      border-radius: 0.3rem;
+      i {
+        padding: 0rem 0.5rem;
+      }
+      
+    }
+  }
+}
+

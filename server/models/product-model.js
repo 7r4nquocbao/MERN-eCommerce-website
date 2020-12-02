@@ -7,8 +7,13 @@ const productSchema = mongoose.Schema({
     thumbnail: String,
     stock: Number,
     images: [String],
-    idCategory: String,
-    idBrand: String,
+    category: String,
+    brand: String,
+    description: String,
+    isEnable: {
+        type: Boolean,
+        default: true
+    },
     createAt : {
         type: Date,
         default: new Date()

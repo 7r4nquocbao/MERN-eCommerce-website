@@ -28,6 +28,7 @@ const productSlice = createSlice({
             console.log('data fetch pending..');
         },
         [fetchProductData.fulfilled]: (state, action) => {
+            console.log(action.payload);
             return action.payload;
         },
         [fetchProductData.rejected]: (state) => {
@@ -37,6 +38,7 @@ const productSlice = createSlice({
             console.log('create product pending..');
         },
         [createProduct.fulfilled]: (state, action) => {
+            console.log('product created.');
             return [...state, action.payload];
         },
         [createProduct.rejected]: (state) => {
@@ -47,6 +49,7 @@ const productSlice = createSlice({
         },
         [deleteProduct.fulfilled]: (state, action) => {
             console.log("id target",action.meta.arg);
+            console.log('product deleted');
             return state.filter(item => item._id !== action.meta.arg);
         },
         [deleteProduct.rejected]: (state) => {

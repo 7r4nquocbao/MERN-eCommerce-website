@@ -1,0 +1,96 @@
+$colorWold: white;
+$mainColor: #F0245E;
+$width: 100%;
+$height: 85vh;
+$transition: all 0.5s ease-in-out;
+.banner {
+  width: $width;
+  height: $height;
+  
+  display: flex;
+  position: relative;
+  margin-bottom: 1rem;
+
+  background-image: url("../../../../assets/Images/mainBanner.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  overflow: hidden;
+
+  transition: $transition;
+
+  &__opacity {
+    width: $width;
+    height: $height;
+    position: relative;
+
+    transition: $transition;
+  } 
+  &:hover &__opacity{
+    background-color: rgba($color: #000000, $alpha: 0.5);
+  }
+  &:hover .button{
+    display: block;
+  }
+  &:hover &__info{
+    display: block;
+  }
+  &__info {
+    margin-left: 2rem;
+    display: none;
+
+    position: absolute;
+    bottom: 10%;
+
+    font-family: 'Quicksand';
+
+    &__title {
+  
+      font-size: 4rem;
+      font-weight: bold;
+  
+      color: $colorWold;
+    }
+    &__description {
+
+      width: 50%;
+  
+      font-size: 1.2rem;
+      font-family: 'Roboto Slab' serif;
+  
+      color: #AAA;
+    }
+    .button {
+      display: none;
+
+      width: 13rem;
+
+      padding: 0.5rem 2rem;
+
+      font-size: 1.5rem;
+      font-family: "Poppins";
+
+      
+      
+      border: 0.1rem solid white;
+      border-radius: 1rem;
+      transition: all 0.5s ease-in-out;
+
+      a {
+        color:$mainColor;
+      }
+
+      &:hover{
+        a{
+          text-decoration: none;
+          color: $colorWold;
+        }
+        
+        background-color: rgba($color: $mainColor, $alpha: 0.5);
+        
+      }
+    }
+  }
+
+} 
