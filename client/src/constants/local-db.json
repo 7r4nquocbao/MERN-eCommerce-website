@@ -21,7 +21,11 @@
         {"id": 7,"name": "WEIGHT"},
         {"id": 8,"name": "SWITCH"},
         {"id": 9,"name": "LED"}
+    ],
+    "orderStatus": [
+        {"id": 1,"status": "Order Processed"},
+        {"id": 2,"status": "Order Shipped"},
+        {"id": 3,"status": "Order En Route"},
+        {"id": 4,"status": "Order Arrived"}
     ]
-
-
 }

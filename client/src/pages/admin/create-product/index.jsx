@@ -9,6 +9,10 @@ import { createProduct, fetchProductData } from '../../../slices/product-slice';
 import { useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { unwrapResult } from '@reduxjs/toolkit';
+import Switch from '@material-ui/core/Switch';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
 
 Modal.setAppElement('#root');
 
@@ -30,6 +34,7 @@ function CreateProduct(props) {
         category: '',
         brand: '',
         description: '',
+        isEnable: true,
     });
     const [modalDesc, setModalDesc] = useState(false);
     const [desc, setDesc] = useState({
@@ -54,6 +59,7 @@ function CreateProduct(props) {
         if(params.id) {
             console.log("get data...")
             const actionResult = await dispatch(fetchProductData());
+            console.log(actionResult);
             const data = unwrapResult(actionResult);
             const target = data.find(item => item._id === params.id);
             target && setNewData(target);
@@ -179,12 +185,30 @@ function CreateProduct(props) {
     }
 
     return (
-        <div>
+        <div className="container mt-5">
             <h1>{params.id ? "Update product" : "Create Product"}</h1>
             <form>
-                <div className="form-group">
-                    <label htmlFor="name">Product name</label>
-                    <input type="text" className="form-control" value={newData.name} onChange={(e) => setNewData({...newData, name: e.target.value})} id="name"/>
+                <div className="form-row">
+                    <div className="form-group col">
+                        <label htmlFor="name">Product name</label>
+                        <input type="text" className="form-control" value={newData.name} onChange={(e) => setNewData({...newData, name: e.target.value})} id="name"/>
+                    </div>
+                    {
+                        params.id && (
+                            <div className="form-group col-2">
+                                <label className="d-block">Is Enable</label>
+                                <FormControl component="fieldset">
+                                    <FormGroup aria-label="position" row>
+                                        <FormControlLabel
+                                            control={<Switch color="secondary" />}
+                                            checked={newData.isEnable}
+                                            onChange={() => setNewData({...newData, isEnable: !newData.isEnable})}
+                                        />
+                                    </FormGroup>
+                                </FormControl>
+                            </div>
+                        )
+                    }
                 </div>
                 <div className="form-row">
                     <div className="form-group col-md-6">
@@ -254,7 +278,7 @@ function CreateProduct(props) {
                                             <Select id="category" onChange={(e) => setDesc({...desc, type: e.value, id: uuidv4()})} options={convertToOptions(specList)}/>
                                         </div>
                                         <div className="form-group col-md-6">
-                                            <input type="text" onChange={(e) => setDesc({...desc, content: e.target.value})}  className="form-control"/>
+                                            <textarea rows="4" cols="40" height="200px" style={{height: '300px'}} type="text" onChange={(e) => setDesc({...desc, content: e.target.value})}  className="form-control"/>
                                         </div>                                        
                                     </div>
                                     <div className="d-flex justify-content-around">

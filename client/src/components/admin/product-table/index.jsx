@@ -40,19 +40,19 @@ function ProductTable(props) {
                         <td>{item.category}</td>
                         <td>{item.price}</td>
                         <td>{item.stock}</td>
-                        <td>###</td>
                         <td>
-                            <button onClick={() => history.push(`${location.pathname}/create-product/${item._id}`)} className="btn btn-success btn-action">Update</button>
-                            <button className="btn btn-danger btn-action" onClick={(e, id) => handleDeleteProduct(e, item._id)}>Delete</button>
+                            <p className={item.isEnable === true ? 'text-success' : 'text-danger'}>
+                                {item.isEnable === true ? 'Available' : 'Not available'}
+                            </p>
+                        </td>
+                        <td>
+                            <button onClick={() => history.push(`${location.pathname}/create-product/${item._id}`)} className="btn btn-primary btn-action"><i class="fas fa-edit"></i></button>
+                            <button className="btn btn-danger btn-action" onClick={(e, id) => handleDeleteProduct(e, item._id)}><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                 )
             })
         )
-    }
-
-    const updateProduct = (product) => {
-        console.log(product)
     }
 
     const calcPagination = () => {
@@ -78,9 +78,7 @@ function ProductTable(props) {
                     <button className="btn btn-light m-3">Add product</button>
                 </Link>
             </div>
-            
-            {console.log(productList)}
-            <table class="table table-hover">
+            <table class="table table-hover table-shadow">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -88,7 +86,7 @@ function ProductTable(props) {
                         <th scope="col">Category</th>
                         <th scope="col">Price</th>
                         <th scope="col">Stock</th>
-                        <th scope="col">Sold</th>
+                        <th scope="col">Status</th>
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>
@@ -102,7 +100,7 @@ function ProductTable(props) {
                         <th scope="col">Category</th>
                         <th scope="col">Price</th>
                         <th scope="col">Stock</th>
-                        <th scope="col">Sold</th>
+                        <th scope="col">Status</th>
                         <th scope="col">Actions</th>
                     </tr>
                 </tfoot>
