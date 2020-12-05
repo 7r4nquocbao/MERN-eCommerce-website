@@ -234,7 +234,7 @@ export const facebookLoginTask = (req, res) => {
 
     const { userID, accessToken } = req.body;
 
-    const url = `https://graph.facebook.com/${userID}?fields=id,name,email&access_token=${accessToken}`;
+    const url = `https://graph.facebook.com/${userID}?fields=id,name,email,picture&access_token=${accessToken}`;
 
     return (
         fetch(url, { method: 'GET' })

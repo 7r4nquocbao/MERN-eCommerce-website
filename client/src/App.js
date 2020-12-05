@@ -21,13 +21,17 @@ function App() {
   const LoginJWT = React.lazy(() => import('./pages/login-jwt-auth'));
   const ResetRequestJWT = React.lazy(() => import('./pages/reset-request-jwt-auth'));
   const ResetPasswordJWT = React.lazy(() => import('./pages/reset-password-jwt-auth'));
-  
+  const HomePage = React.lazy(() => import('./pages/customer/HomePage'));
+  const Search = React.lazy(() => import('./pages/customer/Search'));
+  const Cart = React.lazy(() => import('./pages/customer/Cart'));
 
 
-  return (
+  return (   
       <Suspense fallback={<div>Loading...</div>}>
           <Router>
             <Switch>
+              <Route exact path="/" component={HomePage}/>
+              <Route exact path="/search" component={Search}/>     
               <Route exact path="/admin" component={Admin}/>        
               <Route exact path="/admin/create-product" component={CreateProduct}/>
               <Route exact path="/admin/create-product/:id" component={CreateProduct}/>
@@ -37,9 +41,10 @@ function App() {
               <Route exact path="/login" render={props => <LoginJWT {...props}/>}/>
               <Route exact path="/reset" render={props => <ResetRequestJWT {...props}/>}/>
               <Route exact path="/reset/:token" render={props => <ResetPasswordJWT {...props}/>}/>
+              <Route exact path="/cart" component={Cart}/>
             </Switch>
-          </Router>
-      </Suspense>    
+          </Router>          
+      </Suspense>
   );
 }
 

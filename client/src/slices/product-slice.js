@@ -28,6 +28,7 @@ const productSlice = createSlice({
             console.log('data fetch pending..');
         },
         [fetchProductData.fulfilled]: (state, action) => {
+            console.log(action.payload);
             return action.payload;
         },
         [fetchProductData.rejected]: (state) => {

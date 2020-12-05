@@ -18,7 +18,7 @@ function ProductTable(props) {
         console.log("get data...")
         dispatch(fetchProductData());
         setActionProduct(false);
-    }, [actionProduct,dispatch]);
+    }, [actionProduct, dispatch]);
 
     const handleDeleteProduct = async (e, id) => {
         e.preventDefault();
@@ -31,9 +31,9 @@ function ProductTable(props) {
         const start = (page - 1) * itemOnPage;
         const dataOnPage = data.slice(start, start + itemOnPage);
 
-        return(
+        return (
             dataOnPage && dataOnPage.map((item, index) => {
-                return(
+                return (
                     <tr key={index}>
                         <td>{index + 1 + start}</td>
                         <td>{item.name}</td>
@@ -65,12 +65,14 @@ function ProductTable(props) {
         return (
             arrPageNums.map(item => {
                 return (
-                    <li className={`page-item ${item === page ? 'active' : ''}`} key={item}><button className="page-link" onClick={() => setPage(item)}>{item}</button></li>
+                    <li className={`page-item ${item === page ? 'active' : ''}`} key={item}>
+                        <button className="page-link" onClick={() => setPage(item)}>{item}</button>
+                    </li>
                 )
             })
         )
     }
-    
+
     return (
         <div className="container">
             <div className="d-flex justify-content-end">
@@ -109,15 +111,15 @@ function ProductTable(props) {
             <div>
                 <ul className="pagination justify-content-end">
                     <li className={`page-item ${page > 1 ? '' : 'disabled'}`}>
-                        <button className="page-link" onClick={() => setPage(page-1)}>Prev</button>
-                    </li>                    
+                        <button className="page-link" onClick={() => setPage(page - 1)}>Prev</button>
+                    </li>
                     {calcPagination()}
                     <li className={`page-item ${page < Math.ceil(productList.length / itemOnPage) ? '' : 'disabled'}`}>
-                        <button className="page-link" onClick={() => setPage(page+1)}>Next</button>
+                        <button className="page-link" onClick={() => setPage(page + 1)}>Next</button>
                     </li>
                 </ul>
             </div>
-                
+
         </div>
     );
 }

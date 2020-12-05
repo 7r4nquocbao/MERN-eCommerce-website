@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import Filebase from 'react-file-base64';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
 import ProductTable from '../../components/admin/product-table';
 import { createProduct, deleteProduct } from '../../slices/product-slice';
 import { makeStyles } from '@material-ui/core/styles';

@@ -11,18 +11,18 @@ function LoginJWT(props) {
         password: ''
     })
 
-    const sendFacebookToken = (userID, accessToken) => {
-        facebookToken({userID, accessToken}).then(res => {
-            console.log(res.data);
-        }).catch(err => {
-            console.log(err);
-        })
-    }
+    // const sendFacebookToken = (userID, accessToken) => {
+    //     facebookToken({userID, accessToken}).then(res => {
+    //         console.log(res.data);
+    //     }).catch(err => {
+    //         console.log(err);
+    //     })
+    // }
 
-    const responseFacebook = response => {
-        console.log(response);
-        sendFacebookToken(response.userID, response.accessToken);
-    }
+    // const responseFacebook = response => {
+    //     console.log(response);
+    //     sendFacebookToken(response.userID, response.accessToken);
+    // }
 
     const handleLogin = e => {
         e.preventDefault();
@@ -55,14 +55,14 @@ function LoginJWT(props) {
                 <button type="submit" className="btn btn-primary">Submit</button>
             </form>
 
-            <FacebookLogin
+            {/* <FacebookLogin
                 appId={FACEBOOK_API}
                 autoLoad={true}
                 fields="name,email,picture"
                 callback={responseFacebook}
                 cssClass="my-facebook-button-class"
                 icon="fa-facebook"
-            />
+            /> */}
 
         </div>
     );
