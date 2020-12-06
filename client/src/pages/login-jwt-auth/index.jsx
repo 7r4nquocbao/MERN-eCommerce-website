@@ -1,29 +1,46 @@
-import React from 'react';
+import Axios from 'axios';
+import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useState } from 'react';
-import { facebookToken, FACEBOOK_API, loginUser } from '../../api';
-import { authenticate, isAuth } from '../../helpers/auth';
-import FacebookLogin from 'react-facebook-login';
+import { listUser, loginUser, readUser } from '../../api';
+import { authenticate, getCookie, isAuth } from '../../helpers/auth';
+import './style.scss';
 
 function LoginJWT(props) {
 
-    const [userData, setUserData] = useState({
-        email:'',
-        password: ''
-    })
+    const history = useHistory();
 
-    // const sendFacebookToken = (userID, accessToken) => {
-    //     facebookToken({userID, accessToken}).then(res => {
+    const [userData, setUserData] = useState({
+        email: '',
+        password: ''
+    });
+
+
+    // const loadProfile = () => {
+    //     const token = getCookie('token');
+    //     if(isAuth() !== false)
+    //     {
+    //         readUser(isAuth()._id, {
+    //             headers: {
+    //                 Authorization: `Bearer ${token}`
+    //             }
+    //         }).then(res => {
+    //             setUserInfo(res.data);
+    //         }).catch(err => {
+    //             console.log(err);
+    //         })
+    //     }
+    //     listUser({},{
+    //         headers: {
+    //             Authorization: `Bearer ${token}`
+    //         }
+    //     }).then(res => {
     //         console.log(res.data);
     //     }).catch(err => {
-    //         console.log(err);
-    //     })
+    //         console.log(err.response);
+    //     });
     // }
-
-    // const responseFacebook = response => {
-    //     console.log(response);
-    //     sendFacebookToken(response.userID, response.accessToken);
-    // }
-
+    
     const handleLogin = e => {
         e.preventDefault();
         if(userData.email && userData.password) {
@@ -40,8 +57,8 @@ function LoginJWT(props) {
     }
 
     return (
-        <div>
-            <form onSubmit={handleLogin}>
+        <div className="container-fluid full-screen d-flex align-items-center justify-content-center">
+            <form onSubmit={handleLogin} className="form-login">
                 <div className="form-group">
                     <label htmlFor="email">Email address</label>
                     <input type="email" className="form-control" id="email"
@@ -52,18 +69,10 @@ function LoginJWT(props) {
                     <input type="password" className="form-control" id="password" 
                         onChange={(e) => setUserData({...userData, password: e.target.value})}/>
                 </div>
-                <button type="submit" className="btn btn-primary">Submit</button>
+                <div className="d-flex flex-row-reverse">
+                    <button type="submit" className="btn btn-light mt-2" style={{width: '33%'}}>Login</button>
+                </div>
             </form>
-
-            {/* <FacebookLogin
-                appId={FACEBOOK_API}
-                autoLoad={true}
-                fields="name,email,picture"
-                callback={responseFacebook}
-                cssClass="my-facebook-button-class"
-                icon="fa-facebook"
-            /> */}
-
         </div>
     );
 }

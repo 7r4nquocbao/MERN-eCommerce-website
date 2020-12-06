@@ -14,10 +14,6 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    _password: {
-        type: String,
-        required: true
-    },
     hashedPassword: {
         type: String,
         required: true
@@ -25,7 +21,7 @@ const userSchema = mongoose.Schema({
     salt: String,
     role: {
         type: String,
-        default: 'Customer'
+        default: 'customer'
     },
     resetPasswordLink: {
         data: String,
@@ -43,7 +39,6 @@ const userSchema = mongoose.Schema({
 
 userSchema.virtual('password')
     .set(function(password) {
-        this._password = password;
         this.salt = this.makeSalt();
         this.hashedPassword = this.encryptPassword(password);
     })
@@ -64,6 +59,8 @@ userSchema.methods = {
         }
     },
     authenticate: function(plainPassword) {
+        console.log(this.hashedPassword);
+        console.log(this.encryptPassword(plainPassword).toString(CryptoJS.enc.Hex));
         return this.encryptPassword(plainPassword).toString(CryptoJS.enc.Hex) === this.hashedPassword;
     }
 };

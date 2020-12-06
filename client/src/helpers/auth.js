@@ -31,6 +31,7 @@ export const removeLocalStorage = key => {
 }
 
 export const authenticate = (res, next) => {
+    console.log('token:', res.data.token);
     setCookie('token', res.data.token);
     setLocalStorage('user', res.data.user);
     next();
@@ -42,7 +43,7 @@ export const signOut = next => {
 }
 
 export const isAuth = () => {
-    if(window !== 'undefined') {
+    if (window !== 'undefined') {
         const cookieChecked = getCookie('token');
         if(cookieChecked) {
             if(localStorage.getItem('user')) {
@@ -50,7 +51,11 @@ export const isAuth = () => {
             } else {
                 return false;
             }
+        } else {
+            return false;
         }
+    } else {
+        return false;
     }
 }
 

@@ -16,7 +16,7 @@ sgMail.setApiKey(process.env.MAIL_API_KEY);
 export const registerTask = (req, res) => {
     const { name, email, password } = req.body;
     const errors = validationResult(req);
-    //console.log(errors);
+    console.log(errors);
     if(!errors.isEmpty()) {
         const err = errors.array().map(error => error.msg)[0];
         return res.status(422).json({
@@ -80,8 +80,7 @@ export const activationTask = (req, res) => {
                     } else {
                         res.json({
                             success: true,
-                            message: 'Sign up success',
-                            user
+                            message: 'Sign up success'
                         })
                     }
                 })
@@ -97,7 +96,7 @@ export const activationTask = (req, res) => {
 export const loginTask = (req, res) => {
     const { email, password } = req.body;
     const errors = validationResult(req);
-    //console.log(errors);
+    console.log(errors);
     if(!errors.isEmpty()) {
         const err = errors.array().map(error => error.msg)[0];
         return res.status(422).json({
@@ -105,7 +104,6 @@ export const loginTask = (req, res) => {
         });
     } else {
         User.findOne({ email: email }).exec((err, user) => {
-
             if(err || !user) {
                 return res.status(400).json({
                     error: 'User with that email does not exists!'

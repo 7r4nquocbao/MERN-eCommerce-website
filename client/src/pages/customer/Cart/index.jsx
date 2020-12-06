@@ -1,147 +1,173 @@
-// import React, { useEffect, useState } from 'react';
-// import PropTypes from 'prop-types';
-// import Header from '../../../components/UI/Header';
-// import TopMenu from '../../../components/UI/TopMenu';
-// import Title from '../../../components/UI/Title';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { fetchProductData } from '../../../slices/product-slice';
-// import { Button, Container, Table } from 'reactstrap';
-// import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import TopMenu from '../../../components/UI/TopMenu';
+import Headers from '../../../components/UI/Header';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProductData } from '../../../slices/product-slice';
+import { unwrapResult } from '@reduxjs/toolkit';
 
-// Cart.propTypes = {
+function Cart(props) {
 
-// };
+    const productList = useSelector(state => state.products);
+    const dispatch = useDispatch();
+    const [data, setData] = useState([]);
 
-// function Cart(props) {
+    useEffect(async () => {
+        const result = await dispatch(fetchProductData());
+        const filter = filterData(unwrapResult(result));
+        console.log('ddddd');
+        setData(filter);
+    }, [])
 
-//   const [cart, setCart] = useState([]);
-//   const productList = useSelector(state => state.products);
-//   const dispatch = useDispatch();
+    const filterData = (arr) => {
+        if(arr) {
+            let cartItems = JSON.parse(localStorage.getItem('cart'));
+            if(cartItems) {
+                let dataFiltered = [];
+                for (const item of cartItems) {
+                    let target = arr.find(thing => thing._id === item.id);
+                    target = {...target, quantity: item.quantity};
+                    dataFiltered.push(target);
+                }
+                return dataFiltered;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
 
+    const displayCart = () => {
+        const cartItems = JSON.parse(localStorage.getItem('cart'));
+        if (cartItems.length > 0) {
+            return(
+                <div className="container cart-container">
+                    <table class="table table-borderless table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Thubmnail</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Unit price</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {displayCartItem(data)}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colSpan='2'>
+                                    <h4>Total</h4>
+                                </td>
+                                <td colSpan='2' className="text-danger">
+                                    <h4>{calcTotal()}</h4>
+                                </td>
+                                <td colSpan='2'>
+                                    <button class="btn btn-success btn-block"><i class="far fa-credit-card"></i> Checkout</button>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            )
+        } else {
+            return(
+                <div className="container-fluid full-screen d-flex align-items-center justify-content-center">
+                    <div className="text-center">
+                        <h1><i className="far fa-square" style={{fontSize: '10rem'}}></i></h1>
+                        <h1>Nothing here.</h1>
+                    </div>
+                </div>
+            )
+        }
+    }
 
-//   useEffect(() => {
-//     dispatch(fetchProductData());
-//   }, [dispatch])
+    const displayCartItem = (list) => {
+        if(list) {
+            return (
+                list && list.map((item, index) => {
+                    return (
+                        <tr key={index}>
+                            <td>{index+1}</td>
+                            <td>
+                                <img src={item.thumbnail} style={{width: '40px'}} alt="img"/>
+                            </td>
+                            <td>{item.name}</td>
+                            <td>{new Intl.NumberFormat('en-US', {style: 'currency',currency: 'USD',}).format(item.price)}</td>
+                            <td>
+                                <div className="btn-group" role="group">
+                                    <button onClick={() => decreaseItem(item._id)} className="btn btn-danger"><i class="fas fa-minus"></i></button>
+                                    <button className="btn btn-light font-weight-bold" style={{width: '50px'}} disabled>{item.quantity}</button>
+                                    <button onClick={() => increaseItem(item._id)} className="btn btn-danger"><i class="fas fa-plus"></i></button>
+                                </div>
+                            </td>
+                            <td>
+                                <button onClick={() => removeItem(item._id)} class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    )
+                })
+            )
+        }
+    }
 
-//   function handleDecreaseItem(targetID) {
+    const calcTotal = () => {
+        let total = 0;
+        if(data) {
+            for (const item of data) {
+                total += item.quantity * (item.price - (item.price * item.sale / 100)) 
+            }
+        }
+        return new Intl.NumberFormat('en-US', {style: 'currency',currency: 'USD',}).format(total);
+    }
 
-//   }
-//   function handleIncreaseItem(targetID) {
+    const increaseItem = (id) => {
+        let cartItems = JSON.parse(localStorage.getItem('cart'));
+        if(cartItems) {
+            let checkIndex = cartItems.findIndex(item => item.id === id);
+            let cartUpdated = cartItems;            
+            let dataUpdated = data;
+            if(dataUpdated[checkIndex].quantity < dataUpdated[checkIndex].stock) {
+                cartUpdated[checkIndex].quantity++;
+                dataUpdated[checkIndex].quantity++;
+            }
+            localStorage.setItem('cart' ,JSON.stringify(cartUpdated));
+            setData([...dataUpdated]);
+        }
+    }
 
-//   }
-//   function handleRemoveItem(targetID) {
-//     const itemList = [];
-//     console.log(targetID);
-//     let cartItem = JSON.parse(localStorage.getItem('cart'));
-//     cartItem.filter(item => item.id !== targetID);
-//     for (let x of cartItem) {
-//       const newList = productList.find(item => item._id === x.id)
-//       if (newList) {
-//         itemList.push(newList);
-//       }
-//     }
-//     localStorage.setItem('cart', JSON.stringify(itemList));
-//     setCart(itemList);
-//   }
+    const decreaseItem = (id) => {
+        let cartItems = JSON.parse(localStorage.getItem('cart'));
+        if(cartItems) {
+            let checkIndex = cartItems.findIndex(item => item.id === id);
+            let cartUpdated = cartItems;            
+            let dataUpdated = data;
+            if(dataUpdated[checkIndex].quantity > 1) {
+                cartUpdated[checkIndex].quantity--;
+                dataUpdated[checkIndex].quantity--;
+            }
+            localStorage.setItem('cart' ,JSON.stringify(cartUpdated));
+            setData([...dataUpdated]);
+        }
+    }
 
-//   function genData() {
+    const removeItem = (id) => {
+        let cartItems = JSON.parse(localStorage.getItem('cart'));
+        let cartUpdated = cartItems.filter(item => item.id !== id);
+        let dataUpdated = data.filter(item => item._id !== id);
+        localStorage.setItem('cart' ,JSON.stringify(cartUpdated));
+        setData([...dataUpdated]);
+    }
 
-//     const itemList = [];
-//     const cartItem = JSON.parse(localStorage.getItem('cart'));
+    return (
+        <div>
+            <Headers/>
+            <TopMenu/>
+            {displayCart()}
+        </div>
+    );
+}
 
-//     for (let x of cartItem) {
-//       const newList = productList.find(item => item._id === x.id)
-//       if (newList) {
-//         itemList.push(newList);
-//       }
-//     }
-
-
-//     if (itemList) {
-//       if (itemList.length > 0) {
-//         return (
-//           <div className="cart">
-//             <Container>
-//               <Table bordered>
-//                 <thead>
-//                   <tr>
-//                     <th>#</th>
-//                     <th>Product name</th>
-//                     <th>Image</th>
-//                     <th>Price</th>
-//                     <th>Quantity</th>
-//                     <th>Actions</th>
-//                   </tr>
-//                 </thead>
-//                 <tbody>
-//                   {itemList.map((item, index) => (
-//                     <tr>
-//                       <th scope="row">{index + 1}</th>
-//                       <td>{item.name}</td>
-//                       <td><img src={item.thumbnail} style={{ width: "100px", height: "100px" }} /></td>
-//                       <td>{`${item.price}$`}</td>
-//                       <td>
-//                         <div className="button-cart">
-//                           <Button
-//                             color="none"
-//                             className="button-cart__quantity"
-//                             onClick={() => handleDecreaseItem(item._id)}
-//                           >
-//                             -
-//                           </Button>
-//                           <p>{item.quantity}</p>
-//                           <Button
-//                             color="none"
-//                             className="button-cart__quantity"
-//                             onClick={() => handleIncreaseItem(item._id)}
-//                           >
-//                             +
-//                           </Button>
-//                         </div>
-
-
-//                       </td>
-//                       <td><Button color='danger' onClick={(targetID) => handleRemoveItem(item._id)}>Remove</Button></td>
-//                       {console.log('id', item)}
-//                     </tr>
-//                   ))
-//                   }
-//                 </tbody>
-//               </Table>
-
-//               <div className="checkout">
-//                 <div className="checkout__total">
-//                   <p>Total : { }</p>
-//                 </div>
-//                 <div className="checkout__button">
-//                   <Link to="cart/checkout">Check out</Link>
-//                 </div>
-
-//               </div>
-
-//             </Container>
-
-//           </div>
-
-//         )
-//       }
-//       else {
-//         return <Title title="Nothing here" />
-//       }
-//     }
-//     else {
-//       return <Title title="Nothing here" />
-//     }
-//   }
-
-//   return (
-//     <div className="Cart">
-//       <Header />
-//       <TopMenu />
-//       <Title title="Cart" />
-//       {genData()}
-//     </div>
-//   );
-// }
-
-// export default Cart;
+export default Cart;

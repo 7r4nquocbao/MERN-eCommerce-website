@@ -11,8 +11,9 @@ function ProductTable(props) {
     const dispatch = useDispatch();
     const [actionProduct, setActionProduct] = useState(false);
     const productList = useSelector(state => state.products);
-    const itemOnPage = 6;
+    const itemOnPage = 10;
     const [page, setPage] = useState(1);
+    const [keyword, setKeyword] = useState('');
 
     useEffect(() => {
         console.log("get data...")
@@ -73,12 +74,29 @@ function ProductTable(props) {
         )
     }
 
+    const filterData = () => {
+        let data = productList.filter(item => item.name.toLowerCase().includes(keyword.toLowerCase()));
+        return data;
+    }
+
     return (
         <div className="container">
-            <div className="d-flex justify-content-end">
-                <Link to={`${location.pathname}/create-product`}>
-                    <button className="btn btn-light m-3">Add product</button>
-                </Link>
+            <div className="row mt-5">
+                <div className="col-6">
+                    <div className="input-group mb-2">
+                        <input type="text" className="form-control" onChange={(e) => setKeyword(e.target.value)}/>
+                        <div className="input-group-append">
+                            <span className="input-group-text" id="basic-addon2">Search</span>
+                        </div>
+                    </div>
+                </div>
+                <div className="col">
+                    <div className="d-flex justify-content-end mb-2">
+                        <Link to={`${location.pathname}/create-product`}>
+                            <button className="btn btn-light">Add product</button>
+                        </Link>
+                    </div>
+                </div>
             </div>
             <table class="table table-hover table-shadow">
                 <thead>
@@ -93,7 +111,7 @@ function ProductTable(props) {
                     </tr>
                 </thead>
                 <tbody>
-                    {displayProductData(productList, page)}
+                    {displayProductData(filterData(), page)}
                 </tbody>
                 <tfoot>
                     <tr>
