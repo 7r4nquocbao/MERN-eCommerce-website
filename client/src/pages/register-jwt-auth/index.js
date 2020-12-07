@@ -164,6 +164,7 @@ function RegisterJWTAuth(props) {
                                         />
 
                                         <Button type="submit">Submit</Button>
+                                        <Link className="back-to" to="/login">Back to Login</Link>
                                     </Form>
                                 )
                             }
