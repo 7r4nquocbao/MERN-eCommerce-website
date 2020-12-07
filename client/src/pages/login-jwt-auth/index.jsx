@@ -3,11 +3,15 @@ import { useState } from 'react';
 import { facebookToken, FACEBOOK_API, loginUser } from '../../api';
 import { authenticate, isAuth } from '../../helpers/auth';
 import FacebookLogin from 'react-facebook-login';
+import { Link } from 'react-router-dom';
+import './Login.scss';
+import Header from '../../components/UI/Header';
+import topLogo from '../../assets/Images/main-logo.png';
 
 function LoginJWT(props) {
 
     const [userData, setUserData] = useState({
-        email:'',
+        email: '',
         password: ''
     })
 
@@ -26,7 +30,7 @@ function LoginJWT(props) {
 
     const handleLogin = e => {
         e.preventDefault();
-        if(userData.email && userData.password) {
+        if (userData.email && userData.password) {
             loginUser(userData).then(res => {
                 authenticate(res, () => {
                     setUserData({ email: '', password: '' })
@@ -40,20 +44,48 @@ function LoginJWT(props) {
     }
 
     return (
-        <div>
-            <form onSubmit={handleLogin}>
-                <div className="form-group">
-                    <label htmlFor="email">Email address</label>
-                    <input type="email" className="form-control" id="email"
-                        onChange={(e) => setUserData({...userData, email: e.target.value})}/>
+
+        <div className="login">
+            <Header />
+            <div className="login__opacity">
+                <div className="login__main">
+                    <div className="login__main__left">
+                        <div className="login__main_left__logo">
+                            <Link to="/">
+                                <img src={topLogo} width={200} height={180} />
+                            </Link>
+                        </div>
+                    </div>
+                    <div className="login__main__right">
+                        <div className="login__main__right__content">
+                            <div className="login__main__right__content__title">
+                                Login
+                            </div>
+
+                            <form onSubmit={handleLogin}>
+                                <div className="form-group">
+                                    <label htmlFor="email">Email</label>
+                                    <input type="email" className="form-control" id="email" placeholder="Type your email..."
+                                        onChange={(e) => setUserData({ ...userData, email: e.target.value })} />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="password">Password</label>
+                                    <input type="password" className="form-control" id="password" placeholder="Type your password..."
+                                        onChange={(e) => setUserData({ ...userData, password: e.target.value })} />
+                                </div>
+                                <button type="submit" className="btn btn-link">Submit</button>
+                            </form>
+
+                            <div className="login__register">
+                                Register in here <Link to="/registerjwt">Register</Link><br />
+                                <Link to="/reset">Forgot password?</Link>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div className="form-group">
-                    <label htmlFor="password">Password</label>
-                    <input type="password" className="form-control" id="password" 
-                        onChange={(e) => setUserData({...userData, password: e.target.value})}/>
-                </div>
-                <button type="submit" className="btn btn-primary">Submit</button>
-            </form>
+
+            </div>
+
 
             {/* <FacebookLogin
                 appId={FACEBOOK_API}
