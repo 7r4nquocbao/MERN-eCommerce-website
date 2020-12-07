@@ -1,31 +1,72 @@
-import React from 'react';
+import Axios from 'axios';
+import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useState } from 'react';
+
 import { facebookToken, FACEBOOK_API, loginUser } from '../../api';
 import { authenticate, isAuth } from '../../helpers/auth';
 import FacebookLogin from 'react-facebook-login';
 import { Link } from 'react-router-dom';
 import './Login.scss';
+
 import Header from '../../components/UI/Header';
 import topLogo from '../../assets/Images/main-logo.png';
+import { listUser, readUser } from '../../api';
+import * as yub from 'yup';
+
+import './style.scss';
+import { FastField, Form, Formik } from 'formik';
+import InputField from '../../custom-fields/InputField';
 
 function LoginJWT(props) {
+
+    const history = useHistory();
 
     const [userData, setUserData] = useState({
         email: '',
         password: ''
+    });
+
+    const initialValues = {
+        email: '',
+        password: '',
+    }
+
+    const validateSchema = yub.object().shape({
+        email: yub.string()
+            .max(100, "Maximum 100 characters")
+            .email("Invalid email form")
+            .required("This field is required"),
+        password: yub.string()
+            .min(6, "Password is too short - should be 8 chars minimum.")
+            .max(50, "Maximum 50 characters")
+            .required('This field is required'),
     })
 
-    // const sendFacebookToken = (userID, accessToken) => {
-    //     facebookToken({userID, accessToken}).then(res => {
+
+    // const loadProfile = () => {
+    //     const token = getCookie('token');
+    //     if(isAuth() !== false)
+    //     {
+    //         readUser(isAuth()._id, {
+    //             headers: {
+    //                 Authorization: `Bearer ${token}`
+    //             }
+    //         }).then(res => {
+    //             setUserInfo(res.data);
+    //         }).catch(err => {
+    //             console.log(err);
+    //         })
+    //     }
+    //     listUser({},{
+    //         headers: {
+    //             Authorization: `Bearer ${token}`
+    //         }
+    //     }).then(res => {
     //         console.log(res.data);
     //     }).catch(err => {
-    //         console.log(err);
-    //     })
-    // }
-
-    // const responseFacebook = response => {
-    //     console.log(response);
-    //     sendFacebookToken(response.userID, response.accessToken);
+    //         console.log(err.response);
+    //     });
     // }
 
     const handleLogin = e => {
@@ -62,7 +103,39 @@ function LoginJWT(props) {
                                 Login
                             </div>
 
-                            <form onSubmit={handleLogin}>
+                            <Formik
+                                initialValues={initialValues}
+                                onSubmit={handleLogin}
+                                validationSchema={validateSchema}
+                            >
+                                {
+                                    formikValues => {
+                                        return (
+                                            <Form>
+                                                <FastField
+                                                    name="email"
+                                                    component={InputField}
+
+                                                    type="email"
+                                                    label="Email"
+                                                    placeholder="Type your email address..."
+                                                />
+                                                <FastField
+                                                    name="password"
+                                                    component={InputField}
+
+                                                    type="password"
+                                                    label="Password"
+                                                    placeholder="Type your password..."
+                                                />
+                                                <button type="submit" className="btn btn-link">Submit</button>
+                                            </Form>
+                                        )
+                                    }
+                                }
+                            </Formik>
+
+                            {/* <form onSubmit={handleLogin}>
                                 <div className="form-group">
                                     <label htmlFor="email">Email</label>
                                     <input type="email" className="form-control" id="email" placeholder="Type your email..."
@@ -74,7 +147,7 @@ function LoginJWT(props) {
                                         onChange={(e) => setUserData({ ...userData, password: e.target.value })} />
                                 </div>
                                 <button type="submit" className="btn btn-link">Submit</button>
-                            </form>
+                            </form> */}
 
                             <div className="login__register">
                                 Register in here <Link to="/registerjwt">Register</Link><br />

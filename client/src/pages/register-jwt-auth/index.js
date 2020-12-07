@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import {toast} from 'react-toastify';
 import { registerUser } from '../../api';
 import {Formik, Form, FastField} from 'formik';
+import * as Yup from 'yup'
+
 
 import './Register.scss';
 import InputField from '../../custom-fields/InputField';
@@ -17,12 +19,43 @@ import { Link } from 'react-router-dom';
 function RegisterJWTAuth(props) {
     const initialValues = {
         name: '',
-        email: '',
         gender: 'male',
-        birthday: '',
+        email: '',
+        //birthday: '',
         password: '',
-        passwordConfirm: '',
+        confirm: '',
+        address: '',
+        phone: '',
+
     };
+
+    const validationSchema = Yup.object().shape({
+        name: Yup.string()
+        .min(2, "Minimum 2 characters")
+        .max(50, "Maximum 50 characters")
+        .required('This field is required'),
+
+        email: Yup.string()
+        .email("Invalid email format")
+        .required('This field is required'),
+
+        password: Yup.string()
+        .min(6, "Password is too short - should be 8 chars minimum.")
+        .max(50, "Maximum 50 characters")
+        .required('This field is required'),
+
+        confirm: Yup.string()
+        .oneOf([Yup.ref('password'), null], 'Passwords must match')
+        .required('This field is required'),
+
+        address: Yup.string()
+        .min(10, "Invalid address")
+        .max(200, "Maximum 100 characters")
+        .required('This field is required'),
+
+        phone: Yup.number()
+        .required('This field is required'),
+    })
 
     const [userData, setUserData] = useState({
         name: '',
@@ -85,6 +118,7 @@ function RegisterJWTAuth(props) {
                     <Formik
                         initialValues = {initialValues}
                         onSubmit = {(values) => console.log("abc",values)}
+                        validationSchema={validationSchema}
                     >
                         {
                             formikValues => {

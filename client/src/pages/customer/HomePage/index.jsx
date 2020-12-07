@@ -23,51 +23,35 @@ function HomePage(props) {
   const productList = useSelector(state => state.products);
   const dispatch = useDispatch();
 
-
   useEffect(() => {
     dispatch(fetchProductData());
-
   }, [])
 
   const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')));
 
   const onAddToCartClick = (item) => {
-    let cartItems = [];
-    let cart = localStorage.getItem('cart');
-    if (cart === null) {
-      let product = {
-        id: item._id,
-        quantity: 1,
-      };
-      cartItems.push(product);
-      localStorage.setItem('cart', JSON.stringify(cartItems));
-      setCart(cartItems);
-    }
-    else {
-      let cartItems = JSON.parse(cart);
-      let index = cartItems.findIndex(product => product.id === item._id);
-      if (index < 0) {
-        let product = {
-          id: item._id,
-          quantity: 1,
-        }
-        let newCart = [...cartItems, product];
-        localStorage.setItem('cart', JSON.stringify(newCart));
-        setCart(cartItems);
-      }
-      else {
-        let newCart = [...cartItems];
-        newCart[index].quantity += 1;
-        localStorage.setItem('cart', JSON.stringify(cartItems));
-        setCart(newCart);
+
+    let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+
+    if(cartItems === []) {
+      let newItem = { id: item._id, quantity: 1 };
+      cartItems.push(newItem);
+    } else {
+      let checkExists = cartItems.findIndex(cartItem => cartItem.id === item._id);
+      if (checkExists !== -1) {
+        cartItems[checkExists].quantity += 1;
+      } else {
+        let newItem = { id: item._id, quantity: 1 };
+        cartItems.push(newItem);
       }
     }
 
+    localStorage.setItem('cart', JSON.stringify(cartItems));
+    setCart([...cartItems]);
   }
 
   return (
     <div className="HomePage">
-
       <Headers />
       <TopMenu />
       <Banner

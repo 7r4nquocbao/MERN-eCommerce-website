@@ -4,7 +4,8 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import productRoutes from './routes/product-routes.js';
 import orderRoutes from './routes/order-routes.js';
-import authRoutes from './routes/auth-routes.js'
+import authRoutes from './routes/auth-routes.js';
+import userRoutes from './routes/user-routes.js';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
 
@@ -18,6 +19,8 @@ app.use(morgan('dev'));
 app.use('/products', productRoutes);
 app.use('/orders', orderRoutes);
 app.use('/auth', authRoutes);
+app.use('/user', userRoutes);
+
 const CONNECTION_URL = "mongodb://localhost:27017/e-commerce-website"
 const PORT = process.env.PORT || 4000;
 

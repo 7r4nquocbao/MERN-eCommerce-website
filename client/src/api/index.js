@@ -4,9 +4,9 @@ const appUrl = 'http://localhost:4000';
 const productUrl = 'http://localhost:4000/products';
 const orderUrl = 'http://localhost:4000/orders';
 const authUrl = 'http://localhost:4000/auth';
-export const FACEBOOK_API = '453789795777618';
+const userUrl = 'http://localhost:4000/user';
 
-// PRODUCT SITE
+// PRODUCT SIDE
 
 export const fetchProducts = () => axios.get(productUrl);
 
@@ -14,7 +14,7 @@ export const createProduct = (product) => axios.post(`${productUrl}/create`, pro
 
 export const deleteProduct = (id) => axios.delete(`${productUrl}/delete/${id}`);
 
-// ORDER SITE
+// ORDER SIDE
 
 export const fetchOrders = () => axios.get(orderUrl);
 
@@ -24,7 +24,8 @@ export const cancelOrder = (id) => axios.put(`${orderUrl}/cancel/${id}`);
 
 export const changeStatusOrder = (statusPayload) => axios.put(`${orderUrl}/status`, statusPayload);
 
-// AUTHENTICATE SITE
+// AUTHENTICATE SIDE
+
 export const registerUser = (userData) => axios.post(`${authUrl}/register`, userData);
 
 export const activeUser = (token) => axios.post(`${authUrl}/activation`, token);
@@ -35,8 +36,8 @@ export const resetRequest = (email) => axios.put(`${authUrl}/forgotpassword`, em
 
 export const resetPassword = (passwordData) => axios.put(`${authUrl}/resetpassword`, passwordData);
 
-// FACEBOOK AUTH
+export const readUser = (id, header) => axios.get(`${userUrl}/${id}`, header);
 
-export const facebookToken = (data) => axios.post(`${authUrl}/facebook-login`, data);
+export const listUser = (data, header) => axios.post(`${userUrl}/list`, data, header);
 
 
