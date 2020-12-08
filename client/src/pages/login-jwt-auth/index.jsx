@@ -4,9 +4,16 @@ import { useHistory } from 'react-router-dom';
 import { useState } from 'react';
 import { listUser, loginUser, readUser } from '../../api';
 import { authenticate, getCookie, isAuth } from '../../helpers/auth';
+
+import TextField from '@material-ui/core/TextField';
 import './style.scss';
 
+
+
 function LoginJWT(props) {
+
+    const [state, setState] = useState({message: '', name: ''});
+    const [chat, setChat] = useState([]);
 
     const history = useHistory();
 
@@ -14,7 +21,6 @@ function LoginJWT(props) {
         email: '',
         password: ''
     });
-
 
     // const loadProfile = () => {
     //     const token = getCookie('token');
@@ -57,7 +63,7 @@ function LoginJWT(props) {
     }
 
     return (
-        <div className="container-fluid full-screen d-flex align-items-center justify-content-center">
+        <div className="container-fluid">
             <form onSubmit={handleLogin} className="form-login">
                 <div className="form-group">
                     <label htmlFor="email">Email address</label>

@@ -13,6 +13,8 @@ import { fetchProductData } from '../../../slices/product-slice';
 import { Col, Container } from 'reactstrap';
 import { Button } from 'reactstrap';
 import { Row } from 'reactstrap';
+import ChatBox from '../../../components/UI/Chatbox';
+
 
 HomePage.propTypes = {
 
@@ -59,8 +61,10 @@ function HomePage(props) {
         title="DCMM"
         description="con me may"
       />
+       
       <div className="product-list">
         <Container>
+          
           <Row>
             {
               productList.map(product => (
@@ -92,6 +96,7 @@ function HomePage(props) {
             }
           </Row>
         </Container>
+        <ChatBox/>
         <Footer />
       </div>
     </div>

@@ -9,9 +9,11 @@ import StorageRoundedIcon from '@material-ui/icons/StorageRounded';
 import ReceiptIcon from '@material-ui/icons/Receipt';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import DashboardIcon from '@material-ui/icons/Dashboard';
+import MessageIcon from '@material-ui/icons/Message';
 import { withStyles } from '@material-ui/core/styles';
-import './style.scss';
 import OrderList from '../../components/admin/order-list';
+import './style.scss';
+import ChatApp from '../../components/admin/chat-app';
 
 function Admin(props) {
     const [recentPage, setRecentPage] = useState('Products');
@@ -27,6 +29,8 @@ function Admin(props) {
                 return <OrderList />;
             case 'Users':
                 return <ProductTable />;
+            case 'Messages':
+                return <ChatApp />;
             case 'Dashboard':
                 return <ProductTable />;
         }
@@ -35,11 +39,12 @@ function Admin(props) {
     return (
         <div className="App container mt-5">
             <h1>App.</h1>
-            {displayContent()}            
-            <BottomNavigation value={recentPage} color="secondary" onChange={handleChange} className="fixed-bottom text-danger">
+            {displayContent()}
+            <BottomNavigation value={recentPage} color="secondary" onChange={handleChange} className="fixed-bottom">
                 <BottomNavigationAction label="Products" value="Products" icon={<StorageRoundedIcon />}/>
                 <BottomNavigationAction label="Orders" value="Orders" icon={<ReceiptIcon />} />
                 <BottomNavigationAction label="Users" value="Users" icon={<PeopleAltIcon />} />
+                <BottomNavigationAction label="Messages" value="Messages" icon={<MessageIcon />} />
                 <BottomNavigationAction label="Dashboard" value="Dashboard" icon={<DashboardIcon />} />
             </BottomNavigation>
         </div>

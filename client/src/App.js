@@ -24,6 +24,7 @@ function App() {
   const HomePage = React.lazy(() => import('./pages/customer/HomePage'));
   const Search = React.lazy(() => import('./pages/customer/Search'));
   const Cart = React.lazy(() => import('./pages/customer/Cart'));
+  const Chat = React.lazy(() => import('./components/UI/Chatbox'));
 
 
   return (   
@@ -42,6 +43,7 @@ function App() {
               <Route exact path="/reset" render={props => <ResetRequestJWT {...props}/>}/>
               <Route exact path="/reset/:token" render={props => <ResetPasswordJWT {...props}/>}/>
               <Route exact path="/cart" component={Cart}/>
+              <Route exact path="/chat" component={Chat}/>
             </Switch>
           </Router>          
       </Suspense>

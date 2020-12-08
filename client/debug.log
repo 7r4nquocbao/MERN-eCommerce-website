@@ -6,3 +6,4 @@
 [1201/134014.535:ERROR:filesystem_win.cc(129)] GetFileAttributes C:\Users\tranq\AppData\Local\Google\Chrome\User Data\Crashpad\attachments\8c1a7953-1536-46bf-a364-2c76eb23ce42: The system cannot find the path specified. (0x3)
 >>>>>>> 6401535283b160b1b53da8734f5bce48ff515a70
 [1206/125750.503:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
+[1207/163729.245:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)

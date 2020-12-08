@@ -6,10 +6,22 @@ import productRoutes from './routes/product-routes.js';
 import orderRoutes from './routes/order-routes.js';
 import authRoutes from './routes/auth-routes.js';
 import userRoutes from './routes/user-routes.js';
+import chatRoutes from './routes/chat-routes.js';
+import roomRoutes from './routes/room-routes.js';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
+import http from 'http';
+import * as io from 'socket.io';
 
 const app = express();
+const server = http.createServer(app);
+const socketio = new io.Server(server);
+socketio.on('connection', socket => {
+    socket.on('message', (message) => {
+        socketio.emit('message', message)
+    })
+})
+
 dotenv.config();
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
@@ -20,12 +32,14 @@ app.use('/products', productRoutes);
 app.use('/orders', orderRoutes);
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
+app.use('/messages', chatRoutes);
+app.use('/rooms', roomRoutes);
 
 const CONNECTION_URL = "mongodb://localhost:27017/e-commerce-website"
 const PORT = process.env.PORT || 4000;
 
 mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => app.listen(PORT, () => console.log(`Server running on port: ${PORT}`)))
+    .then(() => server.listen(PORT, () => console.log(`Server running on port: ${PORT}`)))
     .catch((error) => console.log(error.message));
     
 mongoose.set('useFindAndModify', false);
