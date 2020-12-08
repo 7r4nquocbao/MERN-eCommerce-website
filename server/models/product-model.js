@@ -10,6 +10,7 @@ const productSchema = mongoose.Schema({
     category: String,
     brand: String,
     description: String,
+    descriptionDetail: String,
     isEnable: {
         type: Boolean,
         default: true
