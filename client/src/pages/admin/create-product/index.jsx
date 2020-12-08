@@ -21,9 +21,9 @@ function CreateProduct(props) {
     const dispatch = useDispatch();
     const params = useParams();
     console.log(params.id);
-    
+
     const history = useHistory();
-    
+
     const [newData, setNewData] = useState({
         name: '',
         price: 0,
@@ -34,6 +34,7 @@ function CreateProduct(props) {
         category: '',
         brand: '',
         description: '',
+        descriptionDetail: '',
         isEnable: true,
     });
     const [modalDesc, setModalDesc] = useState(false);
@@ -44,7 +45,7 @@ function CreateProduct(props) {
     });
 
     const customStyles = {
-        content : {
+        content: {
             height: '400px',
             top: '50%',
             left: '50%',
@@ -56,7 +57,7 @@ function CreateProduct(props) {
     };
 
     useEffect(async () => {
-        if(params.id) {
+        if (params.id) {
             console.log("get data...")
             const actionResult = await dispatch(fetchProductData());
             console.log(actionResult);
@@ -68,14 +69,14 @@ function CreateProduct(props) {
         }
     }, [dispatch]);
 
-    const categoryList =  dataAdditional.categories;
+    const categoryList = dataAdditional.categories;
     const brandList = dataAdditional.brands;
     const specList = dataAdditional.specs;
 
     const convertToOptions = (arr) => {
         const options = [];
         for (let index = 0; index < arr.length; index++) {
-            options.push({value: arr[index].name, label: arr[index].name})
+            options.push({ value: arr[index].name, label: arr[index].name })
         }
         return options;
     }
@@ -84,7 +85,7 @@ function CreateProduct(props) {
         if (newData.description !== '') {
             let addDesc = JSON.parse(newData.description);
             addDesc.push(desc);
-            setNewData({...newData, description: JSON.stringify(addDesc)});
+            setNewData({ ...newData, description: JSON.stringify(addDesc) });
             setDesc({
                 id: '',
                 type: '',
@@ -94,7 +95,7 @@ function CreateProduct(props) {
         } else {
             let addDesc = [];
             addDesc.push(desc);
-            setNewData({...newData, description: JSON.stringify(addDesc)});
+            setNewData({ ...newData, description: JSON.stringify(addDesc) });
             setDesc({
                 id: '',
                 type: '',
@@ -108,11 +109,11 @@ function CreateProduct(props) {
         if (newData.description !== '') {
             let descList = JSON.parse(newData.description);
             let descFiltered = descList.filter(item => item.id !== id);
-            setNewData({...newData, description: JSON.stringify(descFiltered)});
+            setNewData({ ...newData, description: JSON.stringify(descFiltered) });
         }
     }
 
-    const displayDescriptions = () => {        
+    const displayDescriptions = () => {
         if (newData.description !== '') {
             const descList = JSON.parse(newData.description);
             return (
@@ -142,11 +143,11 @@ function CreateProduct(props) {
     }
 
     const displayProductImages = () => {
-        if(newData !== []) {
+        if (newData !== []) {
             return (
                 newData.images && newData.images.map((item, index) => {
                     return (
-                        <div className="card bg-light text-white" style={{width: '15rem'}} key={index}>
+                        <div className="card bg-light text-white" style={{ width: '15rem' }} key={index}>
                             <img className="card-img" src={item} alt="Card image" />
                             <div className="card-img-overlay">
                                 <a className="card-title btn btn-danger" onClick={(image) => handleRemoveImage(item)}><i class="fas fa-times"></i></a>
@@ -165,13 +166,13 @@ function CreateProduct(props) {
         for (const image of data) {
             imageList.push(image.base64);
         }
-        setNewData({...newData, images: imageList});
+        setNewData({ ...newData, images: imageList });
     }
 
     const handleRemoveImage = (image) => {
         let imageList = newData.images;
         let filter = imageList.filter(item => item !== image);
-        setNewData({...newData, images: filter});
+        setNewData({ ...newData, images: filter });
     }
 
     const handleAddProduct = async (e) => {
@@ -191,7 +192,7 @@ function CreateProduct(props) {
                 <div className="form-row">
                     <div className="form-group col">
                         <label htmlFor="name">Product name</label>
-                        <input type="text" className="form-control" value={newData.name} onChange={(e) => setNewData({...newData, name: e.target.value})} id="name"/>
+                        <input type="text" className="form-control" value={newData.name} onChange={(e) => setNewData({ ...newData, name: e.target.value })} id="name" />
                     </div>
                     {
                         params.id && (
@@ -202,7 +203,7 @@ function CreateProduct(props) {
                                         <FormControlLabel
                                             control={<Switch color="secondary" />}
                                             checked={newData.isEnable}
-                                            onChange={() => setNewData({...newData, isEnable: !newData.isEnable})}
+                                            onChange={() => setNewData({ ...newData, isEnable: !newData.isEnable })}
                                         />
                                     </FormGroup>
                                 </FormControl>
@@ -213,25 +214,25 @@ function CreateProduct(props) {
                 <div className="form-row">
                     <div className="form-group col-md-6">
                         <label htmlFor="category">Category</label>
-                        <Select id="category" defaultValue={{ label: newData.category, value: newData.category }} onChange={(e) => setNewData({...newData, category: e.value})} options={convertToOptions(categoryList)}/>
+                        <Select id="category" defaultValue={{ label: newData.category, value: newData.category }} onChange={(e) => setNewData({ ...newData, category: e.value })} options={convertToOptions(categoryList)} />
                     </div>
                     <div className="form-group col-md-6">
                         <label htmlFor="brand">Brand</label>
-                        <Select id="brand" defaultValue={{ label: newData.brand, value: newData.brand }} onChange={(e) => setNewData({...newData, brand: e.value})} options={convertToOptions(brandList)}/>
+                        <Select id="brand" defaultValue={{ label: newData.brand, value: newData.brand }} onChange={(e) => setNewData({ ...newData, brand: e.value })} options={convertToOptions(brandList)} />
                     </div>
                 </div>
                 <div className="form-row">
                     <div className="form-group col-md-6">
                         <label htmlFor="price">Price</label>
-                        <input type="number" value={newData.price} min={0} className="form-control" onChange={(e) => setNewData({...newData, price: e.target.value})} id="price" />
+                        <input type="number" value={newData.price} min={0} className="form-control" onChange={(e) => setNewData({ ...newData, price: e.target.value })} id="price" />
                     </div>
                     <div className="form-group col-md-3">
-                        <label htmlFor="discount">Discount</label>        
-                        <input type="number" value={newData.sale} min={0} max={100} className="form-control" onChange={(e) => setNewData({...newData, sale: e.target.value})} id="discount" />          
+                        <label htmlFor="discount">Discount</label>
+                        <input type="number" value={newData.sale} min={0} max={100} className="form-control" onChange={(e) => setNewData({ ...newData, sale: e.target.value })} id="discount" />
                     </div>
                     <div className="form-group col-md-3">
                         <label htmlFor="stock">Stock</label>
-                        <input type="number" value={newData.stock} min={0} className="form-control" onChange={(e) => setNewData({...newData, stock: e.target.value})} id="stock" />
+                        <input type="number" value={newData.stock} min={0} className="form-control" onChange={(e) => setNewData({ ...newData, stock: e.target.value })} id="stock" />
                     </div>
                 </div>
                 <div className="form-row">
@@ -242,7 +243,7 @@ function CreateProduct(props) {
                                 type="file"
                                 multiple={false}
                                 className="form-control"
-                                onDone={(data) => setNewData({...newData, thumbnail: data.base64})}
+                                onDone={(data) => setNewData({ ...newData, thumbnail: data.base64 })}
                             />
                             <img src={newData.thumbnail} alt="..." class="img-thumbnail mt-3"></img>
                         </div>
@@ -260,8 +261,8 @@ function CreateProduct(props) {
                     </div>
                     <div className="col-md-6">
                         <div className="border form-shadow p-4">
-                            <h3 className="d-block text-center">Specs</h3>      
-                            <div className="form-row">                                
+                            <h3 className="d-block text-center">Specs</h3>
+                            <div className="form-row">
                                 {displayDescriptions()}
                             </div>
                             <div className="d-flex justify-content-end">
@@ -272,14 +273,14 @@ function CreateProduct(props) {
                                     isOpen={modalDesc}
                                     style={customStyles}
                                     ariaHideApp={false}
-                                >             
+                                >
                                     <div className="form-row">
                                         <div className="form-group col-md-6">
-                                            <Select id="category" onChange={(e) => setDesc({...desc, type: e.value, id: uuidv4()})} options={convertToOptions(specList)}/>
+                                            <Select id="category" onChange={(e) => setDesc({ ...desc, type: e.value, id: uuidv4() })} options={convertToOptions(specList)} />
                                         </div>
                                         <div className="form-group col-md-6">
-                                            <textarea rows="4" cols="40" height="200px" style={{height: '300px'}} type="text" onChange={(e) => setDesc({...desc, content: e.target.value})}  className="form-control"/>
-                                        </div>                                        
+                                            <textarea rows="4" cols="40" height="200px" style={{ height: '300px' }} type="text" onChange={(e) => setDesc({ ...desc, content: e.target.value })} className="form-control" />
+                                        </div>
                                     </div>
                                     <div className="d-flex justify-content-around">
                                         <a className="btn btn-danger" onClick={() => setModalDesc(false)}>Close</a>
@@ -287,6 +288,10 @@ function CreateProduct(props) {
                                     </div>
                                 </Modal>
                             </div>
+                        </div>
+                        <div className="form-group col">
+                            <label htmlFor="descriptionDetail">Description Detail</label>
+                            <textarea row="10" type="text" className="form-control" value={newData.descriptionDetail} onChange={(e) => setNewData({ ...newData, descriptionDetail: e.target.value })} id="descriptionDetail" />
                         </div>
                     </div>
                 </div>
