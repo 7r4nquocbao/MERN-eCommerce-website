@@ -197,7 +197,7 @@ function RegisterJWTAuth(props) {
                                             placeholder="Type your phone number..."
                                         />
 
-                                        <Button type="submit">Submit</Button>
+                                        <Button type="submit" onClick={handleSubmit}>Submit</Button>
                                         <Link className="back-to" to="/login">Back to Login</Link>
                                     </Form>
                                 )
