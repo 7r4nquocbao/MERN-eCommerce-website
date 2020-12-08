@@ -55,8 +55,8 @@ function ChatApp(props) {
     }, [])
 
     useEffect(() => {
-        socket.on('message', (message) => {
-            setChat([...chat, message]);
+        socket.on('message', (val) => {
+            setChat([...chat, val]);    
         })
     })
 

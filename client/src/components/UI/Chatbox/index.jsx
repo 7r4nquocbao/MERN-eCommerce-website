@@ -82,11 +82,15 @@ function ChatBox(props) {
            
         } else {
             return (
-                <div>
-                    <TextField label="Type your name" onChange={(e) => setMessage({...message, name: e.target.value})}/>
-                    <Button variant="contained" color="secondary" onClick={() => createChatroom()}>
-                        Ok
-                    </Button>
+                <div className="d-flex align-items-center pt-5 flex-column">
+                    <div className="d-block">
+                        <TextField label="Type your name" onChange={(e) => setMessage({...message, name: e.target.value})}/>
+                    </div>
+                    <div className="d-block pt-2">
+                        <Button variant="contained" color="secondary" onClick={() => createChatroom()}>
+                            Start conv.
+                        </Button>
+                    </div>
                 </div>
             )
         }
@@ -103,30 +107,64 @@ function ChatBox(props) {
         setMessage({...message, content: ''});
     }
 
+    const clearChat = () => {
+        localStorage.removeItem('roomId');
+        localStorage.removeItem('chatName');
+        setChat([]);
+    }
+
+    const displayTopNav = () => {
+        if(chat === []) {
+            return;
+        } else {
+            return (
+                <div className="d-flex justify-content-between align-items-center bg-danger p-2">
+                    <h5 className="pt-2 text-white">Online support</h5>
+                    <a onClick={() => clearChat()} className="btn btn-sm btn-light">Delete conv.</a>
+                </div>
+            )
+        }
+    }
+
+    const displayFormControl = () => {
+        const roomId = localStorage.getItem('roomId');
+        const chatName = localStorage.getItem('chatName');
+        if(roomId, chatName) {
+            return (
+                <div className="input-group">
+                    <input type="text" className="form-control" placeholder="Type your message" 
+                        onChange={(e) => setMessage({...message, content: e.target.value})}
+                        value={message.content}
+                    />
+                    <div className="input-group-prepend">
+                        <Button variant="contained" color="secondary" onClick={() => sendMessage()}>Send</Button>
+                    </div>
+                </div>
+            )
+        } else {
+
+        }
+    }
+
     return (
         <div className="message-popper">
             <Popper open={open} anchorEl={anchorEl} placement='left-end' transition>
                 {({ TransitionProps }) => (
                 <Fade {...TransitionProps} timeout={350}>
                     <Paper>
-                        <h4 className="p-2 text-white bg-danger">aaaaaa</h4>
+                        {displayTopNav()}
                         <div className="m-0 p-0" style={{width: '350px', height: '400px', overflow:'auto'}}>
                             {displayMessages()}
                         </div>
-                        <div className="input-group">
-                            <input type="text" className="form-control" placeholder="Type your message" 
-                                onChange={(e) => setMessage({...message, content: e.target.value})}
-                                value={message.content}
-                            />
-                            <div className="input-group-prepend">
-                                <Button variant="contained" color="secondary" onClick={() => sendMessage()}>Send</Button>
-                            </div>
-                        </div>
+                        {displayFormControl()}
                     </Paper>
                 </Fade>
                 )}
             </Popper>
-            <Button onClick={handleClick()}>Left-end</Button>
+            <img onClick={handleClick()}
+                style={{cursor: 'pointer', width: '4rem'}}
+                src="https://facebookbrand.com/wp-content/uploads/2020/10/Logo_Messenger_NewBlurple-399x399-1.png?w=399&h=399"
+            />
         </div>
     );
 }

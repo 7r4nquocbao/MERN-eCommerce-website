@@ -14,6 +14,7 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    gender: String,
     hashedPassword: {
         type: String,
         required: true
@@ -27,6 +28,8 @@ const userSchema = mongoose.Schema({
         data: String,
         default: ''
     },
+    address: String,
+    phone: String,
     createAt: {
         type: Date,
         default: new Date()

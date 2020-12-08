@@ -4,6 +4,7 @@ import { fetchProductData } from './slices/product-slice';
 import Admin from './pages/admin';
 import { BrowserRouter as Router,  Switch,  Route,  Link } from "react-router-dom";
 
+
 function App() {
   // const dispatch = useDispatch();
   // const [actionProduct, setActionProduct] = useState(false);
@@ -24,8 +25,7 @@ function App() {
   const HomePage = React.lazy(() => import('./pages/customer/HomePage'));
   const Search = React.lazy(() => import('./pages/customer/Search'));
   const Cart = React.lazy(() => import('./pages/customer/Cart'));
-  const Chat = React.lazy(() => import('./components/UI/Chatbox'));
-
+  const Checkout = React.lazy(() => import('./pages/customer/Cart/Checkout'));
 
   return (   
       <Suspense fallback={<div>Loading...</div>}>
@@ -43,7 +43,7 @@ function App() {
               <Route exact path="/reset" render={props => <ResetRequestJWT {...props}/>}/>
               <Route exact path="/reset/:token" render={props => <ResetPasswordJWT {...props}/>}/>
               <Route exact path="/cart" component={Cart}/>
-              <Route exact path="/chat" component={Chat}/>
+              <Route exact path="/checkout" component={Checkout}/>
             </Switch>
           </Router>          
       </Suspense>

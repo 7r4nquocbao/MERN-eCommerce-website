@@ -58,8 +58,8 @@ function HomePage(props) {
       <TopMenu />
       <Banner
         backgroundUrl={Images.MainBanner}
-        title="DCMM"
-        description="con me may"
+        title="CORSAIR"
+        description="Corsair is a leader in gaming gear ranging from cases to peripherals and components to streaming equipment. Visit now to shop or learn more."
       />
        
       <div className="product-list">

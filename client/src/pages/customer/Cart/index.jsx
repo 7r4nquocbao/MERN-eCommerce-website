@@ -4,6 +4,7 @@ import Headers from '../../../components/UI/Header';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProductData } from '../../../slices/product-slice';
 import { unwrapResult } from '@reduxjs/toolkit';
+import { Link } from 'react-router-dom';
 
 function Cart(props) {
 
@@ -14,18 +15,17 @@ function Cart(props) {
     useEffect(async () => {
         const result = await dispatch(fetchProductData());
         const filter = filterData(unwrapResult(result));
-        console.log('ddddd');
         setData(filter);
     }, [])
 
     const filterData = (arr) => {
-        if(arr) {
+        if (arr) {
             let cartItems = JSON.parse(localStorage.getItem('cart'));
-            if(cartItems) {
+            if (cartItems) {
                 let dataFiltered = [];
                 for (const item of cartItems) {
                     let target = arr.find(thing => thing._id === item.id);
-                    target = {...target, quantity: item.quantity};
+                    target = { ...target, quantity: item.quantity };
                     dataFiltered.push(target);
                 }
                 return dataFiltered;
@@ -40,7 +40,7 @@ function Cart(props) {
     const displayCart = () => {
         const cartItems = JSON.parse(localStorage.getItem('cart'));
         if (cartItems.length > 0) {
-            return(
+            return (
                 <div className="container cart-container">
                     <table class="table table-borderless table-hover">
                         <thead>
@@ -65,7 +65,9 @@ function Cart(props) {
                                     <h4>{calcTotal()}</h4>
                                 </td>
                                 <td colSpan='2'>
-                                    <button class="btn btn-success btn-block"><i class="far fa-credit-card"></i> Checkout</button>
+                                    <Link to="/checkout">
+                                        <button class="btn btn-success btn-block"><i class="far fa-credit-card"></i> Checkout</button>
+                                    </Link>
                                 </td>
                             </tr>
                         </tfoot>
@@ -73,10 +75,10 @@ function Cart(props) {
                 </div>
             )
         } else {
-            return(
+            return (
                 <div className="container-fluid full-screen d-flex align-items-center justify-content-center">
                     <div className="text-center">
-                        <h1><i className="far fa-square" style={{fontSize: '10rem'}}></i></h1>
+                        <h1><i className="far fa-square" style={{ fontSize: '10rem' }}></i></h1>
                         <h1>Nothing here.</h1>
                     </div>
                 </div>
@@ -85,21 +87,21 @@ function Cart(props) {
     }
 
     const displayCartItem = (list) => {
-        if(list) {
+        if (list) {
             return (
                 list && list.map((item, index) => {
                     return (
                         <tr key={index}>
-                            <td>{index+1}</td>
+                            <td>{index + 1}</td>
                             <td>
-                                <img src={item.thumbnail} style={{width: '40px'}} alt="img"/>
+                                <img src={item.thumbnail} style={{ width: '40px' }} alt="img" />
                             </td>
                             <td>{item.name}</td>
-                            <td>{new Intl.NumberFormat('en-US', {style: 'currency',currency: 'USD',}).format(item.price)}</td>
+                            <td>{new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', }).format(item.price)}</td>
                             <td>
                                 <div className="btn-group" role="group">
                                     <button onClick={() => decreaseItem(item._id)} className="btn btn-danger"><i class="fas fa-minus"></i></button>
-                                    <button className="btn btn-light font-weight-bold" style={{width: '50px'}} disabled>{item.quantity}</button>
+                                    <button className="btn btn-light font-weight-bold" style={{ width: '50px' }} disabled>{item.quantity}</button>
                                     <button onClick={() => increaseItem(item._id)} className="btn btn-danger"><i class="fas fa-plus"></i></button>
                                 </div>
                             </td>
@@ -115,40 +117,40 @@ function Cart(props) {
 
     const calcTotal = () => {
         let total = 0;
-        if(data) {
+        if (data) {
             for (const item of data) {
-                total += item.quantity * (item.price - (item.price * item.sale / 100)) 
+                total += item.quantity * (item.price - (item.price * item.sale / 100))
             }
         }
-        return new Intl.NumberFormat('en-US', {style: 'currency',currency: 'USD',}).format(total);
+        return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', }).format(total);
     }
 
     const increaseItem = (id) => {
         let cartItems = JSON.parse(localStorage.getItem('cart'));
-        if(cartItems) {
+        if (cartItems) {
             let checkIndex = cartItems.findIndex(item => item.id === id);
-            let cartUpdated = cartItems;            
+            let cartUpdated = cartItems;
             let dataUpdated = data;
-            if(dataUpdated[checkIndex].quantity < dataUpdated[checkIndex].stock) {
+            if (dataUpdated[checkIndex].quantity < dataUpdated[checkIndex].stock) {
                 cartUpdated[checkIndex].quantity++;
                 dataUpdated[checkIndex].quantity++;
             }
-            localStorage.setItem('cart' ,JSON.stringify(cartUpdated));
+            localStorage.setItem('cart', JSON.stringify(cartUpdated));
             setData([...dataUpdated]);
         }
     }
 
     const decreaseItem = (id) => {
         let cartItems = JSON.parse(localStorage.getItem('cart'));
-        if(cartItems) {
+        if (cartItems) {
             let checkIndex = cartItems.findIndex(item => item.id === id);
-            let cartUpdated = cartItems;            
+            let cartUpdated = cartItems;
             let dataUpdated = data;
-            if(dataUpdated[checkIndex].quantity > 1) {
+            if (dataUpdated[checkIndex].quantity > 1) {
                 cartUpdated[checkIndex].quantity--;
                 dataUpdated[checkIndex].quantity--;
             }
-            localStorage.setItem('cart' ,JSON.stringify(cartUpdated));
+            localStorage.setItem('cart', JSON.stringify(cartUpdated));
             setData([...dataUpdated]);
         }
     }
@@ -157,14 +159,14 @@ function Cart(props) {
         let cartItems = JSON.parse(localStorage.getItem('cart'));
         let cartUpdated = cartItems.filter(item => item.id !== id);
         let dataUpdated = data.filter(item => item._id !== id);
-        localStorage.setItem('cart' ,JSON.stringify(cartUpdated));
+        localStorage.setItem('cart', JSON.stringify(cartUpdated));
         setData([...dataUpdated]);
     }
 
     return (
         <div>
-            <Headers/>
-            <TopMenu/>
+            <Headers />
+            <TopMenu />
             {displayCart()}
         </div>
     );

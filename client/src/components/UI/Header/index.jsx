@@ -61,7 +61,7 @@ function Header(props) {
             <Col sm="auto">
                 <NavLink to="/login">Login</NavLink>
                 <span>/</span>
-                <NavLink to="/register">Register</NavLink>
+                <NavLink to="/registerjwt">Register</NavLink>
             </Col>
             {/* <Col sm="auto">
                 <div>

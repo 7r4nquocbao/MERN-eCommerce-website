@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ProductTable from '../../components/admin/product-table';
-import { createProduct, deleteProduct } from '../../slices/product-slice';
+import { createProduct, deleteProduct, fetchProductData } from '../../slices/product-slice';
 import { makeStyles } from '@material-ui/core/styles';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
@@ -14,12 +14,23 @@ import { withStyles } from '@material-ui/core/styles';
 import OrderList from '../../components/admin/order-list';
 import './style.scss';
 import ChatApp from '../../components/admin/chat-app';
+import { fetchOrderData } from '../../slices/order-slice';
+import { useDispatch } from 'react-redux';
 
 function Admin(props) {
+
+    const dispatch = useDispatch();
+
     const [recentPage, setRecentPage] = useState('Products');
     const handleChange = (event, newValue) => {
         setRecentPage(newValue);
     };
+
+    useEffect(() => {
+        console.log("get data...")
+        dispatch(fetchOrderData());
+        dispatch(fetchProductData())
+    }, [dispatch]);
 
     const displayContent = () => {
         switch (recentPage) {
