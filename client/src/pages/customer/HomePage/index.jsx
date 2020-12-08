@@ -15,12 +15,16 @@ import { Button } from 'reactstrap';
 import { Row } from 'reactstrap';
 import ChatBox from '../../../components/UI/Chatbox';
 
+import { useHistory, useParams } from 'react-router-dom';
 
 HomePage.propTypes = {
 
 };
 
 function HomePage(props) {
+
+  const { productID } = useParams();
+  const history = useHistory();
 
   const productList = useSelector(state => state.products);
   const dispatch = useDispatch();
@@ -35,7 +39,7 @@ function HomePage(props) {
 
     let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
 
-    if(cartItems === []) {
+    if (cartItems === []) {
       let newItem = { id: item._id, quantity: 1 };
       cartItems.push(newItem);
     } else {
@@ -50,6 +54,11 @@ function HomePage(props) {
 
     localStorage.setItem('cart', JSON.stringify(cartItems));
     setCart([...cartItems]);
+  }
+
+  const onShowDetail = (product) => {
+
+    history.push(`/detail/${product._id}`)
   }
 
   return (
@@ -74,7 +83,7 @@ function HomePage(props) {
 
                       <Button
                         color="link"
-                      //onClick={() => onShowDetail(product)}
+                        onClick={() => onShowDetail(product)}
                       >
                         <img src={product.thumbnail} />
                       </Button>

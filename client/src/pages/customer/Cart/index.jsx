@@ -168,6 +168,7 @@ function Cart(props) {
             <Headers />
             <TopMenu />
             {displayCart()}
+            <Link to="/">Continue shopping</Link>
         </div>
     );
 }

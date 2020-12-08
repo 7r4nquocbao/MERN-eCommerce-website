@@ -26,7 +26,7 @@ function App() {
   const Search = React.lazy(() => import('./pages/customer/Search'));
   const Cart = React.lazy(() => import('./pages/customer/Cart'));
   const Checkout = React.lazy(() => import('./pages/customer/Cart/Checkout'));
-
+  const Detail = React.lazy(() => import('./pages/customer/DetailsPage'));
   return (   
       <Suspense fallback={<div>Loading...</div>}>
           <Router>
@@ -44,6 +44,7 @@ function App() {
               <Route exact path="/reset/:token" render={props => <ResetPasswordJWT {...props}/>}/>
               <Route exact path="/cart" component={Cart}/>
               <Route exact path="/checkout" component={Checkout}/>
+              <Route exact path="/detail/:productID" component={Detail}/>
             </Switch>
           </Router>          
       </Suspense>
