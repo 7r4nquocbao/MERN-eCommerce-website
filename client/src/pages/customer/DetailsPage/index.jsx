@@ -99,6 +99,10 @@ function Detail(props) {
         </div>
 
         <Title title="Customer's Evaluate" />
+        <div className="form-floating">
+            <textarea className="form-control"/>
+            <label htmlFor="floatingTextarea">Comments</label>
+        </div>
 
       </Container>
     </div>

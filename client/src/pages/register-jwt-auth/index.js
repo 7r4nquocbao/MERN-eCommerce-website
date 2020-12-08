@@ -26,7 +26,6 @@ function RegisterJWTAuth(props) {
         confirm: '',
         address: '',
         phone: '',
-
     };
 
     const validationSchema = Yup.object().shape({
@@ -58,7 +57,6 @@ function RegisterJWTAuth(props) {
     })
 
     const handleSubmit = (val) => {
-
         registerUser(val).then(res => {
             console.log(res);
         }).catch(err => {

@@ -74,12 +74,12 @@ function LoginJWT(props) {
     //     });
     // }
 
-    const handleLogin = e => {
-        e.preventDefault();
-        if (userData.email && userData.password) {
-            loginUser(userData).then(res => {
+    const handleLogin = (values) => {
+        //e.preventDefault();
+        if (values) {
+            loginUser(values).then(res => {
                 authenticate(res, () => {
-                    setUserData({ email: '', password: '' })
+                    
                 });
                 isAuth() && isAuth().role === 'admin' ? console.log('admin role') : console.log('customer role');
                 console.log(res);
@@ -110,7 +110,7 @@ function LoginJWT(props) {
 
                             <Formik
                                 initialValues={initialValues}
-                                onSubmit={handleLogin}
+                                onSubmit={(values) => handleLogin(values)}
                                 validationSchema={validateSchema}
                             >
                                 {
@@ -120,7 +120,6 @@ function LoginJWT(props) {
                                                 <FastField
                                                     name="email"
                                                     component={InputField}
-
                                                     type="email"
                                                     label="Email"
                                                     placeholder="Type your email address..."
