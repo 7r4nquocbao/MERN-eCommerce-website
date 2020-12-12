@@ -1,11 +1,19 @@
 import OrderDetail from '../models/order-detail-model.js';
+import Order from '../models/order-model.js';
+import Product from '../models/product-model.js';
 import mongoose from 'mongoose';
 
 export const getOrderDetails = async (req, res) => {
     const { id } = req.params;
     try {
+        const order = await Order.findOne({ _id: id });
         const orderDetails = await OrderDetail.find({ idOrder: id });
-        res.status(200).json(orderDetails);
+        const products = await Product.find();
+        const orderDetailsUpdated = orderDetails.map(item => {
+            return ({...item._doc, productName: products.find(x => x._id == item.idProduct).name});
+        })
+        const orderData = {order, orderDetailsUpdated};
+        res.status(200).json(orderData);
     } catch (error) {
         res.status(404).json({ message: error.message });
     }

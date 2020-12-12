@@ -40,25 +40,41 @@ export const createOrder = async (req, res) => {
 }
 
 export const cancelOrder = async (req, res) => {
-    const { id } = req.params;
+    const {id} = req.params;
+    console.log(id);
     if(!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(404).send(`No order with id: ${id}`);
     }
     const target = await Order.findById(id);
-    if(target) {
-        await Order.findByIdAndUpdate( id , {...target, isCancel: true }, { new: true} );
-    }
-    res.json({ message: "Order udpate successfully." });
+    const newOrder = {...target._doc, isCancel: true, status: 'Canceled' };
+    console.log(newOrder);
+    Order.findByIdAndUpdate( id , newOrder, { new: true } ).exec((err,data) => {
+        if(err || !data) {
+            res.status(404).json(err);
+        } else {
+            res.status(200).json(data);
+        }
+    })
 }
 
 export const changeStatusOrder = async (req, res) => {
-    const { id, status } = req.body;
-    if(!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).send(`No order with id: ${id}`);
+    const order = req.body;
+    Order.findByIdAndUpdate(order._id, order , { new: true }).exec((err, data) => {
+        if(err || !data) {
+            res.status(404).json(err);
+        } else {
+            res.json({ message: "Order udpate successfully." });
+        }
+    })
+}
+
+
+export const getOrderOfUser = async (req, res) => {
+    const {id} = req.params;
+    try {
+        const orders = await Order.find({ idUser: id });
+        res.status(200).json(orders);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
     }
-    const target = await Order.findById(id);
-    if (target) {
-        await Order.findByIdAndUpdate( id , {...target, status: status }, { new: true} );
-    }
-    res.json({ message: "Order udpate successfully." });
 }

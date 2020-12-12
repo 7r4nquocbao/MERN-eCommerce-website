@@ -27,6 +27,7 @@ function App() {
   const Cart = React.lazy(() => import('./pages/customer/Cart'));
   const Checkout = React.lazy(() => import('./pages/customer/Cart/Checkout'));
   const Detail = React.lazy(() => import('./pages/customer/DetailsPage'));
+  const Profile = React.lazy(() => import('./pages/customer/Profile'));
   return (   
       <Suspense fallback={<div>Loading...</div>}>
           <Router>
@@ -45,6 +46,7 @@ function App() {
               <Route exact path="/cart" component={Cart}/>
               <Route exact path="/checkout" component={Checkout}/>
               <Route exact path="/detail/:productID" component={Detail}/>
+              <Route exact path="/profile" component={Profile}/>
             </Switch>
           </Router>          
       </Suspense>

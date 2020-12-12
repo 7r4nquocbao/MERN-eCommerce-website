@@ -1,0 +1,19 @@
+.info-row {
+    padding-top: 10px;
+}
+
+.info-row label{
+    font-weight: 500;
+}
+
+.table-shadow {
+    box-shadow: 1px 2px 7px #cecece;
+}
+
+.info-table {
+    padding: 20px 30px 40px 30px;
+}
+
+.info-table.disable {
+    pointer-events: none;
+}

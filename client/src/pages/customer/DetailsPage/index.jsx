@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchProductData } from '../../../slices/product-slice';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useParams } from 'react-router-dom';
+import Rating from '@material-ui/lab/Rating';
 Detail.propTypes = {
 
 };
@@ -21,6 +22,7 @@ function Detail(props) {
 
   const [product, setProduct] = useState({});
   const [specs, setSpecs] = useState([]);
+  const [star, setStar] = useState(5);
   const dispatch = useDispatch()
 
   useEffect(async () => {
@@ -100,9 +102,15 @@ function Detail(props) {
 
         <Title title="Customer's Evaluate" />
         <div className="form-floating">
-            <textarea className="form-control"/>
-            <label htmlFor="floatingTextarea">Comments</label>
+            <textarea className="form-control" style={{height: '100px'}} placeholder='Comment'/>
         </div>
+        <Rating
+          name="simple-controlled"
+          value={star}
+          onChange={(event, newValue) => {
+            setStar(newValue);
+          }}
+        />
 
       </Container>
     </div>

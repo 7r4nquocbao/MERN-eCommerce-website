@@ -39,7 +39,7 @@ function Cart(props) {
 
     const displayCart = () => {
         const cartItems = JSON.parse(localStorage.getItem('cart'));
-        if (cartItems.length > 0) {
+        if (cartItems) {
             return (
                 <div className="container cart-container">
                     <table class="table table-borderless table-hover">

@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {toast, ToastContainer} from 'react-toastify';
 import { registerUser } from '../../api';
 import {Formik, Form, FastField} from 'formik';
@@ -15,13 +15,25 @@ import DatePickerField from '../../custom-fields/DatePickerField';
 import Header from '../../components/UI/Header';
 import topLogo from '../../assets/Images/main-logo.png'
 import { Link } from 'react-router-dom';
+import Select from 'react-select'
 
 function RegisterJWTAuth(props) {
+
+    const [dateOptions, setDateOptions] = useState({
+        dates: [],
+        months: [],
+        years: []
+    })
+
+    useEffect(() => {
+        createDateOptions();
+    }, [])
+
     const initialValues = {
         name: '',
         gender: 'male',
         email: '',
-        //birthday: '',
+        birthday: JSON.stringify(new Date()),
         password: '',
         confirm: '',
         address: '',
@@ -57,11 +69,33 @@ function RegisterJWTAuth(props) {
     })
 
     const handleSubmit = (val) => {
+        console.log(val);
         registerUser(val).then(res => {
             console.log(res);
         }).catch(err => {
             console.log(err);
         })
+    }
+
+    const createDateOptions = () => {
+
+        let dates = [];
+        let months = [];
+        let years = [];
+
+        for (let index = 0; index <= new Date().getFullYear() - 1910; index++) {
+           if(index < 12) {
+               months.push({ value: index, label: index + 1 });
+           }
+           if(index < 31) {
+               dates.push({ value: index, label: index + 1 });
+           }
+           years.push({ value: index + 1900, label: index + 1900 });
+        }
+
+        years.reverse();
+
+        setDateOptions({dates, months, years});
     }
 
     return (
@@ -146,6 +180,23 @@ function RegisterJWTAuth(props) {
                                             label="Confirm password"
                                             placeholder="Type your Confirm password..."
                                         />
+                                        <p className="mb-2">Date of Birth</p>
+                                        <div className="form-row mb-3">
+                                            <div className="col">
+                                                <Select options={dateOptions.dates} 
+                                                defaultValue={{value: 1, label: 1}}/>
+                                            </div>
+                                            <div className="col">
+                                                <Select options={dateOptions.months} 
+                                                defaultValue={{value: 1, label: 1}}/>
+                                            </div>
+                                            <div className="col">
+                                                <Select options={dateOptions.years}
+                                                    onChange={(value) => console.log(value.value)}
+                                                    defaultValue={{value: 1900, label: 1900}}
+                                                />
+                                            </div>
+                                        </div>
                                         <FastField
                                             name="address"
                                             component={InputField}
@@ -157,11 +208,11 @@ function RegisterJWTAuth(props) {
                                             name="phone"
                                             component={InputField}
 
-                                            type="tel"
+                                            type="text"
                                             label="Phone number"
                                             placeholder="Type your phone number..."
                                         />
-
+                                        
                                         <Button type="submit">Submit</Button>
                                         <Link className="back-to" to="/login">Back to Login</Link>
                                     </Form>

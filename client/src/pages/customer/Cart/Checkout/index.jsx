@@ -7,6 +7,7 @@ import CheckOutForm from './CheckoutForm';
 import Title from '../../../../components/UI/Title'
 import TopMenu from '../../../../components/UI/TopMenu'
 import { createOrder } from '../../../../api';
+import { isAuth } from '../../../../helpers/auth';
 
 Checkout.propTypes = {
 
@@ -17,9 +18,12 @@ function Checkout(props) {
   const handleCheckout = (values) => {
 
     const order = values;
-    const orderDetails = JSON.parse(localStorage.getItem('cart')); 
+    const orderDetails = JSON.parse(localStorage.getItem('cart'));
+
+    const orderUpdated = {...order, idUser: isAuth()._id || ''};
+
     const data = {
-      order: order,
+      order: orderUpdated,
       orderDetails: orderDetails
     }
     

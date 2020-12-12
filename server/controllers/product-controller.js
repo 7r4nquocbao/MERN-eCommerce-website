@@ -17,7 +17,7 @@ export const createProduct = async (req, res) => {
     const checkProduct = await Product.findById(product._id);
     try {
         if (checkProduct) {
-            await Product.findByIdAndUpdate( product._id , product, { new: true} );
+            await Product.findByIdAndUpdate( product._id , product, { new: true } );
             res.status(201).json(product);
         }
         else {
