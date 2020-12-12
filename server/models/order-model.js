@@ -1,10 +1,13 @@
 import mongoose from 'mongoose';
 
 const orderSchema = mongoose.Schema({
-    status: String,
+    status: {
+        type: String,
+        default: 'Order Processed'
+    },
     total: Number,
     phone: Number,
-    customerName: String,
+    name: String,
     email: String,
     address: String,
     payment: String,

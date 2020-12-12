@@ -13,6 +13,8 @@ import { fetchProductData } from '../../../slices/product-slice';
 import { Col, Container } from 'reactstrap';
 import { Button } from 'reactstrap';
 import { Row } from 'reactstrap';
+import ChatBox from '../../../components/UI/Chatbox';
+
 import { useHistory, useParams } from 'react-router-dom';
 
 HomePage.propTypes = {
@@ -68,8 +70,10 @@ function HomePage(props) {
         title="CORSAIR"
         description="Corsair is a leader in gaming gear ranging from cases to peripherals and components to streaming equipment. Visit now to shop or learn more."
       />
+       
       <div className="product-list">
         <Container>
+          
           <Row>
             {
               productList.map(product => (
@@ -101,6 +105,7 @@ function HomePage(props) {
             }
           </Row>
         </Container>
+        <ChatBox/>
         <Footer />
       </div>
     </div>

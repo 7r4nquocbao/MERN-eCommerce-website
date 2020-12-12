@@ -10,6 +10,7 @@ import { fetchProductData } from '../../../slices/product-slice';
 import { Row } from 'reactstrap';
 import { Col } from 'reactstrap';
 import { Button } from 'reactstrap';
+import { useHistory, useParams } from 'react-router-dom';
 
 Search.propTypes = {
 
@@ -28,16 +29,22 @@ function Search(props) {
     return product.name.toLowerCase().includes(search.toLowerCase());
   })
 
+  const history = useHistory();
+
+  const onShowDetail = (product) => {
+    history.push(`/detail/${product._id}`);
+  }
+
   const displayProduct = (filter) => {
     return (
       filter.map(product => (
         <Col lg="3" md="4" sm="6" xs="12">
-          <div className="product">
+          <div className="product mb-5">
             <div className="product__image">
 
               <Button
                 color="link"
-              //onClick={() => onShowDetail(product)}
+                onClick={() => onShowDetail(product)}
               >
                 <img src={product.thumbnail} />
               </Button>
@@ -71,7 +78,6 @@ function Search(props) {
               placeholder="Type something..."
 
               onChange={(e) => setSearch(e.target.value)}
-            //onChange={(e) => console.log(e.target.value)}
             />
           </FormGroup>
 

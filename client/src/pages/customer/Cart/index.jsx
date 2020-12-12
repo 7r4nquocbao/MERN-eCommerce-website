@@ -15,7 +15,6 @@ function Cart(props) {
     useEffect(async () => {
         const result = await dispatch(fetchProductData());
         const filter = filterData(unwrapResult(result));
-        console.log('ddddd');
         setData(filter);
     }, [])
 
@@ -95,7 +94,7 @@ function Cart(props) {
                         <tr key={index}>
                             <td>{index + 1}</td>
                             <td>
-                                <img src={item.thumbnail} style={{ width: '40px' }} alt="img" />
+                                <img src={item.thumbnail} style={{ width: '100px' }} alt="img" />
                             </td>
                             <td>{item.name}</td>
                             <td>{new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', }).format(item.price)}</td>

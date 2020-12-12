@@ -8,6 +8,7 @@ import InputField from '../../../../../custom-fields/InputField';
 import RadioField from '../../../../../custom-fields/RadioField';
 import { Link } from 'react-router-dom';
 import * as yub from 'yup';
+import { v4 as uuidv4 } from 'uuid';
 
 CheckOutForm.propTypes = {
   onSubmit: PropTypes.func,
@@ -17,12 +18,17 @@ CheckOutForm.defaultProps = {
 }
 
 function CheckOutForm(props) {
+
+  const {onSubmit} = props;
+
   const initialValues = {
-    name: '',
-    address: '',
     phone: '',
+    name: '',
     email: '',
-    pay: 'delivery',
+    address: '',
+    payment: 'cash',
+    orderCode: uuidv4(),
+    idUser: '',
   }
   const validateSchema = yub.object().shape({
     name: yub.string()
@@ -49,7 +55,7 @@ function CheckOutForm(props) {
   return (
     <Formik
       initialValues={initialValues}
-      onSubmit={props.onSubmit}
+      onSubmit={(values) => onSubmit(values)}
       validationSchema={validateSchema}
     >
 
@@ -88,14 +94,14 @@ function CheckOutForm(props) {
               />
               <div className="choices">
                 <FastField
-                  name="pay"
+                  name="payment"
                   component={RadioField}
 
-                  id="delivery"
+                  id="cash"
                   label="Payment on delivery"
                 />
                 <FastField
-                  name="pay"
+                  name="payment"
                   component={RadioField}
 
                   id="paypal"

@@ -6,6 +6,7 @@ import Header from '../../../../components/UI/Header';
 import CheckOutForm from './CheckoutForm';
 import Title from '../../../../components/UI/Title'
 import TopMenu from '../../../../components/UI/TopMenu'
+import { createOrder } from '../../../../api';
 
 Checkout.propTypes = {
 
@@ -14,7 +15,19 @@ Checkout.propTypes = {
 function Checkout(props) {
 
   const handleCheckout = (values) => {
-    console.log(values)
+
+    const order = values;
+    const orderDetails = JSON.parse(localStorage.getItem('cart')); 
+    const data = {
+      order: order,
+      orderDetails: orderDetails
+    }
+    
+    createOrder(data).then(res => {
+      console.log(res.data);
+    }).catch(err => {
+      console.log(err);
+    })
   }
 
   return (

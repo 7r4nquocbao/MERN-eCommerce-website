@@ -1,4 +1,6 @@
 import Order from '../models/order-model.js';
+import OrderDetail from '../models/order-detail-model.js';
+import Product from '../models/product-model.js';
 import mongoose from 'mongoose';
 
 export const getOrders = async (req, res) => {
@@ -11,12 +13,26 @@ export const getOrders = async (req, res) => {
 }
 
 export const createOrder = async (req, res) => {
-    const order = req.body;
-    console.log(order);
-    const newOrder = new Order(order);
+    const {order, orderDetails} = req.body;
+    const products = await Product.find();
+    let total = 0;
+    console.log(orderDetails);
+    for (const item of orderDetails) {
+        const target = products.find(x => x._id == item.id);
+        total += target.price * item.quantity;
+    }
+    const orderUpdated = {...order, total: total};
+    const newOrder = new Order(orderUpdated);
     try {
-        await newOrder.save();
-        res.status(201).json(product);
+        await newOrder.save().then(data => {
+            for (const item of orderDetails) {
+                const target = products.find(x => x._id == item.id);
+                const itemUpdated = {...item, idProduct: item.id, price: target.price, idOrder: data._id}
+                let newOrderDetail = new OrderDetail(itemUpdated);
+                newOrderDetail.save();
+            }
+        })
+        res.status(201).json({...order, ...orderDetails});
     } catch (error) {
         console.log(error.message);
         res.status(409).json({ message: error.message });

@@ -21,6 +21,7 @@ function Detail(props) {
 
   const [product, setProduct] = useState({});
   const [specs, setSpecs] = useState([]);
+  const [cart, setCart] = useState([]);
   const dispatch = useDispatch()
 
   useEffect(async () => {
@@ -36,8 +37,25 @@ function Detail(props) {
     return product.find(item => item._id === productID);
   }
 
-  const handleAddToCart = () => {
-    console.log("abc");
+  const handleAddToCart = (item) => {
+
+    let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+
+    if (cartItems === []) {
+      let newItem = { id: item._id, quantity: 1 };
+      cartItems.push(newItem);
+    } else {
+      let checkExists = cartItems.findIndex(cartItem => cartItem.id === item._id);
+      if (checkExists !== -1) {
+        cartItems[checkExists].quantity += 1;
+      } else {
+        let newItem = { id: item._id, quantity: 1 };
+        cartItems.push(newItem);
+      }
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cartItems));
+    setCart([...cartItems]);
   }
   const displaySpecs = () => {
     console.log('asd', specs);
@@ -99,6 +117,10 @@ function Detail(props) {
         </div>
 
         <Title title="Customer's Evaluate" />
+        <div className="form-floating">
+          <textarea className="form-control" />
+          <label htmlFor="floatingTextarea">Comments</label>
+        </div>
 
       </Container>
     </div>

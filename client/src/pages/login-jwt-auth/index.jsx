@@ -18,7 +18,12 @@ import './style.scss';
 import { FastField, Form, Formik } from 'formik';
 import InputField from '../../custom-fields/InputField';
 
+
+
 function LoginJWT(props) {
+
+    const [state, setState] = useState({ message: '', name: '' });
+    const [chat, setChat] = useState([]);
 
     const history = useHistory();
 
@@ -70,9 +75,9 @@ function LoginJWT(props) {
     // }
 
     const handleLogin = (values) => {
-
+        //e.preventDefault();
         if (values) {
-            loginUser(userData).then(res => {
+            loginUser(values).then(res => {
                 authenticate(res, () => {
 
                 });
@@ -115,7 +120,6 @@ function LoginJWT(props) {
                                                 <FastField
                                                     name="email"
                                                     component={InputField}
-
                                                     type="email"
                                                     label="Email"
                                                     placeholder="Type your email address..."
