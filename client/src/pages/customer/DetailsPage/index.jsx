@@ -9,6 +9,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchProductData } from '../../../slices/product-slice';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useParams } from 'react-router-dom';
+import Rating from '@material-ui/lab/Rating';
+import Footer from '../../../components/UI/Footer';
+import Banner from '../../../components/UI/Banner/MainBanner';
+import Images from '../../../constants/images';
 Detail.propTypes = {
 
 };
@@ -22,6 +26,7 @@ function Detail(props) {
   const [product, setProduct] = useState({});
   const [specs, setSpecs] = useState([]);
   const [cart, setCart] = useState([]);
+  const [star, setStar] = useState(5);
   const dispatch = useDispatch()
 
   useEffect(async () => {
@@ -31,6 +36,7 @@ function Detail(props) {
     setSpecs(JSON.parse(filter.description))
     console.log("123", filter)
     console.log("1233", product)
+    window.scrollTo(0, 0);
   }, [])
 
   const filterProduct = (product) => {
@@ -74,6 +80,7 @@ function Detail(props) {
     <div>
       <Header />
       <TopMenu />
+      <Banner title="Product's Detail" backgroundUrl={Images.Category} />
 
       <Container>
         {console.log("2", product)}
@@ -121,8 +128,16 @@ function Detail(props) {
           <textarea className="form-control" />
           <label htmlFor="floatingTextarea">Comments</label>
         </div>
+        <Rating
+          name="simple-controlled"
+          value={star}
+          onChange={(event, newValue) => {
+            setStar(newValue);
+          }}
+        />
 
       </Container>
+      <Footer />
     </div>
 
   );

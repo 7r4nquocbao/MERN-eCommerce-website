@@ -19,6 +19,7 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    birthday: Object,
     salt: String,
     role: {
         type: String,
@@ -37,6 +38,10 @@ const userSchema = mongoose.Schema({
     updateAt: {
         type: Date,
         default: new Date()
+    },
+    point: {
+        type: Number,
+        default: 0
     }
 });
 

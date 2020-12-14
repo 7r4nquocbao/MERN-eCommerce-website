@@ -9,6 +9,7 @@ import userRoutes from './routes/user-routes.js';
 import chatRoutes from './routes/chat-routes.js';
 import roomRoutes from './routes/room-routes.js';
 import orderDetailRoutes from './routes/order-detail-routes.js';
+import commentRoutes from './routes/comment-routes.js';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
 import http from 'http';
@@ -36,6 +37,7 @@ app.use('/user', userRoutes);
 app.use('/messages', chatRoutes);
 app.use('/rooms', roomRoutes);
 app.use('/orderdetails', orderDetailRoutes);
+app.use('/comments', commentRoutes);
 
 const CONNECTION_URL = "mongodb://localhost:27017/e-commerce-website"
 const PORT = process.env.PORT || 4000;

@@ -1,33 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { Container, FormGroup, Input } from 'reactstrap';
+import Banner from '../../../components/UI/Banner/MainBanner';
 import Header from '../../../components/UI/Header';
 import TopMenu from '../../../components/UI/TopMenu';
-import { FormGroup } from 'reactstrap';
-import { Container } from 'reactstrap';
-import { Input } from 'reactstrap';
-import { useDispatch, useSelector } from 'react-redux';
+import Images from '../../../constants/images';
 import { fetchProductData } from '../../../slices/product-slice';
-import { Row } from 'reactstrap';
-import { Col } from 'reactstrap';
-import { Button } from 'reactstrap';
-import { useHistory, useParams } from 'react-router-dom';
+import '../HomePage/Product.scss';
+import SearchRender from './SearchRender';
 
 Search.propTypes = {
 
 };
 
 function Search(props) {
-  const productList = useSelector(state => state.products);
+
   const dispatch = useDispatch();
   const [search, setSearch] = useState('');
 
   useEffect(() => {
-    dispatch(fetchProductData);
-  }, [])
-
-  const filterProduct = productList.filter(product => {
-    return product.name.toLowerCase().includes(search.toLowerCase());
-  })
+    dispatch(fetchProductData());
+  }, [dispatch])
 
   const history = useHistory();
 
@@ -35,43 +29,14 @@ function Search(props) {
     history.push(`/detail/${product._id}`);
   }
 
-  const displayProduct = (filter) => {
-    return (
-      filter.map(product => (
-        <Col lg="3" md="4" sm="6" xs="12">
-          <div className="product mb-5">
-            <div className="product__image">
-
-              <Button
-                color="link"
-                onClick={() => onShowDetail(product)}
-              >
-                <img src={product.thumbnail} />
-              </Button>
-            </div>
-            <div className="product__info">
-              <div className="product__info__title">{product.name}</div>
-              <div className="product__info__price">{product.price}</div>
-              <div
-                className="product__info__button"
-              //onClick={() => AddToCartClick(product)}
-              >
-                Add to cart
-              </div>
-            </div>
-          </div>
-        </Col>
-      ))
-    )
-  }
-
   return (
     <div className="search-page">
       <Header />
       <TopMenu />
+      <Banner backgroundUrl={Images.Search} title="Search" />
       <div className="search">
         <Container>
-          <FormGroup>
+          <FormGroup className="mb-5">
             <Input
               type="text"
               name="search"
@@ -81,14 +46,7 @@ function Search(props) {
             />
           </FormGroup>
 
-          <div className="product-list">
-            <Row>
-              {
-                displayProduct(filterProduct)
-              }
-            </Row>
-
-          </div>
+          <SearchRender search={search} />
         </Container>
 
       </div>

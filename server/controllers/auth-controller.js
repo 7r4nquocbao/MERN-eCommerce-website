@@ -14,7 +14,7 @@ dotenv.config();
 sgMail.setApiKey(process.env.MAIL_API_KEY);
 
 export const registerTask = (req, res) => {
-    const { name, email, password, address, phone, gender } = req.body;
+    const { name, email, password, address, phone, gender, birthday } = req.body;
     const errors = validationResult(req);
     console.log(errors);
     if(!errors.isEmpty()) {
@@ -32,7 +32,7 @@ export const registerTask = (req, res) => {
         })
 
         const token = jwt.sign(
-            { name, email, password, address, phone, gender },
+            { name, email, password, address, phone, gender, birthday },
             process.env.JWTACCOUNT || "null",
             { expiresIn: '15m' }
         )
@@ -69,8 +69,9 @@ export const activationTask = (req, res) => {
                     error: 'Expired token. Sign un again'
                 })
             } else {
-                const { name, email, password, address, phone, gender } = jwt.decode(token);
-                const user = new User({ name, email, password, address, phone, gender });
+                const { name, email, password, address, phone, gender, birthday } = jwt.decode(token);
+                console.log('asdasd',birthday);
+                const user = new User({ name, email, password, address, phone, gender, birthday });
                 console.log(user);
                 user.save((err, user) => {
                     if(err) {

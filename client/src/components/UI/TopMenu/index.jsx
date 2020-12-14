@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { Badge, Col, Container } from 'reactstrap';
+import React from 'react';
+import { Link, NavLink } from 'react-router-dom';
+import { Col, Container } from 'reactstrap';
 import './TopMenu.scss';
 import topLogo from '../../../assets/Images/logo-no-title.png';
+import dataCategories from '../../../constants/local-db.json';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import { Badge } from '@material-ui/core';
 
 
-const TopMenu = () => {
+
+
+function TopMenu(props) {
+
+  const categories = dataCategories.categories;
 
   function getQuantity() {
     const cart = JSON.parse(localStorage.getItem('cart'));
@@ -41,15 +48,23 @@ const TopMenu = () => {
               Home
         </NavLink>
           </Col>
-          <Col sm="auto">
-            <NavLink
-              exact
-              to="/"
-              className="menu__link"
-              activeClassName="menu__link--active"
-            >
-              Products
-        </NavLink>
+          <Col sm="auto" className=" menu__link menu__center__has-subMenu">
+            Products
+
+            <ul className="menu__center__has-subMenu__subMenu">
+              {
+                categories.map((category, index) => (
+                  <Link to={`/category/${category.name}`}>
+                    <li
+                      key={index}
+                      className="menu__link"
+                    >{category.name}</li>
+                  </Link>
+
+                ))
+              }
+            </ul>
+
           </Col>
           <Col sm="auto">
             <NavLink
@@ -81,9 +96,10 @@ const TopMenu = () => {
               className="menu__link menu__function__cart"
               activeClassName="menu__link--active"
             >
-              <i class="fas fa-shopping-cart"></i>
-              <span>Cart</span>
-              <Badge color="danger" pill>{getQuantity()}</Badge>
+              <Badge badgeContent={getQuantity()} color="primary">
+                <ShoppingCartIcon />
+              </Badge>
+              <span className="ml-2">Cart</span>
             </NavLink>
           </Col>
         </div>

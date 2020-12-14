@@ -4,6 +4,8 @@ import './Header.scss';
 
 import { Col } from 'reactstrap';
 import { Link, NavLink } from 'react-router-dom';
+import { getCookie, isAuth, signOut } from '../../../helpers/auth';
+import { readUser } from '../../../api';
 // import { fb, firestore } from '../../app/firebase';
 
 Header.propTypes = {
@@ -45,6 +47,38 @@ function Header(props) {
     //     setIsLoggedIn(false);
     // }
 
+    const [isLogin, setIsLogin] = useState(false);
+
+    useEffect(() => {
+        checkLog();
+    }, [])
+
+    const checkLog = () => {
+        const token = getCookie('token');
+        readUser(isAuth()._id, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }).then(res => {
+            setIsLogin(true);
+        }).catch(err => {
+            setIsLogin(false);
+        })
+    }
+
+    const logOut = () => {
+        setIsLogin(false);
+        signOut();
+    }
+
+    const displayLog = () => {
+        if(isLogin) {
+            return <Link onClick={() => logOut()}>Log Out</Link>
+        } else {
+            return <NavLink to="/login">Login</NavLink>
+        }
+    }
+
     return (
 
         <div className="header">
@@ -59,7 +93,8 @@ function Header(props) {
 
             </Col>
             <Col sm="auto">
-                <NavLink to="/login">Login</NavLink>
+                {displayLog()}
+                
                 <span>/</span>
                 <NavLink to="/registerjwt">Register</NavLink>
             </Col>

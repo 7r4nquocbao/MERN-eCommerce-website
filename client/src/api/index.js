@@ -8,6 +8,7 @@ const userUrl = 'http://localhost:4000/user';
 const chatUrl = 'http://localhost:4000/messages';
 const roomUrl = 'http://localhost:4000/rooms';
 const orderDetailUrl = 'http://localhost:4000/orderdetails';
+const commentlUrl = 'http://localhost:4000/comments';
 
 // PRODUCT SIDE
 
@@ -25,7 +26,9 @@ export const createOrder = (data) => axios.post(`${orderUrl}/create`, data);
 
 export const cancelOrder = (id) => axios.put(`${orderUrl}/cancel/${id}`);
 
-export const changeStatusOrder = (statusPayload) => axios.put(`${orderUrl}/status`, statusPayload);
+export const changeStatusOrder = (order) => axios.put(`${orderUrl}/status`, order);
+
+export const getOrderOfUser = (id) => axios.get(`${orderUrl}/user/${id}`);
 
 // AUTHENTICATE SIDE
 
@@ -43,6 +46,8 @@ export const readUser = (id, header) => axios.get(`${userUrl}/${id}`, header);
 
 export const listUser = (data, header) => axios.post(`${userUrl}/list`, data, header);
 
+export const updateUser = (data, header) => axios.put(`${userUrl}/update`, data, header);
+
 // CHAT SIDE
 
 export const fetchChat = (roomId) => axios.get(`${chatUrl}/${roomId}`);
@@ -56,5 +61,9 @@ export const getRooms = () => axios.get(`${roomUrl}`);
 // ORDER DETAIL SIDE
 
 export const getOrderDetails = (id) => axios.get(`${orderDetailUrl}/${id}`);
+
+// COMMENT SIDE
+
+export const createComment = (data) => axios.get(`${commentlUrl}/create`, data);
 
 

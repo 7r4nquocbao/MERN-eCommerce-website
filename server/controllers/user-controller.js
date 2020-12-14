@@ -28,6 +28,17 @@ export const listUser = (req, res) => {
     })
 }
 
+export const updateUserTask = (req, res) => {
+    const newUser = req.body;
+    User.findByIdAndUpdate(newUser._id, newUser, {new: true}).exec((err, data) => {
+        if(err || !data) {
+            res.json(err);
+        } else {
+            res.json(data);
+        }
+    })
+}
+
 export const requireSignIn = expressJwt({
     secret: process.env.JWT_SECRET, algorithms: ['HS256'] 
 })

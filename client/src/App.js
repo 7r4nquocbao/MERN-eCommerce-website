@@ -1,18 +1,8 @@
-import { useDispatch } from 'react-redux';
-import React, { Suspense, useEffect, useState } from 'react';
-import { fetchProductData } from './slices/product-slice';
-import Admin from './pages/admin';
-import { BrowserRouter as Router,  Switch,  Route,  Link } from "react-router-dom";
+import React, { Suspense } from 'react';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 
 function App() {
-  // const dispatch = useDispatch();
-  // const [actionProduct, setActionProduct] = useState(false);
-  // useEffect(() => {
-  //   console.log("data...")
-  //   dispatch(fetchProductData());
-  //   setActionProduct(false);
-  // }, [actionProduct,dispatch]);
 
   const Admin = React.lazy(() => import('./pages/admin'));
   const CreateProduct = React.lazy(() => import('./pages/admin/create-product'));
@@ -28,7 +18,8 @@ function App() {
   const Checkout = React.lazy(() => import('./pages/customer/Cart/Checkout'));
   const Detail = React.lazy(() => import('./pages/customer/DetailsPage'));
   const Profile = React.lazy(() => import('./pages/customer/Profile'));
-  return (   
+  const Category = React.lazy(()=> import('./pages/customer/Category'));
+  return (
       <Suspense fallback={<div>Loading...</div>}>
           <Router>
             <Switch>
@@ -47,6 +38,8 @@ function App() {
               <Route exact path="/checkout" component={Checkout}/>
               <Route exact path="/detail/:productID" component={Detail}/>
               <Route exact path="/profile" component={Profile}/>
+              <Route exact path="/category/:categoryName" component={Category}/>
+              
             </Switch>
           </Router>          
       </Suspense>

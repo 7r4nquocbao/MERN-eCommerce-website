@@ -13,11 +13,10 @@ Banner.propTypes = {
 Banner.defaultProps = {
   backgroundUrl: '',
   title: '',
-  description: '',
 }
 
 function Banner(props) {
-  const { backgroundUrl, title, description } = props;
+  const { backgroundUrl, title } = props;
   const backgroundStyle = backgroundUrl
     ? { backgroundImage: `url(${backgroundUrl})` }
     : {};
@@ -25,18 +24,9 @@ function Banner(props) {
   return (
     <div className="banner" style={backgroundStyle}>
       <div className="banner__opacity">
-        <div className="banner__info">
-          {title && <div className="banner__info__title">
-            {title}
-          </div>}
-          {description && <div className="banner__info__description">
-            {description}
-          </div>}
-          <div className="button">
-            <Link to="">Learn more</Link>
-          </div>
-        </div>
-
+        {title && <div className="banner__title">
+          {title}
+        </div>}
       </div>
     </div>
   );

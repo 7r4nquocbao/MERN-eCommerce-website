@@ -1,6 +1,6 @@
 import Axios from 'axios';
-import React, { useState } from 'react';
-import {toast} from 'react-toastify';
+import React, { useEffect, useState } from 'react';
+import {toast, ToastContainer} from 'react-toastify';
 import { registerUser } from '../../api';
 import {Formik, Form, FastField} from 'formik';
 import * as Yup from 'yup'
@@ -15,13 +15,18 @@ import DatePickerField from '../../custom-fields/DatePickerField';
 import Header from '../../components/UI/Header';
 import topLogo from '../../assets/Images/main-logo.png'
 import { Link } from 'react-router-dom';
+import Select from 'react-select'
+import SelectField from '../../custom-fields/SelectField';
+import { DATE, MONTH, YEAR } from '../../constants/dateOfBirth';
 
 function RegisterJWTAuth(props) {
     const initialValues = {
         name: '',
         gender: 'male',
         email: '',
-        //birthday: '',
+        date: '',
+        month: '',
+        year: '',
         password: '',
         confirm: '',
         address: '',
@@ -55,21 +60,32 @@ function RegisterJWTAuth(props) {
 
         phone: Yup.number()
         .required('This field is required'),
+        date: Yup.string().required('This field is required'),
+        month: Yup.string().required('This field is required'),
+        year: Yup.string().required('This field is required'),
     })
 
-    // const [userData, setUserData] = useState({
-    //     name: '',
-    //     email: '',
-    //     password: '',
-    //     passwordConfirm: ''
-    // });
+    const handleSubmit = (val) => {
+        console.log(val);
+        const dateOfBirth = { 
+            name: val.name,
+            gender: val.gender,
+            email: val.email,
+            password: val.password,
+            address: val.address,
+            phone: val.phone,
+            birthday: {
+                date: val.date, 
+                month: val.month,
+                year: val.year,
+            }
 
-    // const { name, email, password, passwordConfirm } = userData;
+        }
 
-    const handleSubmit = (values) => {
-        registerUser(values).then(res => {
-        }).catch( error => {
-            console.log(error);
+        registerUser(dateOfBirth).then(res => {
+            console.log(res);
+        }).catch(err => {
+            console.log(err);
         })
     }
 
@@ -77,9 +93,8 @@ function RegisterJWTAuth(props) {
         <div>
             <Header/>
             <div className="register">
-            
- 
-                <div className="register__main">
+               <div className="register__opacity">
+               <div className="register__main">
                     <div className="d-flex justify-content-center pt-2">
                         <Link to="/">
                             <img src={topLogo} width={120} height={100}/>
@@ -124,14 +139,7 @@ function RegisterJWTAuth(props) {
                                             id="female"
                                         />
                                         </div>
-                                        
-                                        {/* <FastField
-                                            name="birthday"
-                                            component={DatePickerField}
 
-                                            label="Date of birth"
-                                            placeholder="dd/mm/yyyy"
-                                        /> */}
                                         <FastField
                                             name="email"
                                             component={InputField}
@@ -156,6 +164,33 @@ function RegisterJWTAuth(props) {
                                             label="Confirm password"
                                             placeholder="Type your Confirm password..."
                                         />
+                                        <p className="mb-2">Date of Birth</p>
+                                        <div className="d-flex">
+                                            <FastField
+                                                name="date"
+                                                component={SelectField}
+
+                                                placeholder="Date"
+                                                options={DATE}
+
+                                            />
+                                            <FastField
+                                                name="month"
+                                                component={SelectField}
+                                                placeholder="Month"
+                                                options={MONTH}
+
+                                            />
+                                            <FastField
+                                                name="year"
+                                                component={SelectField}
+
+                                                placeholder="Year"
+                                                options={YEAR}
+
+                                            />
+                                        </div>
+   
                                         <FastField
                                             name="address"
                                             component={InputField}
@@ -167,11 +202,11 @@ function RegisterJWTAuth(props) {
                                             name="phone"
                                             component={InputField}
 
-                                            type="tel"
+                                            type="text"
                                             label="Phone number"
                                             placeholder="Type your phone number..."
                                         />
-
+                                        
                                         <Button type="submit">Submit</Button>
                                         <Link className="back-to" to="/login">Back to Login</Link>
                                     </Form>
@@ -182,8 +217,9 @@ function RegisterJWTAuth(props) {
 
                 </div>
 
-
-            
+               </div>
+ 
+                            
         </div>
         </div>
         

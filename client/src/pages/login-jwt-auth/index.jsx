@@ -48,38 +48,12 @@ function LoginJWT(props) {
             .required('This field is required'),
     })
 
-
-    // const loadProfile = () => {
-    //     const token = getCookie('token');
-    //     if(isAuth() !== false)
-    //     {
-    //         readUser(isAuth()._id, {
-    //             headers: {
-    //                 Authorization: `Bearer ${token}`
-    //             }
-    //         }).then(res => {
-    //             setUserInfo(res.data);
-    //         }).catch(err => {
-    //             console.log(err);
-    //         })
-    //     }
-    //     listUser({},{
-    //         headers: {
-    //             Authorization: `Bearer ${token}`
-    //         }
-    //     }).then(res => {
-    //         console.log(res.data);
-    //     }).catch(err => {
-    //         console.log(err.response);
-    //     });
-    // }
-
     const handleLogin = (values) => {
         //e.preventDefault();
         if (values) {
             loginUser(values).then(res => {
                 authenticate(res, () => {
-
+                    history.push('/');
                 });
                 isAuth() && isAuth().role === 'admin' ? console.log('admin role') : console.log('customer role');
                 console.log(res);

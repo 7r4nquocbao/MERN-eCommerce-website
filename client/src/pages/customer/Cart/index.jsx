@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchProductData } from '../../../slices/product-slice';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { Link } from 'react-router-dom';
+import Banner from '../../../components/UI/Banner/MainBanner';
+import Images from '../../../constants/images';
 
 function Cart(props) {
 
@@ -39,7 +41,7 @@ function Cart(props) {
 
     const displayCart = () => {
         const cartItems = JSON.parse(localStorage.getItem('cart'));
-        if (cartItems.length > 0) {
+        if (cartItems) {
             return (
                 <div className="container cart-container">
                     <table class="table table-borderless table-hover">
@@ -68,6 +70,8 @@ function Cart(props) {
                                     <Link to="/checkout">
                                         <button class="btn btn-success btn-block"><i class="far fa-credit-card"></i> Checkout</button>
                                     </Link>
+                                    <br />
+                                    <Link to="/">Continue shopping</Link>
                                 </td>
                             </tr>
                         </tfoot>
@@ -167,8 +171,8 @@ function Cart(props) {
         <div>
             <Headers />
             <TopMenu />
+            <Banner backgroundUrl={Images.MainBanner} title="Cart" />
             {displayCart()}
-            <Link to="/">Continue shopping</Link>
         </div>
     );
 }

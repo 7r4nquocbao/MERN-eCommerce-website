@@ -1,74 +1,80 @@
-
 .product {
-  width: 15.5rem;
-  height: 16rem;
 
-  position: relative;
+  font-family: 'Quicksand';
 
-  &__image{
-    
-    img{
-      width: 16rem;
-      height: 16rem;
+  padding: 0.5rem;
+
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  
+
+  &__image {
+    width: 230px;
+    height: 260px;
+    margin: 0px;
+
+
+
+    position: relative;
+
+    button {
+      padding: 0px;
+
     }
-    transition: all 0.5s ease-in-out;
-    &:hover {
-      transform: scale(0.5);
+    img{
+      margin: 0px auto;
+      width: 230px;
+      height: 220px;
+      position: absolute;
+      bottom: 20px;
+
+      transition: all 0.1s ease-in-out;
+
+      // &:hover {
+      //   bottom: 40px;
+      // }
     }
   }
   &__info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    
-    display: none;
 
-    width: 16rem;
-
-    position: absolute;
-    bottom: 0;
-
-    font-family: 'Quicksand';
-
-    text-align: center;
-
-    border: none;
-    border-radius: 0.6rem;
     &__title {
-      font-size: 1.6rem;
-
-
-      color: #f0245e;
-      
+      height: 3rem;
     }
-    &__price {
 
-    }
-    &__button {
-      cursor: pointer;
+    &__addToCart {
+      display: flex;
 
-      font-size: 1.2rem;
+      margin-top: 1rem;
 
-      width: 50%;
-      margin: 0px auto;
       
-      transition: all 0.3s ease-in-out;
+      &__price {
+        font-weight: 700;
+  
+  
+        color: #f0245e;
+      }
+  
+      &__button {
+        cursor: pointer;
 
-      &:hover{
-        width: 100%;
         background-color: #f0245e;
+
         color: white;
+
+        padding: 0rem 2.5rem;
+        margin-left: 1rem;
+
+        transition: all 0.5s ease-in-out;
+
+        &:hover {
+          border-radius: 10px;
+        }
       }
     }
+
+    
   }
-  
-  &:hover &__info {
-    display: block;
-
-
-    background-color: rgba($color: #000000, $alpha: 0.1);
+  transition: all 0.2s ease-in-out;
+  &:hover{
+    transform: scale(1.1);
   }
-
-  
-
 }
