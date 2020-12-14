@@ -16,10 +16,10 @@ export const getOrders = async (req, res) => {
 
 export const createOrder = async (req, res) => {
     const {order, orderDetails} = req.body;
+    console.log(req.body);
     const products = await Product.find();
     let total = 0;
     let orderListText = '';
-    console.log(orderDetails);
     for (const item of orderDetails) {
         const target = products.find(x => x._id == item.id);
         const productUpdated = {...target._doc, stock: target.stock - item.quantity};
@@ -27,7 +27,10 @@ export const createOrder = async (req, res) => {
         total += target.price * item.quantity;
         orderListText += `<h2>${productUpdated.name} x ${item.quantity}</h2>`;
     }
-    const orderUpdated = {...order, total: total};
+    let orderUpdated = {...order, total: total};
+    if(order.payment === 'paypal') {
+        orderUpdated = {...orderUpdated, isPaid: true};
+    }
     const newOrder = new Order(orderUpdated);
     try {
         await newOrder.save().then(data => {
@@ -90,7 +93,11 @@ export const cancelOrder = async (req, res) => {
 }
 
 export const changeStatusOrder = async (req, res) => {
-    const order = req.body;
+    let order = req.body;
+    console.log(order);
+    if(order.status === 'Order Arrived'){
+        order = {...order, isPaid: true};
+    }
     Order.findByIdAndUpdate(order._id, order , { new: true }).exec((err, data) => {
         if(err || !data) {
             res.status(404).json(err);

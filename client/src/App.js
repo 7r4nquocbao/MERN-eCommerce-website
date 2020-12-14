@@ -16,6 +16,7 @@ function App() {
   const Search = React.lazy(() => import('./pages/customer/Search'));
   const Cart = React.lazy(() => import('./pages/customer/Cart'));
   const Checkout = React.lazy(() => import('./pages/customer/Cart/Checkout'));
+  const CheckoutPaypal = React.lazy(() => import('./pages/customer/Cart/Checkout/CheckoutPaypal'));
   const Detail = React.lazy(() => import('./pages/customer/DetailsPage'));
   const Profile = React.lazy(() => import('./pages/customer/Profile'));
   const Category = React.lazy(()=> import('./pages/customer/Category'));
@@ -36,6 +37,7 @@ function App() {
               <Route exact path="/reset/:token" render={props => <ResetPasswordJWT {...props}/>}/>
               <Route exact path="/cart" component={Cart}/>
               <Route exact path="/checkout" component={Checkout}/>
+              <Route exact path="/checkout/paypal" component={CheckoutPaypal}/>
               <Route exact path="/detail/:productID" component={Detail}/>
               <Route exact path="/profile" component={Profile}/>
               <Route exact path="/category/:categoryName" component={Category}/>

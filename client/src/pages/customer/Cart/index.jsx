@@ -31,7 +31,7 @@ function Cart(props) {
         if (arr) {
             const locCart = localStorage.getItem('cart');
             if(locCart === '') {
-                return false;
+                return [];
             } else {
                 let cartItems = JSON.parse(localStorage.getItem('cart'));
                 if (cartItems) {
@@ -43,11 +43,11 @@ function Cart(props) {
                     }
                     return dataFiltered;
                 } else {
-                    return false;
+                    return [];
                 }
             }
         } else {
-            return false;
+            return [];
         }
     }
 
@@ -90,12 +90,18 @@ function Cart(props) {
                                 <tr>
                                     <td colSpan='2'>
                                         <h4>Total</h4>
+                                        <button onClick={() => <PayPal total={400}/>}>asdsad</button>
                                     </td>
                                     <td colSpan='2' className="text-danger">
                                         <h4>{calcTotal()}</h4>
                                     </td>
+                                    {/* <td>
+                                        {total > 1 ? <PayPal total={total} description={`Purchase from TechShield`}/> : ''}                              
+                                    </td> */}
                                     <td>
-                                        {total > 1 ? <PayPal total={total} description={`Purchase from TechShield`}/> : <button>asdasd</button>}                                
+                                        <Link to="/checkout/paypal">
+                                            <button class="btn btn-success btn-block"><i class="far fa-credit-card"></i> Checkout</button>
+                                        </Link>
                                     </td>
                                     <td>
                                         <Link to="/checkout">

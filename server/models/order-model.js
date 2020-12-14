@@ -20,6 +20,10 @@ const orderSchema = mongoose.Schema({
     isCancel: {
         type: Boolean,
         default: false
+    },
+    isPaid: {
+        type: Boolean,
+        default: false
     }
 });
 

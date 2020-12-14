@@ -1,11 +1,14 @@
 import React, { useEffect, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
+import { createOrder } from '../../api';
 
 function PayPal(props) {
 
     const {total, description} = props;
+    const {dataOrder} = props;
 
-    const [paid, setPaid] = React.useState(false);
-    const [error, setError] = React.useState(null);
+    const history = useHistory();
+
     const paypalRef = React.useRef();
     useEffect(() => {
         window.paypal
@@ -26,11 +29,15 @@ function PayPal(props) {
             },
             onApprove: async (data, actions) => {
               const order = await actions.order.capture();
-              setPaid(true);
-              console.log(order);
+              createOrder(dataOrder).then(res => {
+                console.log(res.data);
+                localStorage.setItem('cart', '[]');
+                history.push('/cart');
+              }).catch(err => {
+                console.log(err);
+              })
             },
             onError: (err) => {
-            //   setError(err),
               console.error(err);
             },
           })

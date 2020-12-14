@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Stepper from '@material-ui/core/Stepper';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles  } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import moment from 'moment';
@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { changeStatusOrder, getOrderDetails } from '../../../api';
 import dataAdditional from '../../../constants/local-db.json';
+import Badge from '@material-ui/core/Badge';
 import './style.scss';
 
 const useStyles = makeStyles((theme) => ({
@@ -35,6 +36,15 @@ const useStyles = makeStyles((theme) => ({
         background: 'secondary'
     }
 }));
+
+const StyledBadge = withStyles((theme) => ({
+    badge: {
+      right: -25,
+      top: 5,
+      border: `2px solid ${theme.palette.background.paper}`,
+      padding: '10px',
+    },
+}))(Badge);
 
 function OrderItem(props) {
 
@@ -122,7 +132,9 @@ function OrderItem(props) {
                     </div>
                     <div className={classes.column}>
                         <Typography className={classes.heading}>
-                            <p className={`font-weight-bold p-0 m-0 ${order.isCancel ? 'text-danger' : 'text-success'}`}>{order.status}</p>
+                            <StyledBadge style={{fontFamily: 'Cabin'}} badgeContent={order.isPaid ? 'Paid' : ''} color={order.isPaid ? 'secondary' : 'none'} >
+                                <p className={`font-weight-bold p-0 m-0 ${order.isCancel ? 'text-danger' : 'text-success'}`}>{order.status}</p>
+                            </StyledBadge>
                         </Typography>
                     </div>
                 </AccordionSummary>
@@ -160,6 +172,9 @@ function OrderItem(props) {
                                 </div>
                                 <div className="d-block">
                                     <p>Address: <b>{order.address}</b></p>
+                                </div>
+                                <div className="d-block">
+                                    <p>Payment: <b>{order.payment === 'paypal' ? 'PayPal' : 'Cash'}</b></p>
                                 </div>
                             </div>
                         </div>                                        
