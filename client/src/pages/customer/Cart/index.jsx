@@ -5,75 +5,118 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchProductData } from '../../../slices/product-slice';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { Link } from 'react-router-dom';
+import PayPal from '../../../components/paypal';
 
 function Cart(props) {
 
     const productList = useSelector(state => state.products);
     const dispatch = useDispatch();
     const [data, setData] = useState([]);
+    const [total, setTotal] = useState(1);
 
     useEffect(async () => {
         const result = await dispatch(fetchProductData());
         const filter = filterData(unwrapResult(result));
+        let count = 1;
+        for (const item of filter) {
+            count += item.quantity * (item.price - (item.price * item.sale / 100));
+        }
+        setTotal(count);
         setData(filter);
-    }, [])
+    }, []);
 
     const filterData = (arr) => {
         if (arr) {
-            let cartItems = JSON.parse(localStorage.getItem('cart'));
-            if (cartItems) {
-                let dataFiltered = [];
-                for (const item of cartItems) {
-                    let target = arr.find(thing => thing._id === item.id);
-                    target = { ...target, quantity: item.quantity };
-                    dataFiltered.push(target);
-                }
-                return dataFiltered;
-            } else {
+            const locCart = localStorage.getItem('cart');
+            if(locCart === '') {
                 return false;
+            } else {
+                let cartItems = JSON.parse(localStorage.getItem('cart'));
+                if (cartItems) {
+                    let dataFiltered = [];
+                    for (const item of cartItems) {
+                        let target = arr.find(thing => thing._id === item.id);
+                        target = { ...target, quantity: item.quantity };
+                        dataFiltered.push(target);
+                    }
+                    return dataFiltered;
+                } else {
+                    return false;
+                }
             }
         } else {
             return false;
         }
     }
 
+    const getTotal = () => {
+        let total = 1;
+        if (data) {
+            for (const item of data) {
+                total += item.quantity * (item.price - (item.price * item.sale / 100))
+            }
+        }
+        return total;
+    }
+
     const displayCart = () => {
-        const cartItems = JSON.parse(localStorage.getItem('cart'));
+        const cart = localStorage.getItem('cart');
+        let cartItems = [];
+        if(cart !== '') {
+            cartItems = JSON.parse(cart);
+        } else {
+
+        }
         if (cartItems) {
-            return (
-                <div className="container cart-container">
-                    <table class="table table-borderless table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Thubmnail</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Quantity</th>
-                                <th scope="col">Unit price</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {displayCartItem(data)}
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colSpan='2'>
-                                    <h4>Total</h4>
-                                </td>
-                                <td colSpan='2' className="text-danger">
-                                    <h4>{calcTotal()}</h4>
-                                </td>
-                                <td colSpan='2'>
-                                    <Link to="/checkout">
-                                        <button class="btn btn-success btn-block"><i class="far fa-credit-card"></i> Checkout</button>
-                                    </Link>
-                                </td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-            )
+            if(cartItems.length === 0) {
+                return (
+                    <div className="container-fluid full-screen d-flex align-items-center justify-content-center">
+                        <div className="text-center">
+                            <h1><i className="far fa-square" style={{ fontSize: '10rem' }}></i></h1>
+                            <h1>Nothing here.</h1>
+                        </div>
+                    </div>
+                )
+            } else {
+                return (
+                    <div className="container cart-container">
+                        <table class="table table-borderless table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Thubmnail</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Unit price</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {displayCartItem(data)}
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colSpan='2'>
+                                        <h4>Total</h4>
+                                    </td>
+                                    <td colSpan='2' className="text-danger">
+                                        <h4>{calcTotal()}</h4>
+                                    </td>
+                                    <td>
+                                        {total > 1 ? <PayPal total={total} description={`Purchase from TechShield`}/> : <button>asdasd</button>}                                
+                                    </td>
+                                    <td>
+                                        <Link to="/checkout">
+                                            <button class="btn btn-success btn-block"><i class="far fa-credit-card"></i> Checkout</button>
+                                        </Link>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                )
+                
+            }
         } else {
             return (
                 <div className="container-fluid full-screen d-flex align-items-center justify-content-center">

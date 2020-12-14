@@ -40,6 +40,7 @@ app.use('/orderdetails', orderDetailRoutes);
 app.use('/comments', commentRoutes);
 
 const CONNECTION_URL = "mongodb://localhost:27017/e-commerce-website"
+//const CONNECTION_URL = "mongodb+srv://7r4nquocbao:7r4nquocbao@cluster0.e8vei.mongodb.net/<dbname>?retryWrites=true&w=majority"
 const PORT = process.env.PORT || 4000;
 
 mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })

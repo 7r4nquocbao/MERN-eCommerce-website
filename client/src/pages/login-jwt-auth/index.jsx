@@ -13,8 +13,6 @@ import Header from '../../components/UI/Header';
 import topLogo from '../../assets/Images/main-logo.png';
 import { listUser, readUser } from '../../api';
 import * as yub from 'yup';
-
-import './style.scss';
 import { FastField, Form, Formik } from 'formik';
 import InputField from '../../custom-fields/InputField';
 

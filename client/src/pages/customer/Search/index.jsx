@@ -10,82 +10,33 @@ import { fetchProductData } from '../../../slices/product-slice';
 import { Row } from 'reactstrap';
 import { Col } from 'reactstrap';
 import { Button } from 'reactstrap';
+import SearchItem from './Search-item';
 
 Search.propTypes = {
 
 };
 
 function Search(props) {
-  const productList = useSelector(state => state.products);
   const dispatch = useDispatch();
-  const [search, setSearch] = useState('');
+  const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
-    dispatch(fetchProductData);
-  }, [])
-
-  const filterProduct = productList.filter(product => {
-    return product.name.toLowerCase().includes(search.toLowerCase());
-  })
-
-  const displayProduct = (filter) => {
-    return (
-      filter.map(product => (
-        <Col lg="3" md="4" sm="6" xs="12">
-          <div className="product">
-            <div className="product__image">
-
-              <Button
-                color="link"
-              //onClick={() => onShowDetail(product)}
-              >
-                <img src={product.thumbnail} />
-              </Button>
-            </div>
-            <div className="product__info">
-              <div className="product__info__title">{product.name}</div>
-              <div className="product__info__price">{product.price}</div>
-              <div
-                className="product__info__button"
-              //onClick={() => AddToCartClick(product)}
-              >
-                Add to cart
-              </div>
-            </div>
-          </div>
-        </Col>
-      ))
-    )
-  }
+    dispatch(fetchProductData());
+  }, [dispatch])
 
   return (
     <div className="search-page">
       <Header />
       <TopMenu />
-      <div className="search">
-        <Container>
-          <FormGroup>
-            <Input
-              type="text"
-              name="search"
-              placeholder="Type something..."
-
-              onChange={(e) => setSearch(e.target.value)}
-            //onChange={(e) => console.log(e.target.value)}
-            />
-          </FormGroup>
-
-          <div className="product-list">
-            <Row>
-              {
-                displayProduct(filterProduct)
-              }
-            </Row>
-
-          </div>
-        </Container>
-
-      </div>
+      <FormGroup>
+        <Input
+          type="text"
+          name="search"
+          placeholder="Type something..."
+          onChange={(e) => setSearchText(e.target.value)}
+        />
+      </FormGroup>
+      <SearchItem search={searchText}/>
     </div>
   );
 }

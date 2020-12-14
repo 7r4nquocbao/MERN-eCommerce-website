@@ -8,7 +8,8 @@ const commentSchema = mongoose.Schema({
         type: Date,
         default: new Date()
     },
-    idUser : String
+    idUser : String,
+    name: String
 });
 
 const Comment = mongoose.model('Comment', commentSchema, 'comments');

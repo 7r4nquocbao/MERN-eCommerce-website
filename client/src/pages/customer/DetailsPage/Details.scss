@@ -7,7 +7,7 @@
   margin-top: 2rem;
   margin-bottom: 2rem;
 
-  font-family: 'Quicksand';
+  font-family: 'Cabin';
   &__img {
     width: 60%;
 
@@ -73,4 +73,8 @@
   height: 13rem;
   background-color: #f0245e;
   margin-bottom: 2rem;
+}
+
+.comment-item{
+  box-shadow: 1px 2px 7px #cecece;
 }

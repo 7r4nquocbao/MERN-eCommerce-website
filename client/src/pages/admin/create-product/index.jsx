@@ -13,6 +13,9 @@ import Switch from '@material-ui/core/Switch';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 
 Modal.setAppElement('#root');
 
@@ -178,16 +181,30 @@ function CreateProduct(props) {
     const handleAddProduct = async (e) => {
         e.preventDefault();
         dispatch(createProduct(newData));
-        return (
-            <div className="alert alert-success" role="alert">
-                This is a success alert—check it out!
+        productAdded();
+    }
+
+    const productAdded = () => {
+        return toast.success(
+            <div>
+                <CheckCircleOutlineIcon /> Ok
             </div>
-        )
+        );
     }
 
     return (
         <div className="container mt-5">
             <h1>{params.id ? "Update product" : "Create Product"}</h1>
+            <ToastContainer 
+                position="top-right"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover/>
             <form>
                 <div className="form-row">
                     <div className="form-group col">

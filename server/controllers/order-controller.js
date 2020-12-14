@@ -1,7 +1,9 @@
 import Order from '../models/order-model.js';
 import OrderDetail from '../models/order-detail-model.js';
 import Product from '../models/product-model.js';
+import User from '../models/auth-model.js';
 import mongoose from 'mongoose';
+import sgMail from '@sendgrid/mail';
 
 export const getOrders = async (req, res) => {
     try {
@@ -16,10 +18,14 @@ export const createOrder = async (req, res) => {
     const {order, orderDetails} = req.body;
     const products = await Product.find();
     let total = 0;
+    let orderListText = '';
     console.log(orderDetails);
     for (const item of orderDetails) {
         const target = products.find(x => x._id == item.id);
+        const productUpdated = {...target._doc, stock: target.stock - item.quantity};
+        await Product.findByIdAndUpdate(target._id, productUpdated, {new: true});
         total += target.price * item.quantity;
+        orderListText += `<h2>${productUpdated.name} x ${item.quantity}</h2>`;
     }
     const orderUpdated = {...order, total: total};
     const newOrder = new Order(orderUpdated);
@@ -31,6 +37,32 @@ export const createOrder = async (req, res) => {
                 let newOrderDetail = new OrderDetail(itemUpdated);
                 newOrderDetail.save();
             }
+        })
+
+        try {
+            const user = await User.findById(order.idUser);
+            const save = user._doc;
+            User.findByIdAndUpdate(order.idUser, {...save, point: save.point + Math.ceil(total/100)}).exec((err, data) => {
+                console.log(save);
+            })           
+        } catch {
+        }
+        const emailForm = {
+            from: "7r4nquocbao@gmail.com",
+            to: order.email,
+            subject: 'Thank for your purchase',
+            html: `
+                <h1>Your order code is #${order.orderCode.split("").reverse().join("").slice(0,7)}</h1>
+                ${orderListText}
+                <h2 style="color:red;">Total: ${Intl.NumberFormat('de-DE', { style: 'currency', currency: 'USD' }).format(total)}</h2>
+                <h4>At ${new Date().toLocaleString()}</h4>
+            `
+        }
+
+        sgMail.send(emailForm).then(sent => {
+            console.log(`Email has been sent to ${order.email}`);              
+        }).catch (err => {
+            console.log(err);
         })
         res.status(201).json({...order, ...orderDetails});
     } catch (error) {

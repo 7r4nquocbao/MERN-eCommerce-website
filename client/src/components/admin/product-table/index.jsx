@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { deleteProduct, fetchProductData } from '../../../slices/product-slice';
+import _ from 'lodash';
+import KeyboardArrowDownRoundedIcon from '@material-ui/icons/KeyboardArrowDownRounded';
+import KeyboardArrowUpRoundedIcon from '@material-ui/icons/KeyboardArrowUpRounded';
 import './style.scss';
 
 function ProductTable(props) {
@@ -14,6 +17,7 @@ function ProductTable(props) {
     const itemOnPage = 10;
     const [page, setPage] = useState(1);
     const [keyword, setKeyword] = useState('');
+    const [isReverse, setIsReverse] = useState(false);
 
     useEffect(() => {
         console.log("get data...")
@@ -76,7 +80,11 @@ function ProductTable(props) {
 
     const filterData = () => {
         let data = productList.filter(item => item.name.toLowerCase().includes(keyword.toLowerCase()));
-        return data;
+        if(isReverse) {
+            return _.sortBy(data, [item => item.name]);
+        } else {
+            return _.sortBy(data, [item => item.name]).reverse();
+        }
     }
 
     return (
@@ -102,7 +110,11 @@ function ProductTable(props) {
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Name</th>
+                        <th scope="col" onClick={() => setIsReverse(!isReverse)}
+                            style={{cursor: 'pointer'}}>
+                            Name
+                            {isReverse ? <KeyboardArrowUpRoundedIcon/> : <KeyboardArrowDownRoundedIcon/>}
+                        </th>
                         <th scope="col">Category</th>
                         <th scope="col">Price</th>
                         <th scope="col">Stock</th>

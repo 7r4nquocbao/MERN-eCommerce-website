@@ -103,7 +103,11 @@ function RegisterJWTAuth(props) {
             <Header/>
             <div className="register">
             
-            <div className="register__opacity">
+            {/* <div className="register__opacity">
+            </div> */}
+
+            <div className="">
+
                 <div className="register__main">
                     <div className="d-flex justify-content-center pt-2">
                         <Link to="/">
@@ -204,7 +208,7 @@ function RegisterJWTAuth(props) {
                                             label="Address"
                                             placeholder="Type your Address..."
                                         />
-                                         <FastField
+                                            <FastField
                                             name="phone"
                                             component={InputField}
 
@@ -222,6 +226,7 @@ function RegisterJWTAuth(props) {
                     </Formik>
                 </div>
             </div>
+            
         </div>
         </div>
         

@@ -93,7 +93,7 @@ function Profile(props) {
     
     const displayTracking = () => {
         return (
-            orders && orders.map((item, index) => {
+            orders && orders.reverse().map((item, index) => {
                 if(item.status !== 'Order Arrived' && item.isCancel === false){
                     return (
                         <TrackingItem orderId={item._id} key={index} handleCancel={cancelUserOrder}/>
@@ -105,7 +105,7 @@ function Profile(props) {
 
     const displayOrders = () => {
         return (
-            orders && orders.map((item, index) => {
+            orders && orders.reverse().map((item, index) => {
                 if(item.status === 'Order Arrived' || item.isCancel === true){
                     return (
                         <tr>
@@ -237,6 +237,9 @@ function Profile(props) {
                                 <label>Address</label>
                                 <input className="form-control" value={userInfo.address} onChange={(e) => setUserInfo({...userInfo, address: e.target.value})}/>
                             </div>
+                            <div className="info-row">
+                                <label>Point <b>{userInfo.point}</b></label>
+                            </div>
                         </div>
 
                         <div className="d-flex justify-content-end pb-4 pr-4">
@@ -253,35 +256,35 @@ function Profile(props) {
                         <Timeline align="alternate">
                             <TimelineItem>
                                 <TimelineSeparator>
-                                <TimelineDot />
+                                <TimelineDot color={`${userInfo.point < 100 ? "secondary" : 'grey'}`} />
                                 <TimelineConnector />
                                 </TimelineSeparator>
                                 <TimelineContent>Normal</TimelineContent>
                             </TimelineItem>
                             <TimelineItem>
                                 <TimelineSeparator>
-                                <TimelineDot />
+                                <TimelineDot color={`${userInfo.point > 100 ? "secondary" : 'grey'}`} />
                                 <TimelineConnector />
                                 </TimelineSeparator>
                                 <TimelineContent>Silver</TimelineContent>
                             </TimelineItem>
                             <TimelineItem>
                                 <TimelineSeparator>
-                                <TimelineDot color="secondary" />
+                                <TimelineDot color={`${userInfo.point > 200 ? "secondary" : 'grey'}`} />
                                 <TimelineConnector/>
                                 </TimelineSeparator>
-                                <TimelineContent>Gold ({Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', }).format(12636)})</TimelineContent>
+                                <TimelineContent>Gold</TimelineContent>
                             </TimelineItem>
                             <TimelineItem>
                                 <TimelineSeparator>
-                                <TimelineDot />
+                                <TimelineDot color={`${userInfo.point > 300 ? "secondary" : 'grey'}`} />
                                 <TimelineConnector />
                                 </TimelineSeparator>
                                 <TimelineContent>Platium</TimelineContent>
                             </TimelineItem>
                             <TimelineItem>
                                 <TimelineSeparator>
-                                <TimelineDot />
+                                <TimelineDot color={`${userInfo.point > 400 ? "secondary" : 'grey'}`} />
                                 </TimelineSeparator>
                                 <TimelineContent>Diamond</TimelineContent>
                             </TimelineItem>

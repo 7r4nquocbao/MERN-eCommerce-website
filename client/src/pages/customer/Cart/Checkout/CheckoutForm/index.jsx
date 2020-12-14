@@ -92,22 +92,6 @@ function CheckOutForm(props) {
                 label="Email"
                 placeholder="Press email..."
               />
-              <div className="choices">
-                <FastField
-                  name="payment"
-                  component={RadioField}
-
-                  id="cash"
-                  label="Payment on delivery"
-                />
-                <FastField
-                  name="payment"
-                  component={RadioField}
-
-                  id="paypal"
-                  label="Payment by Paypal"
-                />
-              </div>
               <Button
                 color="danger"
                 type="submit"

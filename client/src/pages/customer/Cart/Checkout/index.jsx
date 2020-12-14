@@ -8,6 +8,7 @@ import Title from '../../../../components/UI/Title'
 import TopMenu from '../../../../components/UI/TopMenu'
 import { createOrder } from '../../../../api';
 import { isAuth } from '../../../../helpers/auth';
+import { useHistory } from 'react-router-dom';
 
 Checkout.propTypes = {
 
@@ -15,12 +16,20 @@ Checkout.propTypes = {
 
 function Checkout(props) {
 
+  const history = useHistory();
+
   const handleCheckout = (values) => {
 
     const order = values;
     const orderDetails = JSON.parse(localStorage.getItem('cart'));
 
-    const orderUpdated = {...order, idUser: isAuth()._id || ''};
+    let idu = isAuth()._id;
+
+    if(!idu) {
+      idu = '';
+    }
+
+    const orderUpdated = {...order, idUser: idu};
 
     const data = {
       order: orderUpdated,
@@ -29,6 +38,10 @@ function Checkout(props) {
     
     createOrder(data).then(res => {
       console.log(res.data);
+
+      localStorage.setItem('cart', '[]');
+      history.push('/cart');
+
     }).catch(err => {
       console.log(err);
     })

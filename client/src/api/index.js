@@ -48,6 +48,10 @@ export const listUser = (data, header) => axios.post(`${userUrl}/list`, data, he
 
 export const updateUser = (data, header) => axios.put(`${userUrl}/update`, data, header);
 
+export const viewUser = (id) => axios.get(`${userUrl}/view/${id}`);
+
+export const setAdmin = (id) => axios.post(`${userUrl}/set-admin/${id}`);
+
 // CHAT SIDE
 
 export const fetchChat = (roomId) => axios.get(`${chatUrl}/${roomId}`);
@@ -64,6 +68,8 @@ export const getOrderDetails = (id) => axios.get(`${orderDetailUrl}/${id}`);
 
 // COMMENT SIDE
 
-export const createComment = (data) => axios.get(`${commentlUrl}/create`, data);
+export const createComment = (data) => axios.post(`${commentlUrl}/create`, data);
+
+export const getComments = (id) => axios.get(`${commentlUrl}/${id}`);
 
 

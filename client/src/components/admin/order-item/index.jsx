@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'block'
     },
     heading: {
-      fontSize: theme.typography.pxToRem(20),
+      fontSize: theme.typography.pxToRem(17),
       fontWeight: theme.typography.fontWeightRegular,
       fontFamily: 'Cabin',
     },
@@ -53,7 +53,6 @@ function OrderItem(props) {
 
     useEffect(() => {
         getOrderDetails(orderId).then(res => {
-            console.log(res.data);
             setOrder(res.data.order);
             setOrderDetail(res.data.orderDetailsUpdated.map(item => {
                 return {...item, orderCode: truncateText(item.orderCode)}
@@ -113,7 +112,7 @@ function OrderItem(props) {
                     id="panel1a-header"
                 >
                     <div className={classes.column}>
-                        <Typography className={classes.heading}>#{truncateText(order.orderCode)}</Typography>
+                        <Typography className={classes.heading}>#{truncateText(order.orderCode) || ''}</Typography>
                     </div>
                     <div className={classes.column}>
                         <Typography className={classes.heading}>{order.name}</Typography>

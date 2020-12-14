@@ -8,6 +8,8 @@ import sgMail from '@sendgrid/mail';
 import dotenv from 'dotenv';
 import { json } from 'body-parser';
 import { response } from 'express';
+import sha256 from 'crypto-js/sha256.js';
+import CryptoJS from 'crypto-js';
 
 dotenv.config();
 
@@ -113,7 +115,11 @@ export const loginTask = (req, res) => {
                     error: 'Email and password do not match!'
                 })
             }
-
+            
+            const userUpdated = {...user._doc, lastLogin: new Date()};
+            User.findByIdAndUpdate(userUpdated._id, userUpdated, {new: true}).exec((err,data) => {
+                console.log(userUpdated);
+            })
             const token = jwt.sign(
                 { _id: user._id, role: user.role },
                 process.env.JWT_SECRET,
@@ -203,8 +209,10 @@ export const resetPasswordTask = (req, res) => {
                         })
                     }
 
+                    const newHashedPassword = sha256(newPassword + user.salt);
+
                     const updatedFields = {
-                        _password: newPassword,
+                        hashedPassword: newHashedPassword,
                         resetPasswordLink: ''
                     }
 

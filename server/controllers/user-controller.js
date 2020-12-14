@@ -19,7 +19,7 @@ export const listUser = (req, res) => {
     User.find().exec((err, user) => {
         if(err || !user) {
             return res.status(400).json({
-                error: "clmm"
+                error: err
             })
         }
         user.hashedPassword = undefined;
@@ -39,8 +39,37 @@ export const updateUserTask = (req, res) => {
     })
 }
 
+export const viewUser = (req, res) => {
+    const {id} = req.params;
+    User.findById(id).exec((err, data) => {
+        if(err || !data) {
+            res.json(err)
+        } else {
+            res.json(data);
+        }
+    }) 
+}
+
+export const setAdmin = (req, res) => {
+    const {id} = req.params;
+    User.findById(id).exec((err, data) => {
+        if(err || !data) {
+            res.json(err)
+        } else {
+            const dataUpdated = {...data._doc, role: 'admin'};
+            User.findByIdAndUpdate(id, dataUpdated, {new: true}).exec((err2, data2) => {
+                if(err2 || !data2) {
+                    res.json(err2);
+                } else {
+                    res.json(dataUpdated);
+                }
+            })
+        }
+    })
+}
+
 export const requireSignIn = expressJwt({
-    secret: process.env.JWT_SECRET, algorithms: ['HS256'] 
+    secret: process.env.JWT_SECRET, algorithms: ['HS256']
 })
 
 export const adminMiddleware = (req, res, next) => {
