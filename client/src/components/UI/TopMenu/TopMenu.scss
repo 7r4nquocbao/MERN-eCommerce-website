@@ -10,24 +10,53 @@ $color: #f0245e;
   padding: 2rem 0rem;
 
   width: 100%;
-  // background: rgba(0,0,0,0);
-  // top: 0;
-  // // position: absolute;
-  // position: -webkit-sticky;
-  // position: sticky;
 
   &__logo {
-    
     padding-right: 5rem;
   }
+
   &__center {
     display: flex;
     flex-direction: row;
+
+    line-height: 50px;
+
+    transition: all 0.5s ease-in-out;
+    
+    &__has-subMenu{
+      width: 7rem;
+    
+      &__subMenu{
+        padding-left: 0px;
+        position: absolute;
+        width: 7rem;
+
+        display: none;
+        margin: 0px;
+      
+        z-index: 10;
+      }
+      &:hover &__subMenu {
+        display: block;
+        list-style: none;
+
+
+        & > a{
+          text-decoration: none;
+          color: #AAA;
+          
+          &:hover > li {
+            padding-left: 1rem;
+            background-color: #f0245e;
+            color: white;
+          }
+        }
+      }
+    }
   }
   &__link {
     color:#AAA;
     transition: all 0.3s ease-in-out;
-    letter-spacing: 0.1rem;
 
     &--active,
     &:hover{
@@ -40,19 +69,36 @@ $color: #f0245e;
     position: absolute;
     right: 0;
 
+    line-height: 50px;
+
     &__search {
       padding: 0.5rem 0.6rem;
 
       border: 2px solid $color;
+
       border-radius: 0.3rem;
+
+      &:hover {
+        color: white;
+        background-color: #f0245e;
+        border-radius: 0rem;
+      }
     }
     &__cart {
-      padding: 0.5rem 0.6rem;
+      padding: 0.8rem 1rem;
 
       border: 2px solid $color;
-      border-radius: 0.3rem;
+      background-color: #f0245e;
+      color: white;
+      // border-radius: 0.3rem;
       i {
         padding: 0rem 0.5rem;
+      }
+
+      &:hover {
+        color: white;
+
+
       }
       
     }

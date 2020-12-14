@@ -16,6 +16,9 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
+import Footer from '../../../components/UI/Footer';
+import Banner from '../../../components/UI/Banner/MainBanner';
+import Images from '../../../constants/images';
 Detail.propTypes = {
 
 };
@@ -36,6 +39,7 @@ function Detail(props) {
 
   const [product, setProduct] = useState({});
   const [specs, setSpecs] = useState([]);
+  const [cart, setCart] = useState([]);
   const [star, setStar] = useState(5);
   const [content, setContent] = useState('');
   const dispatch = useDispatch();
@@ -58,6 +62,7 @@ function Detail(props) {
     }).catch(err => {
       console.log(err);
     })
+    window.scrollTo(0, 0);
   }, [])
 
   const postComment = () => {
@@ -78,8 +83,25 @@ function Detail(props) {
     return product.find(item => item._id === productID);
   }
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (item) => {
 
+    let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+
+    if (cartItems === []) {
+      let newItem = { id: item._id, quantity: 1 };
+      cartItems.push(newItem);
+    } else {
+      let checkExists = cartItems.findIndex(cartItem => cartItem.id === item._id);
+      if (checkExists !== -1) {
+        cartItems[checkExists].quantity += 1;
+      } else {
+        let newItem = { id: item._id, quantity: 1 };
+        cartItems.push(newItem);
+      }
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cartItems));
+    setCart([...cartItems]);
   }
   const displaySpecs = () => {
     return (
@@ -128,14 +150,18 @@ function Detail(props) {
   }
 
   const displayRelative = () => {
-    const relativeList = productList.filter(item => item.category !== 'product.category');
+    const relativeList = productList.filter(item => item.category === product.category);
     let array = [];
     for (const item of relativeList) {
-      array.push(<img src={item.thumbnail} style={{width: '200px'}} onDragStart={handleDragStart}/>);
+      array.push(
+        <div>
+          <img src={item.thumbnail} style={{width: '200px'}} onDragStart={handleDragStart}/>
+          <p>{item.name}</p>
+        </div>
+      );
     }
-    array = [...array, ...array];
     return (
-      <AliceCarousel items={array} infinite autoWidth responsive={responsive} mouseTracking disableButtonsControls/>
+      <AliceCarousel items={array} infinite responsive={responsive} mouseTracking disableButtonsControls/>
     )
   }
 
@@ -143,6 +169,8 @@ function Detail(props) {
     <div>
       <Header />
       <TopMenu />
+      <Banner title="Product's Detail" backgroundUrl={Images.Category} />
+
       <Container>
         <div className="product-detail">
           <div className="product-detail__img">
@@ -174,7 +202,7 @@ function Detail(props) {
 
         <Title title="Related Products" />
        
-        <div className="related-products">
+        <div>
           {displayRelative()}
         </div>
 
@@ -210,6 +238,7 @@ function Detail(props) {
         </div>
 
       </Container>
+      <Footer />
     </div>
 
   );

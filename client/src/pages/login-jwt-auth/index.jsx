@@ -20,7 +20,7 @@ import InputField from '../../custom-fields/InputField';
 
 function LoginJWT(props) {
 
-    const [state, setState] = useState({message: '', name: ''});
+    const [state, setState] = useState({ message: '', name: '' });
     const [chat, setChat] = useState([]);
 
     const history = useHistory();
@@ -104,7 +104,7 @@ function LoginJWT(props) {
                                                     label="Password"
                                                     placeholder="Type your password..."
                                                 />
-                                                <button type="submit" className="btn btn-link">Submit</button>
+                                                <button type="submit" className="btn btn-link" >Submit</button>
                                             </Form>
                                         )
                                     }

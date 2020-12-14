@@ -1,43 +1,30 @@
-import Axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import {toast, ToastContainer} from 'react-toastify';
+import { FastField, Form, Formik } from 'formik';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Button } from 'reactstrap';
+import * as Yup from 'yup';
 import { registerUser } from '../../api';
-import {Formik, Form, FastField} from 'formik';
-import * as Yup from 'yup'
-
-
-import './Register.scss';
+import topLogo from '../../assets/Images/main-logo.png';
+import Header from '../../components/UI/Header';
+import { DATE, MONTH, YEAR } from '../../constants/dateOfBirth';
 import InputField from '../../custom-fields/InputField';
 import RadioField from '../../custom-fields/RadioField';
-import { Button } from 'reactstrap';
-import DatePickerField from '../../custom-fields/DatePickerField';
-
-import Header from '../../components/UI/Header';
-import topLogo from '../../assets/Images/main-logo.png'
-import { Link } from 'react-router-dom';
-import Select from 'react-select'
+import SelectField from '../../custom-fields/SelectField';
+import './Register.scss';
 
 function RegisterJWTAuth(props) {
-
-    const [dateOptions, setDateOptions] = useState({
-        dates: [],
-        months: [],
-        years: []
-    })
-
-    useEffect(() => {
-        createDateOptions();
-    }, [])
-
     const initialValues = {
         name: '',
         gender: 'male',
         email: '',
-        birthday: JSON.stringify(new Date()),
+        date: '',
+        month: '',
+        year: '',
         password: '',
         confirm: '',
         address: '',
         phone: '',
+
     };
 
     const validationSchema = Yup.object().shape({
@@ -66,49 +53,41 @@ function RegisterJWTAuth(props) {
 
         phone: Yup.number()
         .required('This field is required'),
+        date: Yup.string().required('This field is required'),
+        month: Yup.string().required('This field is required'),
+        year: Yup.string().required('This field is required'),
     })
 
     const handleSubmit = (val) => {
         console.log(val);
-        registerUser(val).then(res => {
+        const dateOfBirth = { 
+            name: val.name,
+            gender: val.gender,
+            email: val.email,
+            password: val.password,
+            address: val.address,
+            phone: val.phone,
+            birthday: {
+                date: val.date, 
+                month: val.month,
+                year: val.year,
+            }
+
+        }
+
+        registerUser(dateOfBirth).then(res => {
             console.log(res);
         }).catch(err => {
             console.log(err);
         })
     }
 
-    const createDateOptions = () => {
-
-        let dates = [];
-        let months = [];
-        let years = [];
-
-        for (let index = 0; index <= new Date().getFullYear() - 1910; index++) {
-           if(index < 12) {
-               months.push({ value: index, label: index + 1 });
-           }
-           if(index < 31) {
-               dates.push({ value: index, label: index + 1 });
-           }
-           years.push({ value: index + 1900, label: index + 1900 });
-        }
-
-        years.reverse();
-
-        setDateOptions({dates, months, years});
-    }
-
     return (
         <div>
             <Header/>
             <div className="register">
-            
-            {/* <div className="register__opacity">
-            </div> */}
-
-            <div className="">
-
-                <div className="register__main">
+               <div className="register__opacity">
+               <div className="register__main">
                     <div className="d-flex justify-content-center pt-2">
                         <Link to="/">
                             <img src={topLogo} width={120} height={100}/>
@@ -121,7 +100,7 @@ function RegisterJWTAuth(props) {
 
                     <Formik
                         initialValues = {initialValues}
-                        onSubmit = {(data) => handleSubmit(data)}
+                        onSubmit = {(values) => handleSubmit(values)}
                         validationSchema={validationSchema}
                     >
                         {
@@ -133,6 +112,7 @@ function RegisterJWTAuth(props) {
                                         <FastField
                                             name="name"
                                             component={InputField}
+
                                             label="Name"
                                             placeholder="Type your Name..."
                                         />
@@ -152,14 +132,7 @@ function RegisterJWTAuth(props) {
                                             id="female"
                                         />
                                         </div>
-                                        
-                                        {/* <FastField
-                                            name="birthday"
-                                            component={DatePickerField}
 
-                                            label="Date of birth"
-                                            placeholder="dd/mm/yyyy"
-                                        /> */}
                                         <FastField
                                             name="email"
                                             component={InputField}
@@ -185,22 +158,32 @@ function RegisterJWTAuth(props) {
                                             placeholder="Type your Confirm password..."
                                         />
                                         <p className="mb-2">Date of Birth</p>
-                                        <div className="form-row mb-3">
-                                            <div className="col">
-                                                <Select options={dateOptions.dates} 
-                                                defaultValue={{value: 1, label: 1}}/>
-                                            </div>
-                                            <div className="col">
-                                                <Select options={dateOptions.months} 
-                                                defaultValue={{value: 1, label: 1}}/>
-                                            </div>
-                                            <div className="col">
-                                                <Select options={dateOptions.years}
-                                                    onChange={(value) => console.log(value.value)}
-                                                    defaultValue={{value: 1900, label: 1900}}
-                                                />
-                                            </div>
+                                        <div className="d-flex">
+                                            <FastField
+                                                name="date"
+                                                component={SelectField}
+
+                                                placeholder="Date"
+                                                options={DATE}
+
+                                            />
+                                            <FastField
+                                                name="month"
+                                                component={SelectField}
+                                                placeholder="Month"
+                                                options={MONTH}
+
+                                            />
+                                            <FastField
+                                                name="year"
+                                                component={SelectField}
+
+                                                placeholder="Year"
+                                                options={YEAR}
+
+                                            />
                                         </div>
+   
                                         <FastField
                                             name="address"
                                             component={InputField}
@@ -208,7 +191,7 @@ function RegisterJWTAuth(props) {
                                             label="Address"
                                             placeholder="Type your Address..."
                                         />
-                                            <FastField
+                                         <FastField
                                             name="phone"
                                             component={InputField}
 
@@ -224,9 +207,12 @@ function RegisterJWTAuth(props) {
                             }
                         }
                     </Formik>
+
                 </div>
-            </div>
-            
+
+               </div>
+ 
+                            
         </div>
         </div>
         

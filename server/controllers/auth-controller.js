@@ -72,6 +72,7 @@ export const activationTask = (req, res) => {
                 })
             } else {
                 const { name, email, password, address, phone, gender, birthday } = jwt.decode(token);
+                console.log('asdasd',birthday);
                 const user = new User({ name, email, password, address, phone, gender, birthday });
                 console.log(user);
                 user.save((err, user) => {
@@ -126,11 +127,11 @@ export const loginTask = (req, res) => {
                 { expiresIn: '3d' }
             )
 
-            const { _id, name, email, role } = user;
+            const { _id, name, email, role, address, phone, gender } = user;
 
             return res.json({
                 token,
-                user: { _id, name, email, role }
+                user: { _id, name, email, role, gender, address, phone }
             })
         })
     }

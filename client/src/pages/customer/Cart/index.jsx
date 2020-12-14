@@ -6,6 +6,8 @@ import { fetchProductData } from '../../../slices/product-slice';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { Link } from 'react-router-dom';
 import PayPal from '../../../components/paypal';
+import Banner from '../../../components/UI/Banner/MainBanner';
+import Images from '../../../constants/images';
 
 function Cart(props) {
 
@@ -47,16 +49,6 @@ function Cart(props) {
         } else {
             return false;
         }
-    }
-
-    const getTotal = () => {
-        let total = 1;
-        if (data) {
-            for (const item of data) {
-                total += item.quantity * (item.price - (item.price * item.sale / 100))
-            }
-        }
-        return total;
     }
 
     const displayCart = () => {
@@ -137,7 +129,7 @@ function Cart(props) {
                         <tr key={index}>
                             <td>{index + 1}</td>
                             <td>
-                                <img src={item.thumbnail} style={{ width: '40px' }} alt="img" />
+                                <img src={item.thumbnail} style={{ width: '100px' }} alt="img" />
                             </td>
                             <td>{item.name}</td>
                             <td>{new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', }).format(item.price)}</td>
@@ -210,8 +202,8 @@ function Cart(props) {
         <div>
             <Headers />
             <TopMenu />
+            <Banner backgroundUrl={Images.MainBanner} title="Cart" />
             {displayCart()}
-            <Link to="/">Continue shopping</Link>
         </div>
     );
 }

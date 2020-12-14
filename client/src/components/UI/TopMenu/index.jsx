@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import React from 'react';
+import { Link, NavLink } from 'react-router-dom';
 import { Col, Container } from 'reactstrap';
 import './TopMenu.scss';
 import topLogo from '../../../assets/Images/logo-no-title.png';
-import Badge from '@material-ui/core/Badge';
-import MailIcon from '@material-ui/icons/Mail';
-import ShoppingCartRoundedIcon from '@material-ui/icons/ShoppingCartRounded';
+import dataCategories from '../../../constants/local-db.json';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import { Badge } from '@material-ui/core';
 
 
-const TopMenu = () => {
+
+
+function TopMenu(props) {
+
+  const categories = dataCategories.categories;
 
   function getQuantity() {
     const locCart = localStorage.getItem('cart');
@@ -49,15 +53,23 @@ const TopMenu = () => {
               Home
         </NavLink>
           </Col>
-          <Col sm="auto">
-            <NavLink
-              exact
-              to="/"
-              className="menu__link"
-              activeClassName="menu__link--active"
-            >
-              Products
-        </NavLink>
+          <Col sm="auto" className=" menu__link menu__center__has-subMenu">
+            Products
+
+            <ul className="menu__center__has-subMenu__subMenu">
+              {
+                categories.map((category, index) => (
+                  <Link to={`/category/${category.name}`}>
+                    <li
+                      key={index}
+                      className="menu__link"
+                    >{category.name}</li>
+                  </Link>
+
+                ))
+              }
+            </ul>
+
           </Col>
           <Col sm="auto">
             <NavLink
@@ -89,9 +101,10 @@ const TopMenu = () => {
               className="menu__link menu__function__cart"
               activeClassName="menu__link--active"
             >
-              <Badge badgeContent={getQuantity()} htmlColor="#000000">
-                <ShoppingCartRoundedIcon htmlColor="#8338ec" />
+              <Badge badgeContent={getQuantity()} color="primary">
+                <ShoppingCartIcon />
               </Badge>
+              <span className="ml-2">Cart</span>
             </NavLink>
           </Col>
         </div>

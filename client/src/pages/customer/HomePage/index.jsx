@@ -6,6 +6,7 @@ import Headers from '../../../components/UI/Header';
 import TopMenu from '../../../components/UI/TopMenu';
 import Banner from '../../../components/UI/Banner/MainBanner';
 import Footer from '../../../components/UI/Footer';
+import Title from '../../../components/UI/Title';
 
 import Images from '../../../constants/images';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,12 +17,17 @@ import { Row } from 'reactstrap';
 import ChatBox from '../../../components/UI/Chatbox';
 
 import { useHistory, useParams } from 'react-router-dom';
+import SlideShow from '../../../components/UI/Carousel';
+import Commitment from '../../../components/UI/Commitment';
 
 HomePage.propTypes = {
 
 };
 
 function HomePage(props) {
+
+  const itemOnPage = 8;
+  const [page, setPage] = useState(1);
 
   const { productID } = useParams();
   const history = useHistory();
@@ -60,54 +66,91 @@ function HomePage(props) {
 
     history.push(`/detail/${product._id}`)
   }
+  const displayProductList = (product, page) => {
+    const start = (page - 1) * itemOnPage;
+    const productOnPage = product.slice(start, start + itemOnPage);
+
+    return (
+      productOnPage && productOnPage.map(product => (
+
+        <Col lg="3" md="4" sm="6" xs="12">
+          <div className="product mb-5">
+            <div className="product__image">
+
+              <Button
+                color="link"
+                onClick={() => onShowDetail(product)}
+              >
+                <img src={product.thumbnail} />
+              </Button>
+            </div>
+
+            <div className="product__info">
+              <div className="product__info__title">{product.name}</div>
+              <div className="product__info__addToCart">
+                <div className="product__info__addToCart__price">{`${product.price}$`}</div>
+                <div
+                  className="product__info__addToCart__button"
+                  onClick={() => onAddToCartClick(product)}
+                >
+                  Add to cart
+                      </div>
+              </div>
+
+            </div>
+          </div>
+        </Col>
+      ))
+    )
+  }
+  const calcPagination = () => {
+
+    let arrPageNums = [];
+    for (let index = 1; index <= Math.ceil(productList.length / itemOnPage); index++) {
+      arrPageNums.push(index);
+    }
+
+    return (
+      arrPageNums.map(item => {
+        return (
+          <li className={`page-item ${item === page ? 'active' : ''}`} key={item}>
+            <button className="page-link" onClick={() => setPage(item)}>{item}</button>
+          </li>
+        )
+      })
+    )
+  }
 
   return (
     <div className="HomePage">
       <Headers />
       <TopMenu />
-      <Banner
-        backgroundUrl={Images.MainBanner}
-        title="CORSAIR"
-        description="Corsair is a leader in gaming gear ranging from cases to peripherals and components to streaming equipment. Visit now to shop or learn more."
-      />
-       
+      <SlideShow />
+      <hr />
       <div className="product-list">
         <Container>
-          
+          <Title title="Products" />
           <Row>
-            {
-              productList.map(product => (
-                <Col lg="3" md="4" sm="6" xs="12">
-                  <div className="product mb-5">
-                    <div className="product__image">
-
-                      <Button
-                        color="link"
-                        onClick={() => onShowDetail(product)}
-                      >
-                        <img src={product.thumbnail} />
-                      </Button>
-
-                    </div>
-                    <div className="product__info">
-                      <div className="product__info__title">{product.name}</div>
-                      <div className="product__info__price">{product.price}</div>
-                      <div
-                        className="product__info__button"
-                        onClick={() => onAddToCartClick(product)}
-                      >
-                        Add to cart
-                      </div>
-                    </div>
-                  </div>
-                </Col>
-              ))
-            }
+            {displayProductList(productList, page)}
           </Row>
+          <div className="d-flex justify-content-center">
+            <ul className="pagination justify-content-end">
+              <li className={`page-item ${page > 1 ? '' : 'disabled'}`}>
+                <button className="page-link" onClick={() => setPage(page - 1)}>Prev</button>
+              </li>
+              {calcPagination()}
+              <li className={`page-item ${page < Math.ceil(productList.length / itemOnPage) ? '' : 'disabled'}`}>
+                <button className="page-link" onClick={() => setPage(page + 1)}>Next</button>
+              </li>
+            </ul>
+          </div>
+
         </Container>
-        <ChatBox/>
+        <Commitment />
+        <ChatBox />
         <Footer />
       </div>
+
     </div>
   );
 }

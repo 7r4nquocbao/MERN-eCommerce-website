@@ -14,7 +14,7 @@ function ProductTable(props) {
     const dispatch = useDispatch();
     const [actionProduct, setActionProduct] = useState(false);
     const productList = useSelector(state => state.products);
-    const itemOnPage = 10;
+    const itemOnPage = 8;
     const [page, setPage] = useState(1);
     const [keyword, setKeyword] = useState('');
     const [isReverse, setIsReverse] = useState(false);
@@ -92,7 +92,7 @@ function ProductTable(props) {
             <div className="row mt-5">
                 <div className="col-6">
                     <div className="input-group mb-2">
-                        <input type="text" className="form-control" onChange={(e) => setKeyword(e.target.value)}/>
+                        <input type="text" className="form-control" onChange={(e) => setKeyword(e.target.value)} />
                         <div className="input-group-append">
                             <span className="input-group-text" id="basic-addon2">Search</span>
                         </div>

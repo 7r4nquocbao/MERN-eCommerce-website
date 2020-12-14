@@ -12,21 +12,23 @@ import { useHistory } from 'react-router-dom';
 import Select from 'react-select';
 import { cancelOrder, getOrderOfUser, readUser, updateUser } from '../../../api';
 import TrackingItem from '../../../components/tracking-item';
+import Banner from '../../../components/UI/Banner/MainBanner';
 import Header from '../../../components/UI/Header';
 import TopMenu from '../../../components/UI/TopMenu';
+import Images from '../../../constants/images';
 import dataAdditional from '../../../constants/local-db.json';
 import { getCookie, isAuth, signOut } from '../../../helpers/auth';
 import './style.scss';
 
 const GreenRadio = withStyles({
     root: {
-      color: green[400],
-      '&$checked': {
-        color: green[600],
-      },
+        color: green[400],
+        '&$checked': {
+            color: green[600],
+        },
     },
     checked: {},
-  })((props) => <Radio color="default" {...props} />);
+})((props) => <Radio color="default" {...props} />);
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -35,9 +37,9 @@ const useStyles = makeStyles((theme) => ({
         display: 'block'
     },
     heading: {
-      fontSize: theme.typography.pxToRem(20),
-      fontWeight: theme.typography.fontWeightRegular,
-      fontFamily: 'Quicksand',
+        fontSize: theme.typography.pxToRem(20),
+        fontWeight: theme.typography.fontWeightRegular,
+        fontFamily: 'Quicksand',
     },
     column: {
         flexBasis: '50%',
@@ -50,7 +52,7 @@ function Profile(props) {
 
     const classes = useStyles();
     const [activeStep, setActiveStep] = useState(0);
-    const {orderStatus} = dataAdditional;
+    const { orderStatus } = dataAdditional;
 
     const [userInfo, setUserInfo] = useState([]);
 
@@ -90,13 +92,13 @@ function Profile(props) {
             console.log(err);
         })
     }
-    
+
     const displayTracking = () => {
         return (
             orders && orders.reverse().map((item, index) => {
                 if(item.status !== 'Order Arrived' && item.isCancel === false){
                     return (
-                        <TrackingItem orderId={item._id} key={index} handleCancel={cancelUserOrder}/>
+                        <TrackingItem orderId={item._id} key={index} handleCancel={cancelUserOrder} />
                     )
                 }
             })
@@ -110,7 +112,7 @@ function Profile(props) {
                     return (
                         <tr>
                             <td className='m-0 p-0'>
-                                <TrackingItem orderId={item._id} key={index}/>
+                                <TrackingItem orderId={item._id} key={index} />
                             </td>
                         </tr>
 
@@ -119,9 +121,9 @@ function Profile(props) {
             })
         )
     }
-    
+
     const handleChange = (event) => {
-        setUserInfo({...userInfo, gender: event.target.value});
+        setUserInfo({ ...userInfo, gender: event.target.value });
     };
 
     const createDateOptions = () => {
@@ -131,16 +133,16 @@ function Profile(props) {
         let years = [];
 
         for (let index = 0; index <= new Date().getFullYear() - 1910; index++) {
-           if(index < 12) {
-               months.push({ value: index, label: index + 1 });
-           }
-           if(index < 31) {
-               dates.push({ value: index + 1, label: index + 1 });
-           }
-           years.push({ value: index + 1900, label: index + 1900 });
+            if (index < 12) {
+                months.push({ value: index, label: index + 1 });
+            }
+            if (index < 31) {
+                dates.push({ value: index + 1, label: index + 1 });
+            }
+            years.push({ value: index + 1900, label: index + 1900 });
         }
         years.reverse();
-        setDateOptions({dates, months, years});
+        setDateOptions({ dates, months, years });
 
     }
 
@@ -161,10 +163,10 @@ function Profile(props) {
     }
 
     const updateProfile = () => {
-        const user = {...userInfo, _id: isAuth()._id, birthday: birthday};
+        const user = { ...userInfo, _id: isAuth()._id, birthday: birthday };
         const token = getCookie('token');
         console.log(token);
-        if(isDisabled === false) {
+        if (isDisabled === false) {
             updateUser(user, {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -182,8 +184,9 @@ function Profile(props) {
 
     return (
         <div>
-            <Header/>
-            <TopMenu/>
+            <Header />
+            <TopMenu />
+            <Banner backgroundUrl={Images.Search} title="User Information" />
             <div className="container">
                 <div className="row">
                     <div className="col-8 table-shadow">
@@ -191,7 +194,7 @@ function Profile(props) {
 
                             <div className="info-row">
                                 <label>Name</label>
-                                <input className="form-control" value={userInfo.name} onChange={(e) => setUserInfo({...userInfo, name: e.target.value})}/>
+                                <input className="form-control" value={userInfo.name} onChange={(e) => setUserInfo({ ...userInfo, name: e.target.value })} />
                             </div>
                             <div className="info-row">
                                 <label className="mr-3">Gender</label>
@@ -212,30 +215,30 @@ function Profile(props) {
                                 <label className="mr-3">Birthday</label>
                                 <div className="form-row">
                                     <div className="col">
-                                        <Select options={dateOptions.dates} 
-                                        onChange={(value) => setBirthDay({...birthday, date: value.value})}
-                                        value={{value: birthday.date, label: birthday.date}}/>
+                                        <Select options={dateOptions.dates}
+                                            onChange={(value) => setBirthDay({ ...birthday, date: value.value })}
+                                            value={{ value: birthday.date, label: birthday.date }} />
                                     </div>
                                     <div className="col">
-                                        <Select options={dateOptions.months} 
-                                        onChange={(value) => setBirthDay({...birthday, month: value.value})}
-                                        value={{value: birthday.month, label: birthday.month + 1}}/>
+                                        <Select options={dateOptions.months}
+                                            onChange={(value) => setBirthDay({ ...birthday, month: value.value })}
+                                            value={{ value: birthday.month, label: birthday.month + 1 }} />
                                     </div>
                                     <div className="col">
                                         <Select options={dateOptions.years}
-                                            onChange={(value) => setBirthDay({...birthday, year: value.value})}
-                                            value={{value: birthday.year, label: birthday.year}}
+                                            onChange={(value) => setBirthDay({ ...birthday, year: value.value })}
+                                            value={{ value: birthday.year, label: birthday.year }}
                                         />
                                     </div>
                                 </div>
                             </div>
                             <div className="info-row">
                                 <label>Phone</label>
-                                <input className="form-control" value={userInfo.phone} onChange={(e) => setUserInfo({...userInfo, phone: e.target.value})}/>
+                                <input className="form-control" value={userInfo.phone} onChange={(e) => setUserInfo({ ...userInfo, phone: e.target.value })} />
                             </div>
                             <div className="info-row">
                                 <label>Address</label>
-                                <input className="form-control" value={userInfo.address} onChange={(e) => setUserInfo({...userInfo, address: e.target.value})}/>
+                                <input className="form-control" value={userInfo.address} onChange={(e) => setUserInfo({ ...userInfo, address: e.target.value })} />
                             </div>
                             <div className="info-row">
                                 <label>Point <b>{userInfo.point}</b></label>
@@ -306,7 +309,7 @@ function Profile(props) {
                         {displayOrders()}
                     </tbody>
                 </table>
-            
+
             </div>
 
 
