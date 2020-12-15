@@ -6,46 +6,12 @@ import { Col } from 'reactstrap';
 import { Link, NavLink } from 'react-router-dom';
 import { getCookie, isAuth, signOut } from '../../../helpers/auth';
 import { readUser } from '../../../api';
-// import { fb, firestore } from '../../app/firebase';
 
 Header.propTypes = {
 
 };
 
 function Header(props) {
-
-    // const [isLoggedIn, setIsLoggedIn] = useState(false);
-    // const [info, setInfo] = useState({})
-
-    // useEffect(() => {
-    //     fb.auth().onAuthStateChanged(function (user) {
-    //         if (user) {
-
-    //             firestore.collection("account-info").doc(user.uid).get().then(function (doc) {
-    //                 if (doc.exists) {
-    //                     setInfo(doc.data());
-    //                 } else {
-    //                     console.log("No such document!");
-    //                 }
-    //             }).catch(function (error) {
-    //                 console.log("Error getting document:", error);
-    //             });
-    //             setIsLoggedIn(true);
-    //         } else {
-    //             // No user is signed in.
-    //         }
-    //     });
-    // })
-
-    // const logOut = () => {
-    //     fb.auth().signOut().then(function () {
-    //         localStorage.clear();
-    //     }).catch(function (error) {
-    //         // An error happened.
-    //     });
-    //     localStorage.removeItem('user');
-    //     setIsLoggedIn(false);
-    // }
 
     const [isLogin, setIsLogin] = useState(false);
 
@@ -72,10 +38,10 @@ function Header(props) {
     }
 
     const displayLog = () => {
-        if(isLogin) {
-            return <Link onClick={() => logOut()}>Log Out</Link>
+        if (isLogin) {
+            return <Link title="logout" onClick={() => logOut()}>Log Out</Link>
         } else {
-            return <NavLink to="/login">Login</NavLink>
+            return <NavLink title="login" to="/login">Login</NavLink>
         }
     }
 
@@ -84,34 +50,20 @@ function Header(props) {
         <div className="header">
             <Col sm="auto">
                 <div className="header__social">
-                    <NavLink to=""><i class="fab fa-instagram-square"></i></NavLink>
-                    <NavLink to=""><i class="fab fa-facebook-square"></i></NavLink>
-                    <NavLink to=""><i class="fab fa-twitter-square"></i></NavLink>
-                    <NavLink to=""><i class="fab fa-behance-square"></i></NavLink>
-                    <NavLink to=""><i class="fab fa-reddit"></i></NavLink>
+                    <a title="instagram" target="_blank" href="https://www.instagram.com/"><i class="fab fa-instagram-square"></i></a>
+                    <a title="facebook" target="_blank" href="https://www.facebook.com/"><i class="fab fa-facebook-square"></i></a>
+                    <a title="twitter" target="_blank" href="https://twitter.com/?lang=vi"><i class="fab fa-twitter-square"></i></a>
+                    <a title="behance" target="_blank" href="https://www.behance.net/"><i class="fab fa-behance-square"></i></a>
+                    <a title="reddit" target="_blank" href="https://www.reddit.com/"><i class="fab fa-reddit"></i></a>
                 </div>
 
             </Col>
             <Col sm="auto">
                 {displayLog()}
-                
-                <span>/</span>
-                <NavLink to="/registerjwt">Register</NavLink>
-            </Col>
-            {/* <Col sm="auto">
-                <div>
-                    {!isLoggedIn ? <NavLink to="/profile">{info.name}</NavLink> : ''}
-                </div>
-                <div className="header__authentication">
-                    {
-                        !isLoggedIn ? <NavLink to="/login">Login</NavLink>
-                            : <NavLink to='' onClick={logOut}>Log out</NavLink>
-                    }
-                    <span>/</span>
-                    <NavLink to="/register">Register</NavLink>
-                </div>
 
-            </Col> */}
+                <span>/</span>
+                <NavLink title="register" to="/registerjwt">Register</NavLink>
+            </Col>
         </div >
 
     );

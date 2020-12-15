@@ -12,21 +12,21 @@ function Footer(props) {
   return (
     <div className="footer">
       <div className="footer__logo">
-        <img src={Logo} width={170} height={150} />
+        <img alt="logo" src={Logo} width={170} height={150} />
       </div>
       <div className="footer__menu">
         <Col >
           <h4>Products</h4>
-          <a href="/category/Monitor">Monitor</a>
-          <a href="/category/Keyboard">Keyboard</a>
-          <a href="/category/PC Case">PC case</a>
-          <a href="/category/VGA">VGA</a>
+          <a title="monitor" href="/category/Monitor">Monitor</a>
+          <a title="keyboard" href="/category/Keyboard">Keyboard</a>
+          <a title="pc case" href="/category/PC Case">PC case</a>
+          <a title="vga" href="/category/VGA">VGA</a>
         </Col>
         <Col>
           <h4>FOLLOW US</h4>
-          <i class="fab fa-instagram-square"><a>facebook.com/techshield</a></i>
-          <i class="fab fa-facebook-square"><a>instagram.com/techshield</a></i>
-          <i class="fab fa-twitter-square"><a>twitter.com/techshield</a></i>
+          <i class="fab fa-instagram-square"><a title="facebook" href="https://www.facebook.com/" target="_blank">facebook.com/techshield</a></i>
+          <i class="fab fa-facebook-square"><a title="instagram" href="https://www.instagram.com/" target="_blank">instagram.com/techshield</a></i>
+          <i class="fab fa-twitter-square"><a title="twitter" href="https://twitter.com/?lang=vi" target="_blank">twitter.com/techshield</a></i>
         </Col>
         <Col>
           <h4>CONTACT US</h4>

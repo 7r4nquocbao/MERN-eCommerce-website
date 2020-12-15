@@ -78,10 +78,11 @@ function HomePage(props) {
             <div className="product__image">
 
               <Button
+                title="show detail"
                 color="link"
                 onClick={() => onShowDetail(product)}
               >
-                <img src={product.thumbnail} />
+                <img alt="product picture" src={product.thumbnail} />
               </Button>
             </div>
 
@@ -90,6 +91,7 @@ function HomePage(props) {
               <div className="product__info__addToCart">
                 <div className="product__info__addToCart__price">{`${product.price}$`}</div>
                 <div
+                  title="add to cart"
                   className="product__info__addToCart__button"
                   onClick={() => onAddToCartClick(product)}
                 >
@@ -136,11 +138,11 @@ function HomePage(props) {
           <div className="d-flex justify-content-center">
             <ul className="pagination justify-content-end">
               <li className={`page-item ${page > 1 ? '' : 'disabled'}`}>
-                <button className="page-link" onClick={() => setPage(page - 1)}>Prev</button>
+                <button title="prev page" className="page-link" onClick={() => setPage(page - 1)}>Prev</button>
               </li>
               {calcPagination()}
               <li className={`page-item ${page < Math.ceil(productList.length / itemOnPage) ? '' : 'disabled'}`}>
-                <button className="page-link" onClick={() => setPage(page + 1)}>Next</button>
+                <button title="next page" className="page-link" onClick={() => setPage(page + 1)}>Next</button>
               </li>
             </ul>
           </div>

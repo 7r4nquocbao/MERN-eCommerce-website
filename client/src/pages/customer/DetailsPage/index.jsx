@@ -53,7 +53,7 @@ function Detail(props) {
     const filter = filterProduct(unwrapResult(result));
     setProduct(filter);
     const specList = filter.description;
-    if(specList) {
+    if (specList) {
       setSpecs(JSON.parse(specList));
     }
     getComments(productID).then(res => {
@@ -69,7 +69,7 @@ function Detail(props) {
     const idUser = isAuth()._id || '';
     const idProduct = productID;
     const name = isAuth().name || '';
-    const newComment = {idUser, idProduct, star, content, name};
+    const newComment = { idUser, idProduct, star, content, name };
     createComment(newComment).then(res => {
       setComments(res.data);
     }).catch(err => {
@@ -117,16 +117,16 @@ function Detail(props) {
   }
 
   const displayComments = () => {
-    if(comments && comments !== []) {
+    if (comments && comments !== []) {
       return (
         comments.map((item, index) => {
           return (
             <div className="comment-item m-1 p-3" key={index}>
               <Rating
-                style={{fontSize: '20px'}}
+                style={{ fontSize: '20px' }}
                 name="simple-controlled"
                 value={item.star}
-                disabled={true}/>
+                disabled={true} />
               <h6 className="font-italic">{item.name}</h6>
               <h6>{item.content}</h6>
             </div>
@@ -137,12 +137,12 @@ function Detail(props) {
   }
 
   const caclStar = () => {
-    if(comments !== []) {
+    if (comments !== []) {
       let starSum = 0;
       for (const comment of comments) {
         starSum += comment.star;
       }
-      let starAvg = starSum/comments.length;
+      let starAvg = starSum / comments.length;
       return starAvg.toFixed(1);
     } else {
       return 0;
@@ -155,13 +155,13 @@ function Detail(props) {
     for (const item of relativeList) {
       array.push(
         <div>
-          <img src={item.thumbnail} style={{width: '200px'}} onDragStart={handleDragStart}/>
+          <img alt="product related" src={item.thumbnail} style={{ width: '200px' }} onDragStart={handleDragStart} />
           <p>{item.name}</p>
         </div>
       );
     }
     return (
-      <AliceCarousel items={array} infinite responsive={responsive} mouseTracking disableButtonsControls/>
+      <AliceCarousel items={array} infinite responsive={responsive} mouseTracking disableButtonsControls />
     )
   }
 
@@ -174,7 +174,7 @@ function Detail(props) {
       <Container>
         <div className="product-detail">
           <div className="product-detail__img">
-            <img src={product.thumbnail} />
+            <img alt="product picture" src={product.thumbnail} />
           </div>
           <div className="product-detail__info">
             <div className="detail-title">
@@ -185,13 +185,14 @@ function Detail(props) {
             </div>
             <Box component="fieldset" mb={3} borderColor="transparent">
               <Rating name="read-only" value={caclStar()} readOnly precision={0.1}
-                style={{fontSize: '40px', pointerEvents: 'none'}}
+                style={{ fontSize: '40px', pointerEvents: 'none' }}
               />
             </Box>
             <div className="detail-price">
               <p>{`${product.price}$`}</p>
             </div>
             <Button
+              title="add to cart"
               className="btn-addToCart"
               onClick={() => handleAddToCart(product)}
             >
@@ -201,7 +202,7 @@ function Detail(props) {
         </div>
 
         <Title title="Related Products" />
-       
+
         <div>
           {displayRelative()}
         </div>
@@ -217,13 +218,13 @@ function Detail(props) {
 
         <Title title="Customer's Evaluate" />
         <div className="form-floating">
-            <textarea className="form-control" style={{height: '100px'}} placeholder='Comment'
-              onChange={(e) => setContent(e.target.value)} value={content}
-            />
+          <textarea className="form-control" style={{ height: '100px' }} placeholder='Comment'
+            onChange={(e) => setContent(e.target.value)} value={content}
+          />
         </div>
         <div>
           <Rating
-            style={{fontSize: '40px'}}
+            style={{ fontSize: '40px' }}
             name="simple-controlled"
             value={star}
             onChange={(event, newValue) => {
@@ -231,8 +232,8 @@ function Detail(props) {
             }}
           />
         </div>
-        <button className="btn btn-light mt-3 mb-5" onClick={() => postComment()}>Comment</button>
-        
+        <button title="comment" className="btn btn-light mt-3 mb-5" onClick={() => postComment()}>Comment</button>
+
         <div className="mb-5">
           {displayComments()}
         </div>

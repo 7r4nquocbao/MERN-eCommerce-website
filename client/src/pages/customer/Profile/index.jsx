@@ -96,7 +96,7 @@ function Profile(props) {
     const displayTracking = () => {
         return (
             orders && orders.reverse().map((item, index) => {
-                if(item.status !== 'Order Arrived' && item.isCancel === false){
+                if (item.status !== 'Order Arrived' && item.isCancel === false) {
                     return (
                         <TrackingItem orderId={item._id} key={index} handleCancel={cancelUserOrder} />
                     )
@@ -108,7 +108,7 @@ function Profile(props) {
     const displayOrders = () => {
         return (
             orders && orders.reverse().map((item, index) => {
-                if(item.status === 'Order Arrived' || item.isCancel === true){
+                if (item.status === 'Order Arrived' || item.isCancel === true) {
                     return (
                         <tr>
                             <td className='m-0 p-0'>
@@ -246,7 +246,7 @@ function Profile(props) {
                         </div>
 
                         <div className="d-flex justify-content-end pb-4 pr-4">
-                            <a className="btn btn-light" href="/reset">
+                            <a title="reset password" className="btn btn-light" href="/reset">
                                 Reset password
                             </a>
                             <button className={`btn ${isDisabled ? 'btn-secondary' : 'btn-success'}`} onClick={() => updateProfile()}>
@@ -259,35 +259,35 @@ function Profile(props) {
                         <Timeline align="alternate">
                             <TimelineItem>
                                 <TimelineSeparator>
-                                <TimelineDot color={`${userInfo.point < 100 ? "secondary" : 'grey'}`} />
-                                <TimelineConnector />
+                                    <TimelineDot color={`${userInfo.point < 100 ? "secondary" : 'grey'}`} />
+                                    <TimelineConnector />
                                 </TimelineSeparator>
                                 <TimelineContent>Normal</TimelineContent>
                             </TimelineItem>
                             <TimelineItem>
                                 <TimelineSeparator>
-                                <TimelineDot color={`${userInfo.point > 100 ? "secondary" : 'grey'}`} />
-                                <TimelineConnector />
+                                    <TimelineDot color={`${userInfo.point > 100 ? "secondary" : 'grey'}`} />
+                                    <TimelineConnector />
                                 </TimelineSeparator>
                                 <TimelineContent>Silver</TimelineContent>
                             </TimelineItem>
                             <TimelineItem>
                                 <TimelineSeparator>
-                                <TimelineDot color={`${userInfo.point > 200 ? "secondary" : 'grey'}`} />
-                                <TimelineConnector/>
+                                    <TimelineDot color={`${userInfo.point > 200 ? "secondary" : 'grey'}`} />
+                                    <TimelineConnector />
                                 </TimelineSeparator>
                                 <TimelineContent>Gold</TimelineContent>
                             </TimelineItem>
                             <TimelineItem>
                                 <TimelineSeparator>
-                                <TimelineDot color={`${userInfo.point > 300 ? "secondary" : 'grey'}`} />
-                                <TimelineConnector />
+                                    <TimelineDot color={`${userInfo.point > 300 ? "secondary" : 'grey'}`} />
+                                    <TimelineConnector />
                                 </TimelineSeparator>
                                 <TimelineContent>Platium</TimelineContent>
                             </TimelineItem>
                             <TimelineItem>
                                 <TimelineSeparator>
-                                <TimelineDot color={`${userInfo.point > 400 ? "secondary" : 'grey'}`} />
+                                    <TimelineDot color={`${userInfo.point > 400 ? "secondary" : 'grey'}`} />
                                 </TimelineSeparator>
                                 <TimelineContent>Diamond</TimelineContent>
                             </TimelineItem>

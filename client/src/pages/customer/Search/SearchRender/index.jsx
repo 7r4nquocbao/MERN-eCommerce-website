@@ -35,21 +35,26 @@ function SearchRender(props) {
             <div className="product__image">
 
               <Button
+                title="show details"
                 color="link"
                 onClick={() => onShowDetail(product)}
               >
-                <img src={product.thumbnail} />
+                <img alt="product picture" src={product.thumbnail} />
               </Button>
             </div>
             <div className="product__info">
               <div className="product__info__title">{product.name}</div>
-              <div className="product__info__price">{product.price}</div>
-              <div
-                className="product__info__button"
-              //onClick={() => AddToCartClick(product)}
-              >
-                Add to cart
+              <div className="product__info__addToCart">
+                <div className="product__info__addToCart__price">{`${product.price}$`}</div>
+                {/* <div
+                  title="add to cart"
+                  className="product__info__addToCart__button"
+                  onClick={() => onAddToCartClick(product)}
+                >
+                  Add to cart
+                      </div> */}
               </div>
+
             </div>
           </div>
         </Col>

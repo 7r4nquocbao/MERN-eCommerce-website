@@ -89,8 +89,8 @@ function RegisterJWTAuth(props) {
                <div className="register__opacity">
                <div className="register__main">
                     <div className="d-flex justify-content-center pt-2">
-                        <Link to="/">
-                            <img src={topLogo} width={120} height={100}/>
+                        <Link title="logo" to="/">
+                            <img alt="logo" src={topLogo} width={120} height={100}/>
                         </Link>
                         
                     </div>
@@ -200,8 +200,8 @@ function RegisterJWTAuth(props) {
                                             placeholder="Type your phone number..."
                                         />
                                         
-                                        <Button type="submit">Submit</Button>
-                                        <Link className="back-to" to="/login">Back to Login</Link>
+                                        <Button title="register" type="submit">Register</Button>
+                                        <Link title="back to login" className="back-to" to="/login">Back to Login</Link>
                                     </Form>
                                 )
                             }

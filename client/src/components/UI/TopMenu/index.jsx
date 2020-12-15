@@ -16,7 +16,7 @@ function TopMenu(props) {
 
   function getQuantity() {
     const locCart = localStorage.getItem('cart');
-    if(locCart === '') {
+    if (locCart === '') {
       return 0;
     } else {
       const cart = JSON.parse(localStorage.getItem('cart'));
@@ -34,10 +34,11 @@ function TopMenu(props) {
         <div className="menu__logo">
 
           <NavLink
+            title="logo"
             to="/"
             className="menu__link menu__logo"
           >
-            <img src={topLogo} width='60px' />
+            <img alt="logo" src={topLogo} width='60px' />
           </NavLink>
 
         </div>
@@ -45,6 +46,7 @@ function TopMenu(props) {
 
           <Col sm="auto">
             <NavLink
+              title="home"
               exact
               to="/"
               className="menu__link"
@@ -59,7 +61,7 @@ function TopMenu(props) {
             <ul className="menu__center__has-subMenu__subMenu">
               {
                 categories.map((category, index) => (
-                  <Link to={`/category/${category.name}`}>
+                  <Link title={category.name} to={`/category/${category.name}`}>
                     <li
                       key={index}
                       className="menu__link"
@@ -73,6 +75,7 @@ function TopMenu(props) {
           </Col>
           <Col sm="auto">
             <NavLink
+              title="user's information"
               exact
               to="/Profile"
               className="menu__link menu__hasSub"
@@ -86,6 +89,7 @@ function TopMenu(props) {
         <div className="menu__function">
           <Col sm="auto">
             <NavLink
+              title="search"
               exact
               to="/search"
               className="menu__link menu__function__search"
@@ -96,6 +100,7 @@ function TopMenu(props) {
           </Col>
           <Col sm="auto">
             <NavLink
+              title="shopping cart"
               exact
               to="/cart"
               className="menu__link menu__function__cart"

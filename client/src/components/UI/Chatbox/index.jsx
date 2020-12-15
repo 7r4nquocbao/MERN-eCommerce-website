@@ -31,11 +31,11 @@ function ChatBox(props) {
     useEffect(async () => {
         const roomId = localStorage.getItem('roomId');
         const chatName = localStorage.getItem('chatName');
-        if(roomId && chatName) {
+        if (roomId && chatName) {
             const result = await dispatch(fetchChatData(roomId));
             const data = unwrapResult(result);
             setChat(data);
-            setMessage({...message, roomId: roomId, name: chatName});
+            setMessage({ ...message, roomId: roomId, name: chatName });
         } else {
 
         }
@@ -61,15 +61,15 @@ function ChatBox(props) {
         let roomId = uuidv4();
         localStorage.setItem('roomId', roomId);
         localStorage.setItem('chatName', message.name);
-        setMessage({...message, roomId: roomId});
-        createRoom({roomId: roomId, name: message.name});
+        setMessage({ ...message, roomId: roomId });
+        createRoom({ roomId: roomId, name: message.name });
     }
 
     const displayMessages = () => {
         const roomId = localStorage.getItem('roomId');
         const chatName = localStorage.getItem('chatName');
-        if(roomId && chatName) {
-            console.log(typeof(chat))
+        if (roomId && chatName) {
+            console.log(typeof (chat))
             return (
                 chat && chat.map((item, index) => {
                     return (
@@ -79,15 +79,15 @@ function ChatBox(props) {
                     )
                 })
             )
-           
+
         } else {
             return (
                 <div className="d-flex align-items-center pt-5 flex-column">
                     <div className="d-block">
-                        <TextField label="Type your name" onChange={(e) => setMessage({...message, name: e.target.value})}/>
+                        <TextField label="Type your name" onChange={(e) => setMessage({ ...message, name: e.target.value })} />
                     </div>
                     <div className="d-block pt-2">
-                        <Button variant="contained" color="secondary" onClick={() => createChatroom()}>
+                        <Button title="create chat rom" variant="contained" color="secondary" onClick={() => createChatroom()}>
                             Start conv.
                         </Button>
                     </div>
@@ -104,7 +104,7 @@ function ChatBox(props) {
             console.log(err);
         })
         socket.emit('message', message);
-        setMessage({...message, content: ''});
+        setMessage({ ...message, content: '' });
     }
 
     const clearChat = () => {
@@ -114,13 +114,13 @@ function ChatBox(props) {
     }
 
     const displayTopNav = () => {
-        if(chat === []) {
+        if (chat === []) {
             return;
         } else {
             return (
                 <div className="d-flex justify-content-between align-items-center bg-danger p-2">
                     <h5 className="pt-2 text-white">Online support</h5>
-                    <a onClick={() => clearChat()} className="btn btn-sm btn-light">Delete conv.</a>
+                    <a title="delete" onClick={() => clearChat()} className="btn btn-sm btn-light">Delete conv.</a>
                 </div>
             )
         }
@@ -129,15 +129,15 @@ function ChatBox(props) {
     const displayFormControl = () => {
         const roomId = localStorage.getItem('roomId');
         const chatName = localStorage.getItem('chatName');
-        if(roomId, chatName) {
+        if (roomId, chatName) {
             return (
                 <div className="input-group">
-                    <input type="text" className="form-control" placeholder="Type your message" 
-                        onChange={(e) => setMessage({...message, content: e.target.value})}
+                    <input type="text" className="form-control" placeholder="Type your message"
+                        onChange={(e) => setMessage({ ...message, content: e.target.value })}
                         value={message.content}
                     />
                     <div className="input-group-prepend">
-                        <Button variant="contained" color="secondary" onClick={() => sendMessage()}>Send</Button>
+                        <Button title="send" variant="contained" color="secondary" onClick={() => sendMessage()}>Send</Button>
                     </div>
                 </div>
             )
@@ -150,20 +150,21 @@ function ChatBox(props) {
         <div className="message-popper">
             <Popper open={open} anchorEl={anchorEl} placement='left-end' transition>
                 {({ TransitionProps }) => (
-                <Fade {...TransitionProps} timeout={350}>
-                    <Paper>
-                        {displayTopNav()}
-                        <div className="m-0 p-0" style={{width: '350px', height: '400px', overflow:'auto'}}>
-                            {displayMessages()}
-                        </div>
-                        {displayFormControl()}
-                    </Paper>
-                </Fade>
+                    <Fade {...TransitionProps} timeout={350}>
+                        <Paper>
+                            {displayTopNav()}
+                            <div className="m-0 p-0" style={{ width: '350px', height: '400px', overflow: 'auto' }}>
+                                {displayMessages()}
+                            </div>
+                            {displayFormControl()}
+                        </Paper>
+                    </Fade>
                 )}
             </Popper>
             <img onClick={handleClick()}
-                style={{cursor: 'pointer', width: '4rem'}}
+                style={{ cursor: 'pointer', width: '4rem' }}
                 src="https://facebookbrand.com/wp-content/uploads/2020/10/Logo_Messenger_NewBlurple-399x399-1.png?w=399&h=399"
+                alt="message"
             />
         </div>
     );

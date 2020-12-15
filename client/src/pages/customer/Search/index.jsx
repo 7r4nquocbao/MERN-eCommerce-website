@@ -22,12 +22,6 @@ function Search(props) {
     dispatch(fetchProductData());
   }, [dispatch])
 
-  const history = useHistory();
-
-  const onShowDetail = (product) => {
-    history.push(`/detail/${product._id}`);
-  }
-
   return (
     <div className="search-page">
       <Header />

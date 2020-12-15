@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { activeUser } from '../../api';
+import './JWT.scss';
 
 function ActivationJWT(props) {
 
@@ -17,8 +18,9 @@ function ActivationJWT(props) {
     }
 
     return (
-        <div>
-            <button onClick={handleActive} className="btn btn-danger">Click me~~~</button>
+        <div className="submit">
+            <button title="active account" onClick={handleActive} className="btn btn-danger click-me">Click me~~~</button>
+            <p>Click the button to active Account</p>
         </div>
     );
 }

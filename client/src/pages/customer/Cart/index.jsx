@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import PayPal from '../../../components/paypal';
 import Banner from '../../../components/UI/Banner/MainBanner';
 import Images from '../../../constants/images';
+import Footer from '../../../components/UI/Footer';
 
 function Cart(props) {
 
@@ -30,7 +31,7 @@ function Cart(props) {
     const filterData = (arr) => {
         if (arr) {
             const locCart = localStorage.getItem('cart');
-            if(locCart === '') {
+            if (locCart === '') {
                 return [];
             } else {
                 let cartItems = JSON.parse(localStorage.getItem('cart'));
@@ -54,13 +55,13 @@ function Cart(props) {
     const displayCart = () => {
         const cart = localStorage.getItem('cart');
         let cartItems = [];
-        if(cart !== '') {
+        if (cart !== '') {
             cartItems = JSON.parse(cart);
         } else {
 
         }
         if (cartItems) {
-            if(cartItems.length === 0) {
+            if (cartItems.length === 0) {
                 return (
                     <div className="container-fluid full-screen d-flex align-items-center justify-content-center">
                         <div className="text-center">
@@ -90,22 +91,18 @@ function Cart(props) {
                                 <tr>
                                     <td colSpan='2'>
                                         <h4>Total</h4>
-                                        <button onClick={() => <PayPal total={400}/>}>asdsad</button>
                                     </td>
                                     <td colSpan='2' className="text-danger">
                                         <h4>{calcTotal()}</h4>
                                     </td>
-                                    {/* <td>
-                                        {total > 1 ? <PayPal total={total} description={`Purchase from TechShield`}/> : ''}                              
-                                    </td> */}
                                     <td>
                                         <Link to="/checkout/paypal">
-                                            <button class="btn btn-success btn-block"><i class="far fa-credit-card"></i> Checkout</button>
+                                            <button title="checkout by paypal" class="btn btn-success btn-block"> <i class="fab fa-cc-paypal mr-1"></i>Paypal</button>
                                         </Link>
                                     </td>
                                     <td>
                                         <Link to="/checkout">
-                                            <button class="btn btn-success btn-block"><i class="far fa-credit-card"></i> Checkout</button>
+                                            <button title="checkout by cash" class="btn btn-success btn-block"><i class="far fa-credit-card mr-1"></i>Checkout</button>
                                         </Link>
                                     </td>
                                 </tr>
@@ -113,7 +110,7 @@ function Cart(props) {
                         </table>
                     </div>
                 )
-                
+
             }
         } else {
             return (
@@ -141,13 +138,13 @@ function Cart(props) {
                             <td>{new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', }).format(item.price)}</td>
                             <td>
                                 <div className="btn-group" role="group">
-                                    <button onClick={() => decreaseItem(item._id)} className="btn btn-danger"><i class="fas fa-minus"></i></button>
+                                    <button title="decrease" onClick={() => decreaseItem(item._id)} className="btn btn-danger"><i class="fas fa-minus"></i></button>
                                     <button className="btn btn-light font-weight-bold" style={{ width: '50px' }} disabled>{item.quantity}</button>
-                                    <button onClick={() => increaseItem(item._id)} className="btn btn-danger"><i class="fas fa-plus"></i></button>
+                                    <button title="increase" onClick={() => increaseItem(item._id)} className="btn btn-danger"><i class="fas fa-plus"></i></button>
                                 </div>
                             </td>
                             <td>
-                                <button onClick={() => removeItem(item._id)} class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                <button title="remove" onClick={() => removeItem(item._id)} class="btn btn-danger"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                     )
@@ -210,6 +207,7 @@ function Cart(props) {
             <TopMenu />
             <Banner backgroundUrl={Images.MainBanner} title="Cart" />
             {displayCart()}
+            <Footer />
         </div>
     );
 }

@@ -69,8 +69,8 @@ function LoginJWT(props) {
                 <div className="login__main">
                     <div className="login__main__left">
                         <div className="login__main_left__logo">
-                            <Link to="/">
-                                <img src={topLogo} width={200} height={180} />
+                            <Link title="logo" to="/">
+                                <img alt="logo" src={topLogo} width={200} height={180} />
                             </Link>
                         </div>
                     </div>
@@ -104,30 +104,15 @@ function LoginJWT(props) {
                                                     label="Password"
                                                     placeholder="Type your password..."
                                                 />
-                                                <button type="submit" className="btn btn-link" >Submit</button>
+                                                <button title="login" type="submit" className="btn btn-link" >Login</button>
                                             </Form>
                                         )
                                     }
                                 }
                             </Formik>
-
-                            {/* <form onSubmit={handleLogin}>
-                                <div className="form-group">
-                                    <label htmlFor="email">Email</label>
-                                    <input type="email" className="form-control" id="email" placeholder="Type your email..."
-                                        onChange={(e) => setUserData({ ...userData, email: e.target.value })} />
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="password">Password</label>
-                                    <input type="password" className="form-control" id="password" placeholder="Type your password..."
-                                        onChange={(e) => setUserData({ ...userData, password: e.target.value })} />
-                                </div>
-                                <button type="submit" className="btn btn-link">Submit</button>
-                            </form> */}
-
                             <div className="login__register">
-                                Register in here <Link to="/registerjwt">Register</Link><br />
-                                <Link to="/reset">Forgot password?</Link>
+                                Register in here <Link title="register" to="/registerjwt">Register</Link><br />
+                                <Link title="reset password" to="/reset">Forgot password?</Link>
                             </div>
                         </div>
                     </div>
