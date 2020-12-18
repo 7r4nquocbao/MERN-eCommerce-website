@@ -1,0 +1,80 @@
+.product {
+
+  font-family: 'Quicksand';
+
+  padding: 0.5rem;
+
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  
+
+  &__image {
+    width: 230px;
+    height: 260px;
+    margin: 0px;
+
+
+
+    position: relative;
+
+    button {
+      padding: 0px;
+
+    }
+    img{
+      margin: 0px auto;
+      width: 230px;
+      height: 220px;
+      position: absolute;
+      bottom: 20px;
+
+      transition: all 0.1s ease-in-out;
+
+      // &:hover {
+      //   bottom: 40px;
+      // }
+    }
+  }
+  &__info {
+
+    &__title {
+      height: 3rem;
+    }
+
+    &__addToCart {
+      display: flex;
+
+      margin-top: 1rem;
+
+      
+      &__price {
+        font-weight: 700;
+  
+  
+        color: #f0245e;
+      }
+  
+      &__button {
+        cursor: pointer;
+
+        background-color: #f0245e;
+
+        color: white;
+
+        padding: 0rem 2.5rem;
+        margin-left: 1rem;
+
+        transition: all 0.5s ease-in-out;
+
+        &:hover {
+          border-radius: 10px;
+        }
+      }
+    }
+
+    
+  }
+  transition: all 0.2s ease-in-out;
+  &:hover{
+    transform: scale(1.1);
+  }
+}

@@ -1,0 +1,51 @@
+import React, { Suspense } from 'react';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
+
+function App() {
+
+  const Admin = React.lazy(() => import('./pages/admin'));
+  const CreateProduct = React.lazy(() => import('./pages/admin/create-product'));
+  const ManageCatBra = React.lazy(() => import('./pages/admin/manage-categories-brands'));
+  const RegisterJWT = React.lazy(() => import('./pages/register-jwt-auth'));
+  const ActivationJWT = React.lazy(() => import('./pages/activation-jwt-auth'));
+  const LoginJWT = React.lazy(() => import('./pages/login-jwt-auth'));
+  const ResetRequestJWT = React.lazy(() => import('./pages/reset-request-jwt-auth'));
+  const ResetPasswordJWT = React.lazy(() => import('./pages/reset-password-jwt-auth'));
+  const HomePage = React.lazy(() => import('./pages/customer/HomePage'));
+  const Search = React.lazy(() => import('./pages/customer/Search'));
+  const Cart = React.lazy(() => import('./pages/customer/Cart'));
+  const Checkout = React.lazy(() => import('./pages/customer/Cart/Checkout'));
+  const CheckoutPaypal = React.lazy(() => import('./pages/customer/Cart/Checkout/CheckoutPaypal'));
+  const Detail = React.lazy(() => import('./pages/customer/DetailsPage'));
+  const Profile = React.lazy(() => import('./pages/customer/Profile'));
+  const Category = React.lazy(()=> import('./pages/customer/Category'));
+  return (
+      <Suspense fallback={<div>Loading...</div>}>
+          <Router>
+            <Switch>
+              <Route exact path="/" component={HomePage}/>
+              <Route exact path="/search" component={Search}/>     
+              <Route exact path="/admin" component={Admin}/>        
+              <Route exact path="/admin/create-product" component={CreateProduct}/>
+              <Route exact path="/admin/create-product/:id" component={CreateProduct}/>
+              <Route exact path="/admin/manage-cat-bra" component={ManageCatBra}/>
+              <Route exact path="/registerJWT" component={RegisterJWT}/>
+              <Route exact path="/activationJWT/:token" component={ActivationJWT}/>
+              <Route exact path="/login" component={LoginJWT}/>
+              <Route exact path="/reset" component={ResetRequestJWT}/>
+              <Route exact path="/reset/:token" component={ResetPasswordJWT}/>
+              <Route exact path="/cart" component={Cart}/>
+              <Route exact path="/checkout" component={Checkout}/>
+              <Route exact path="/checkout/paypal" component={CheckoutPaypal}/>
+              <Route exact path="/detail/:productID" component={Detail}/>
+              <Route exact path="/profile" component={Profile}/>
+              <Route exact path="/category/:categoryName" component={Category}/>
+              
+            </Switch>
+          </Router>          
+      </Suspense>
+  );
+}
+
+export default App;

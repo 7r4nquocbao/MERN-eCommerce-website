@@ -1,0 +1,22 @@
+.info-row p {
+    font-weight: 800;
+}
+
+.user-panel-shadow.hidden{
+    display: none;
+}
+
+.user-panel-shadow{
+    padding: 20px;
+    position: fixed;
+    box-shadow: 1px 2px 7px #cecece;
+}
+
+.list-user-panel{
+    height: 70vh;
+    overflow: auto;
+}
+
+.table td, .table th {
+    vertical-align: middle;
+}
