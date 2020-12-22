@@ -10,31 +10,31 @@
   font-family: 'Cabin';
   &__img {
     width: 60%;
+    height: 500px;
 
     display: flex;
     justify-content: center;
 
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   
-    
-    img{
-      width: 450px;
-      height: 30rem;
+    .js-image-zoom__zoomed-area, .js-image-zoom__zoomed-image{
+      z-index: 999;
+      position: relative;
     }
   }
+
   &__info {
     width: 40%;
 
     padding-left: 2rem;
-    .detail-title {
-      
+    .detail-title { 
       font-size: 2.5rem;
 
       font-weight: bold;
 
-
-
-
+    }
+    .MuiRating-root, .MuiRating-readOnly {
+      z-index: -1;
     }
     .detail-info{
       p:nth-child(1){

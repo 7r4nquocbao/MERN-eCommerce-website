@@ -1,9 +1,10 @@
 import MainBanner from '../assets/Images/mainBanner.png';
-import Slide1 from '../assets/Images/bgLogin.png';
+import Slide1 from '../assets/Images/123.jpg';
 import Slide2 from '../assets/Images/mainBanner.png';
-import Slide3 from '../assets/Images/subBanner3.jpg';
+import Slide3 from '../assets/Images/gtx.jpg';
 import Category from '../assets/Images/category.jpg';
 import Search from '../assets/Images/search.jpg';
+
 
 
 const Images = {

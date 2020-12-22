@@ -8,7 +8,7 @@ import Title from '../../../components/UI/Title';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProductData } from '../../../slices/product-slice';
 import { unwrapResult } from '@reduxjs/toolkit';
-import { useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import Rating from '@material-ui/lab/Rating';
 import { isAuth } from '../../../helpers/auth';
 import { createComment, getComments } from '../../../api';
@@ -19,6 +19,9 @@ import 'react-alice-carousel/lib/alice-carousel.css';
 import Footer from '../../../components/UI/Footer';
 import Banner from '../../../components/UI/Banner/MainBanner';
 import Images from '../../../constants/images';
+
+import ReactImageMagnify from 'react-image-magnify';
+
 Detail.propTypes = {
 
 };
@@ -46,6 +49,7 @@ function Detail(props) {
   const [data, setData] = useState([]);
   const [comments, setComments] = useState([]);
   const [relative, setRelative] = useState([]);
+  const history = useHistory();
 
   useEffect(async () => {
     const result = await dispatch(fetchProductData());
@@ -149,13 +153,19 @@ function Detail(props) {
     }
   }
 
+  const handleShowDetail = (product) => {
+    history.push(`/detail/${product._id}`)
+  }
+
   const displayRelative = () => {
     const relativeList = productList.filter(item => item.category === product.category);
     let array = [];
     for (const item of relativeList) {
       array.push(
         <div>
-          <img alt="product related" src={item.thumbnail} style={{ width: '200px' }} onDragStart={handleDragStart} />
+          {/* <Link to={`/detail/${item._id}`}> */}
+          <img alt="product related" src={item.thumbnail} style={{ width: '200px' }} onDragStart={handleDragStart} onClick={item => handleShowDetail(item)} />
+          {/* </Link> */}
           <p>{item.name}</p>
         </div>
       );
@@ -174,7 +184,22 @@ function Detail(props) {
       <Container>
         <div className="product-detail">
           <div className="product-detail__img">
-            <img alt="product picture" src={product.thumbnail} />
+            <ReactImageMagnify {...{
+              smallImage: {
+                alt: `${product.name}`,
+                //isFluidWidth: true,
+                width: 450,
+                height: 500,
+                src: `${product.thumbnail}`
+              },
+              largeImage: {
+                src: `${product.thumbnail}`,
+                width: 1200,
+                height: 1800
+              },
+              isHintEnabled: true,
+              shouldHideHintAfterFirstActivation: false
+            }} />
           </div>
           <div className="product-detail__info">
             <div className="detail-title">
