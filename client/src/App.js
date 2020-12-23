@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-
+import CircularIndeterminate from './components/UI/FeedBack';
 
 function App() {
 
@@ -21,7 +21,7 @@ function App() {
   const Profile = React.lazy(() => import('./pages/customer/Profile'));
   const Category = React.lazy(()=> import('./pages/customer/Category'));
   return (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<CircularIndeterminate/>}>
           <Router>
             <Switch>
               <Route exact path="/" component={HomePage}/>

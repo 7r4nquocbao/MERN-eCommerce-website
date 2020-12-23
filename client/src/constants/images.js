@@ -4,6 +4,7 @@ import Slide2 from '../assets/Images/mainBanner.png';
 import Slide3 from '../assets/Images/gtx.jpg';
 import Category from '../assets/Images/category.jpg';
 import Search from '../assets/Images/search.jpg';
+import Monitor from '../assets/Images/1.jpg';
 
 
 
@@ -14,6 +15,7 @@ const Images = {
   Slide3 : Slide3,
   Category: Category,
   Search: Search,
+  Monitor: Monitor,
 }
 
 export default Images;

@@ -1,6 +1,6 @@
 .footer {
   width: 100%;
-  height: 25rem;
+  height: 45vh;
 
   font-family: 'Quicksand';
   
@@ -26,13 +26,17 @@
 
 
     padding: 0px;
+    i{
+      line-height: 20px;
+    }
     i > a{
       margin-left: 0.5rem;
     } 
     a{
-      color: black;
+      color: #b9375e;
       text-decoration: none;
       font-family: 'Quicksand';
+      transition: all 0.3s ease-in-out;
       &:hover{
         color: white;
       }

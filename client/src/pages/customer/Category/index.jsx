@@ -28,6 +28,7 @@ function Category(props) {
     <div>
       <Header />
       <TopMenu />
+
       <MainBanner backgroundUrl={Images.Category} title={categoryName} />
       <CategoryRender data={categoryName} />
       <Footer />

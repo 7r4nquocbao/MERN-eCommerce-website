@@ -1,26 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import Header from '../../../components/UI/Header';
-import TopMenu from '../../../components/UI/TopMenu';
-import './Details.scss';
-import { Button, Container, Table } from 'reactstrap';
-import Title from '../../../components/UI/Title';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchProductData } from '../../../slices/product-slice';
-import { unwrapResult } from '@reduxjs/toolkit';
-import { Link, useHistory, useParams } from 'react-router-dom';
-import Rating from '@material-ui/lab/Rating';
-import { isAuth } from '../../../helpers/auth';
-import { createComment, getComments } from '../../../api';
-import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import Rating from '@material-ui/lab/Rating';
+import { unwrapResult } from '@reduxjs/toolkit';
+import React, { useEffect, useState } from 'react';
 import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
-import Footer from '../../../components/UI/Footer';
-import Banner from '../../../components/UI/Banner/MainBanner';
-import Images from '../../../constants/images';
-
 import ReactImageMagnify from 'react-image-magnify';
+import { useDispatch } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
+import { Button, Container, Table } from 'reactstrap';
+import { createComment, getComments } from '../../../api';
+import Banner from '../../../components/UI/Banner/MainBanner';
+import Footer from '../../../components/UI/Footer';
+import Header from '../../../components/UI/Header';
+import Title from '../../../components/UI/Title';
+import TopMenu from '../../../components/UI/TopMenu';
+import Images from '../../../constants/images';
+import { isAuth } from '../../../helpers/auth';
+import { fetchProductData } from '../../../slices/product-slice';
+import './Details.scss';
+
+
 
 Detail.propTypes = {
 
@@ -154,7 +153,8 @@ function Detail(props) {
   }
 
   const handleShowDetail = (product) => {
-    history.push(`/detail/${product._id}`)
+    history.push(`/detail/${product}`)
+    window.location.reload();
   }
 
   const displayRelative = () => {
@@ -163,13 +163,12 @@ function Detail(props) {
     for (const item of relativeList) {
       array.push(
         <div>
-          {/* <Link to={`/detail/${item._id}`}> */}
-          <img alt="product related" src={item.thumbnail} style={{ width: '200px' }} onDragStart={handleDragStart} onClick={item => handleShowDetail(item)} />
-          {/* </Link> */}
+          <img alt="product related" src={item.thumbnail} style={{ width: '200px' }} onDragStart={handleDragStart} onClick={() => handleShowDetail(item._id)} />
           <p>{item.name}</p>
         </div>
       );
     }
+    console.log(array);
     return (
       <AliceCarousel items={array} infinite responsive={responsive} mouseTracking disableButtonsControls />
     )
@@ -184,12 +183,12 @@ function Detail(props) {
       <Container>
         <div className="product-detail">
           <div className="product-detail__img">
-            <ReactImageMagnify {...{
+            <ReactImageMagnify className="zoom" {...{
               smallImage: {
                 alt: `${product.name}`,
-                //isFluidWidth: true,
-                width: 450,
-                height: 500,
+                isFluidWidth: true,
+                // width: '100%',
+                // height: 'auto',
                 src: `${product.thumbnail}`
               },
               largeImage: {
@@ -226,12 +225,12 @@ function Detail(props) {
           </div>
         </div>
 
+        <hr />
         <Title title="Related Products" />
-
-        <div>
+        <div className="related-products">
           {displayRelative()}
         </div>
-
+        <hr />
         <Title title="Details" />
         <div className="table-detail">
           <Table striped>
@@ -240,7 +239,7 @@ function Detail(props) {
             </tbody>
           </Table>
         </div>
-
+        <hr />
         <Title title="Customer's Evaluate" />
         <div className="form-floating">
           <textarea className="form-control" style={{ height: '100px' }} placeholder='Comment'
@@ -265,7 +264,7 @@ function Detail(props) {
 
       </Container>
       <Footer />
-    </div>
+    </div >
 
   );
 }

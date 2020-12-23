@@ -76,7 +76,6 @@ function HomePage(props) {
         <Col lg="3" md="4" sm="6" xs="12">
           <div className="product mb-5">
             <div className="product__image">
-
               <Button
                 title="show detail"
                 color="link"
@@ -115,7 +114,7 @@ function HomePage(props) {
     return (
       arrPageNums.map(item => {
         return (
-          <li className={`page-item ${item === page ? 'active' : ''}`} key={item}>
+          <li className={`page-item  ${item === page ? 'active' : ''}`} key={item}>
             <button className="page-link" onClick={() => setPage(item)}>{item}</button>
           </li>
         )
@@ -137,12 +136,12 @@ function HomePage(props) {
           </Row>
           <div className="d-flex justify-content-center">
             <ul className="pagination justify-content-end">
-              <li className={`page-item ${page > 1 ? '' : 'disabled'}`}>
-                <button title="prev page" className="page-link" onClick={() => setPage(page - 1)}>Prev</button>
+              <li className={`page-item text-secondary ${page > 1 ? '' : 'disabled'}`}>
+                <button color="danger" title="prev page" className="page-link " onClick={() => setPage(page - 1)}>Prev</button>
               </li>
               {calcPagination()}
               <li className={`page-item ${page < Math.ceil(productList.length / itemOnPage) ? '' : 'disabled'}`}>
-                <button title="next page" className="page-link" onClick={() => setPage(page + 1)}>Next</button>
+                <button title="next page" className="page-link text-danger" onClick={() => setPage(page + 1)}>Next</button>
               </li>
             </ul>
           </div>

@@ -8,31 +8,24 @@
   
 
   &__image {
-    width: 230px;
-    height: 260px;
+    max-width: 14.5rem;
+    height: 16.5rem;
     margin: 0px;
-
-
 
     position: relative;
 
     button {
       padding: 0px;
-
     }
     img{
       margin: 0px auto;
-      width: 230px;
-      height: 220px;
+      width: 100%;
+      height: auto;
       position: absolute;
       bottom: 20px;
 
       transition: all 0.1s ease-in-out;
-
-      // &:hover {
-      //   bottom: 40px;
-      // }
-    }
+      }
   }
   &__info {
 
@@ -60,7 +53,9 @@
 
         color: white;
 
-        padding: 0rem 2.5rem;
+        width: 10rem;
+
+        text-align: center;
         margin-left: 1rem;
 
         transition: all 0.5s ease-in-out;
@@ -77,4 +72,13 @@
   &:hover{
     transform: scale(1.1);
   }
+}
+.page-item.active .page-link {
+  z-index: 3;
+  color: #b9375e;
+  background-color: #ffc8dd;
+  border-color: #ffc8dd;
+}
+.page-link {
+  color: #b9375e;
 }
