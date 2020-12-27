@@ -9,13 +9,18 @@ import PayPal from '../../../components/paypal';
 import Banner from '../../../components/UI/Banner/MainBanner';
 import Images from '../../../constants/images';
 import Footer from '../../../components/UI/Footer';
+import Badge from '@material-ui/core/Badge';
 
 function Cart(props) {
 
     const productList = useSelector(state => state.products);
+    const codes = useSelector(state => state.promotionCodes);
     const dispatch = useDispatch();
     const [data, setData] = useState([]);
     const [total, setTotal] = useState(1);
+    const [codeTemp, setCodeTemp] = useState('');
+    const [code, setCode] = useState('');
+    const [isPromotion, setIsPromotion] = useState(false);
 
     useEffect(async () => {
         const result = await dispatch(fetchProductData());
@@ -87,27 +92,58 @@ function Cart(props) {
                             <tbody>
                                 {displayCartItem(data)}
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colSpan='2'>
-                                        <h4>Total</h4>
-                                    </td>
-                                    <td colSpan='2' className="text-danger">
-                                        <h4>{calcTotal()}</h4>
-                                    </td>
-                                    <td>
-                                        <Link to="/checkout/paypal">
-                                            <button title="checkout by paypal" class="btn btn-success btn-block"> <i class="fab fa-cc-paypal mr-1"></i>Paypal</button>
-                                        </Link>
-                                    </td>
-                                    <td>
-                                        <Link to="/checkout">
-                                            <button title="checkout by cash" class="btn btn-success btn-block"><i class="far fa-credit-card mr-1"></i>Checkout</button>
-                                        </Link>
-                                    </td>
-                                </tr>
-                            </tfoot>
                         </table>
+                        <div className="row">
+                            <div className="col">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <h5>Tax</h5>
+                                        </td>
+                                        <td className="pl-5 text-danger">
+                                            <h5>{new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', }).format(calcSum() * 10 / 100)}</h5>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h5>Shipment and Delivery cost</h5>
+                                        </td>
+                                        <td className="pl-5 text-danger">
+                                            <h5>{new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', }).format(10)} 
+                                                <span style={{color: 'gray'}}> / $0 with PayPal</span>
+                                            </h5>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div className="col">
+                                <div className="d-flex justify-content-between pl-5 pr-5">
+                                    <h4>Total</h4>
+                                    <h4 className="text-danger">{new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', }).format(calcTotal())}</h4>
+                                </div>
+                                {checkCode()}
+                                <div className="pl-5 pr-5">
+                                    <div className="input-group mt-2 mb-4">
+                                        <input type="text" className="form-control" placeholder="Enter promotion code here"
+                                            onChange={(e) => setCodeTemp(e.target.value)}
+                                        />
+                                        <div className="input-group-append">
+                                            <button className="btn btn-primary" onClick={() => setCode(codeTemp.toUpperCase())}>
+                                                Check
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="d-flex justify-content-around">
+                                    <Link to="/checkout/paypal">
+                                        <button title="checkout by paypal" style={{width: '200px'}} class="btn btn-success"> <i class="fab fa-cc-paypal mr-1"></i>Paypal</button>
+                                    </Link>
+                                    <Link to={`/checkout/${code}`}>
+                                        <button title="checkout by cash" style={{width: '200px'}} class="btn btn-success"><i class="far fa-credit-card mr-1"></i>Cash</button>
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 )
 
@@ -119,6 +155,27 @@ function Cart(props) {
                         <h1><i className="far fa-square" style={{ fontSize: '10rem' }}></i></h1>
                         <h1>Nothing here.</h1>
                     </div>
+                </div>
+            )
+        }
+    }
+
+    const calcTotal = () => {
+        const promotion = codes.find(item => item.code === code);
+        if(promotion) {
+            return calcSum() + (calcSum() * 10 / 100) + 10 - (calcSum() * promotion.discount / 100);
+        } else {
+            return calcSum() + (calcSum() * 10 / 100) + 10;
+        }
+    }
+
+    const checkCode = () => {
+        const promotion = codes.find(item => item.code === code.toUpperCase());
+        if(promotion) {
+            return (
+                <div className="d-flex justify-content-between pl-5 pr-5">
+                    <h5>Promotion code: {promotion.code}</h5>
+                    <h5 className="text-danger">discount {promotion.discount}%</h5>
                 </div>
             )
         }
@@ -153,14 +210,14 @@ function Cart(props) {
         }
     }
 
-    const calcTotal = () => {
+    const calcSum = () => {
         let total = 0;
         if (data) {
             for (const item of data) {
                 total += item.quantity * (item.price - (item.price * item.sale / 100))
             }
         }
-        return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', }).format(total);
+        return total;
     }
 
     const increaseItem = (id) => {

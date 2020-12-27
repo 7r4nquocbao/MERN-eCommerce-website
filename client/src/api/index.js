@@ -1,14 +1,16 @@
 import axios from 'axios';
 
 const appUrl = 'http://localhost:4000';
-const productUrl = 'http://localhost:4000/products';
-const orderUrl = 'http://localhost:4000/orders';
-const authUrl = 'http://localhost:4000/auth';
-const userUrl = 'http://localhost:4000/user';
-const chatUrl = 'http://localhost:4000/messages';
-const roomUrl = 'http://localhost:4000/rooms';
-const orderDetailUrl = 'http://localhost:4000/orderdetails';
-const commentlUrl = 'http://localhost:4000/comments';
+
+const productUrl = `${appUrl}/products`;
+const orderUrl = `${appUrl}/orders`;
+const authUrl = `${appUrl}/auth`;
+const userUrl = `${appUrl}/user`;
+const chatUrl = `${appUrl}/messages`;
+const roomUrl = `${appUrl}/rooms`;
+const orderDetailUrl = `${appUrl}/orderdetails`;
+const commentlUrl = `${appUrl}/comments`;
+const promotionUrl = `${appUrl}/promotions`;
 
 // PRODUCT SIDE
 
@@ -71,5 +73,11 @@ export const getOrderDetails = (id) => axios.get(`${orderDetailUrl}/${id}`);
 export const createComment = (data) => axios.post(`${commentlUrl}/create`, data);
 
 export const getComments = (id) => axios.get(`${commentlUrl}/${id}`);
+
+// PROMOTION SIDE
+
+export const createPromotionCode = (data) => axios.post(`${promotionUrl}/create`, data);
+
+export const fetchCodes = () => axios.get(`${promotionUrl}/`);
 
 

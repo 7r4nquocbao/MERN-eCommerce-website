@@ -41,7 +41,7 @@ function ProductTable(props) {
                 return (
                     <tr key={index}>
                         <td>{index + 1 + start}</td>
-                        <td>{item.name}</td>
+                        <td style={{width: '400px'}}>{item.name}</td>
                         <td>{item.category}</td>
                         <td>{item.price}</td>
                         <td>{item.stock}</td>

@@ -8,7 +8,7 @@ import Title from '../../../../components/UI/Title'
 import TopMenu from '../../../../components/UI/TopMenu'
 import { createOrder } from '../../../../api';
 import { isAuth } from '../../../../helpers/auth';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 Checkout.propTypes = {
 
@@ -17,6 +17,7 @@ Checkout.propTypes = {
 function Checkout(props) {
 
   const history = useHistory();
+  const {promotionCode} = useParams();
 
   const handleCheckout = (values) => {
 
@@ -29,7 +30,7 @@ function Checkout(props) {
       idu = '';
     }
 
-    const orderUpdated = {...order, idUser: idu};
+    const orderUpdated = {...order, idUser: idu, promotionCode: promotionCode};
 
     const data = {
       order: orderUpdated,

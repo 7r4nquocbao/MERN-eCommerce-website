@@ -1,8 +1,18 @@
-import React, { Suspense } from 'react';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import React, { Suspense, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { BrowserRouter as Router, Route, Switch, useHistory } from "react-router-dom";
 import CircularIndeterminate from './components/UI/FeedBack';
+import { fetchProductData } from './slices/product-slice';
+import { fetchCodeData } from './slices/promotion-slice';
 
 function App() {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchProductData());
+    dispatch(fetchCodeData());
+  }, []);
 
   const Admin = React.lazy(() => import('./pages/admin'));
   const CreateProduct = React.lazy(() => import('./pages/admin/create-product'));
@@ -36,12 +46,11 @@ function App() {
               <Route exact path="/reset" render={props => <ResetRequestJWT {...props}/>}/>
               <Route exact path="/reset/:token" render={props => <ResetPasswordJWT {...props}/>}/>
               <Route exact path="/cart" component={Cart}/>
-              <Route exact path="/checkout" component={Checkout}/>
+              <Route exact path="/checkout/:promotionCode" component={Checkout}/>
               <Route exact path="/checkout/paypal" component={CheckoutPaypal}/>
               <Route exact path="/detail/:productID" component={Detail}/>
               <Route exact path="/profile" component={Profile}/>
               <Route exact path="/category/:categoryName" component={Category}/>
-              
             </Switch>
           </Router>          
       </Suspense>

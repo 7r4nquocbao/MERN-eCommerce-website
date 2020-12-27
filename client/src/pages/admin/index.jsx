@@ -10,6 +10,7 @@ import ReceiptIcon from '@material-ui/icons/Receipt';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import MessageIcon from '@material-ui/icons/Message';
+import MoneyIcon from '@material-ui/icons/Money';
 import OrderList from '../../components/admin/order-list';
 import './style.scss';
 import ChatApp from '../../components/admin/chat-app';
@@ -19,6 +20,8 @@ import UserTable from '../../components/admin/user-table';
 import { readUser } from '../../api';
 import { getCookie, isAuth, signOut } from '../../helpers/auth';
 import { useHistory } from 'react-router-dom';
+import { createPromotionCode, fetchCodeData } from '../../slices/promotion-slice';
+import Promotion from '../../components/admin/promotion-code';
 
 const useStyles = makeStyles({
     root: {
@@ -51,14 +54,15 @@ function Admin(props) {
         }).then(res => {
             if(res.data.role === 'admin') {
                 dispatch(fetchOrderData());
-                dispatch(fetchProductData())
+                dispatch(fetchProductData());
+                dispatch(fetchCodeData());
             } else {
                 history.push('/');
             }
         }).catch(err => {
             history.push('/');
         })
-    }, [dispatch]);
+    }, []);
 
     const displayContent = () => {
         switch (recentPage) {
@@ -70,6 +74,8 @@ function Admin(props) {
                 return <UserTable />;
             case 'Messages':
                 return <ChatApp />;
+            case 'Promotions':
+                return <Promotion />
             case 'Logout':
                 signOut();
                 history.push('/');
@@ -86,6 +92,7 @@ function Admin(props) {
                 <BottomNavigationAction classes={classes.root} label="Orders" value="Orders" icon={<ReceiptIcon />} />
                 <BottomNavigationAction classes={classes.root} label="Users" value="Users" icon={<PeopleAltIcon />} />
                 <BottomNavigationAction classes={classes.root} label="Messages" value="Messages" icon={<MessageIcon />} />
+                <BottomNavigationAction classes={classes.root} label="Promotions" value="Promotions" icon={<MoneyIcon />} />
                 <BottomNavigationAction classes={classes.root} label="Logout" value="Logout" icon={<PowerSettingsNewRoundedIcon />} />
             </BottomNavigation>
         </div>

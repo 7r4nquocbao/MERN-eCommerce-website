@@ -4,6 +4,7 @@ import Product from '../models/product-model.js';
 import User from '../models/auth-model.js';
 import mongoose from 'mongoose';
 import sgMail from '@sendgrid/mail';
+import Promotion from '../models/promotion-code-model.js';
 
 export const getOrders = async (req, res) => {
     try {
@@ -27,9 +28,19 @@ export const createOrder = async (req, res) => {
         total += target.price * item.quantity;
         orderListText += `<h2>${productUpdated.name} x ${item.quantity}</h2>`;
     }
+    total += (total*10/100) + 10;
+
+    const code = await Promotion.findOne({code: order.promotionCode});
+
+    if(code) {
+        if(new Date() >= new Date(code.startDate) && new Date() <= new Date(code.endDate)){
+            total -= (total * code.discount / 100);
+        }
+    }
+
     let orderUpdated = {...order, total: total};
     if(order.payment === 'paypal') {
-        orderUpdated = {...orderUpdated, isPaid: true};
+        orderUpdated = {...orderUpdated, isPaid: true, total: total-10};
     }
     const newOrder = new Order(orderUpdated);
     try {

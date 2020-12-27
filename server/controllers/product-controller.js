@@ -12,7 +12,6 @@ export const getProducts = async (req, res) => {
 
 export const createProduct = async (req, res) => {
     const product = req.body;
-    console.log(product);
     const newProduct = new Product(product);
     const checkProduct = await Product.findById(product._id);
     try {

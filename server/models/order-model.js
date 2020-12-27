@@ -6,6 +6,7 @@ const orderSchema = mongoose.Schema({
         default: 'Order Processed'
     },
     total: Number,
+    promotionCode: String,
     phone: Number,
     name: String,
     email: String,

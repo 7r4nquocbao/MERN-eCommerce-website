@@ -77,11 +77,22 @@ function TopMenu(props) {
             <NavLink
               title="user's information"
               exact
-              to="/Profile"
+              to="/profile"
               className="menu__link menu__hasSub"
               activeClassName="menu__link--active"
             >
               User
+          </NavLink>
+          </Col>
+          <Col sm="auto">
+            <NavLink
+              title="user's information"
+              exact
+              to="/admin"
+              className="menu__link menu__hasSub"
+              activeClassName="menu__link--active"
+            >
+              Admin
           </NavLink>
           </Col>
         </div>
