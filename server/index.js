@@ -29,7 +29,6 @@ dotenv.config();
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors({ origin: 'https://e-com-mern-project.netlify.app' }));
-app.use(morgan('dev'));
 
 app.use('/products', productRoutes);
 app.use('/orders', orderRoutes);
